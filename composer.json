@@ -1,0 +1,17 @@
+{
+    "name": "y0000el/brute-fort",
+    "description": "BruteForce Protection for WordPress with IP Restriction, Whitelist & Blacklist Management.",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "BruteFort\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "y000yal",
+            "email": "yoyal.limbu@gmail.com"
+        }
+    ],
+    "require": {}
+}

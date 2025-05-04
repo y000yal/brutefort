@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@import './components/tabs.css';
+@import './components/cards.css';
+@import './components/theme.css';

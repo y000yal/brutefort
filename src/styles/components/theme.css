@@ -1,0 +1,20 @@
+@layer components {
+    .theme-toggle {
+        @apply px-4 py-1 rounded-md text-sm bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100
+        hover:bg-gray-300 dark:hover:bg-gray-600 transition;
+    }
+
+    .slider {
+        @apply bg-gray-300 dark:bg-gray-600;
+    }
+
+    .slider span {
+        @apply w-4 h-4 bg-yellow-400 dark:bg-gray-800;
+    }
+}
+.dark body{
+    background: #1d2327;
+}
+.dark body h1 , h2 , h3 , h4 , h5, h6{
+    color: white;
+}
