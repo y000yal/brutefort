@@ -26,8 +26,7 @@ const TabsNav: React.FC = () => {
                         left: `${el.offsetLeft + 10}px`,
                         width: `${el.offsetWidth - 20}px`,
                         top: '4px',
-                        height: 'calc(100% - 8px)',
-                        borderRadius: '15px',
+                        height: 'calc(100% - 8px)'
                     });
                 }
             }
@@ -43,7 +42,7 @@ const TabsNav: React.FC = () => {
             <div className="relative inline-flex bg-gray-100 p-1 rounded-[15px]">
                 {/* Animated pill */}
                 <span
-                    className="absolute bg-primary-light z-0 shadow rounded-lg transition-all duration-300 ease-in-out"
+                    className="absolute bg-primary-light z-0 shadow rounded-[15px] transition-all duration-300 ease-in-out"
                     style={pillStyle}
                 />
 

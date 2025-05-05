@@ -39837,8 +39837,7 @@ var TabsNav = function TabsNav() {
             left: "".concat(el.offsetLeft + 10, "px"),
             width: "".concat(el.offsetWidth - 20, "px"),
             top: '4px',
-            height: 'calc(100% - 8px)',
-            borderRadius: '15px'
+            height: 'calc(100% - 8px)'
           });
         }
       }
@@ -39856,7 +39855,7 @@ var TabsNav = function TabsNav() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "relative inline-flex bg-gray-100 p-1 rounded-[15px]"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "absolute bg-primary-light z-0 shadow rounded-lg transition-all duration-300 ease-in-out",
+    className: "absolute bg-primary-light z-0 shadow rounded-[15px] transition-all duration-300 ease-in-out",
     style: pillStyle
   }), Object.entries(_constants_tabs__WEBPACK_IMPORTED_MODULE_1__.TABS).map(function (_ref3) {
     var _ref4 = _slicedToArray(_ref3, 2),
