@@ -39817,12 +39817,12 @@ var TabsNav = function TabsNav() {
     pillStyle = _useState2[0],
     setPillStyle = _useState2[1];
   var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useLocation)();
-
+  console.log(location.pathname);
   // Detect active tab key based on path
   var activeTabKey = (_Object$entries$find = Object.entries(_constants_tabs__WEBPACK_IMPORTED_MODULE_1__.TABS).find(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
       path = _ref2[1].path;
-    return '/' + path === location.pathname;
+    return '/' + path === (location.pathname.length > 1 ? location.pathname : '/general');
   })) === null || _Object$entries$find === void 0 ? void 0 : _Object$entries$find[0];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (!activeTabKey) return;
@@ -40003,7 +40003,7 @@ var Router = function Router() {
     path: "/",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_MainLayout__WEBPACK_IMPORTED_MODULE_1__.MainLayout, null)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    index: true,
+    index: "general",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_screens__WEBPACK_IMPORTED_MODULE_2__.General, null)
   }), "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "general",

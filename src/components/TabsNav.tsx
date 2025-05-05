@@ -6,10 +6,10 @@ const TabsNav: React.FC = () => {
     const tabRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
     const [pillStyle, setPillStyle] = useState<React.CSSProperties>({});
     const location = useLocation();
-
+    console.log(location.pathname)
     // Detect active tab key based on path
     const activeTabKey = Object.entries(TABS).find(
-        ([, {path}]) => '/' + path === location.pathname
+        ([, {path}]) => '/' + path === (location.pathname.length > 1 ? location.pathname : '/general')
     )?.[0];
 
     useEffect(() => {
