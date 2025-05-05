@@ -4,9 +4,11 @@
     "dev": "cross-env NODE_ENV=development webpack --watch"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
     "@wordpress/api-fetch": "^7.22.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",

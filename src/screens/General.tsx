@@ -10,8 +10,9 @@ const GeneralTab = () => {
 
             {/* Example setting field */}
             <div className="flex items-center justify-between">
-                <label className="text-gray-700 dark:text-gray-200 font-medium">Enable Protection</label>
-                <input type="checkbox" className="toggle toggle-success" />
+                <p className="text-primary">Primary Text</p>
+                <p className="bg-primary-light">Light Background</p>
+                <p className="hover:text-primary-dark">Hover for Dark Primary</p>
             </div>
         </div>
     );

@@ -18,3 +18,19 @@
 .dark body h1 , h2 , h3 , h4 , h5, h6{
     color: white;
 }
+a:focus, a:focus .media-icon img, a:focus .plugin-icon, .wp-person a:focus .gravatar {
+    box-shadow: 0 0 0 0;
+    outline: none;
+}
+a[aria-current="page"] {
+    color: white;
+}
+a{
+    color: black;
+}
+a:not([aria-current="page"]):hover {
+    color: var(--color-primary-dark);
+}
+#toplevel_page_brutefort .wp-menu-image:before {
+    display: none !important;
+}

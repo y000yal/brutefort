@@ -1,14 +1,12 @@
 import React from 'react';
+import {SwitchProps} from "../types";
 
-interface SwitchProps {
-    isChecked: boolean;
-    onChange: () => void;
-}
 
-const Switch: React.FC<SwitchProps> = ({ isChecked, onChange }) => {
+
+const Switch: React.FC<SwitchProps> = ({isChecked, label, onChange}) => {
     return (
         <label className="inline-flex items-center cursor-pointer">
-            <span className="mr-2 text-sm dark:text-white">Dark Mode</span>
+            <span className="mr-2 text-sm dark:text-white">{label}</span>
             <div
                 className={`relative inline-block w-8 h-4 transition duration-200 ease-in-out rounded-full ${
                     isChecked ? 'bg-blue-600' : 'bg-gray-400'

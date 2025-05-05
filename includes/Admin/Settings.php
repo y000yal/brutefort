@@ -6,7 +6,7 @@ class Settings {
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'register_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		add_action( 'rest_api_init', [ $this, 'register_rest' ] );
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 	}
 
 	public function register_menu(): void {
@@ -16,7 +16,7 @@ class Settings {
 			'manage_options',
 			'brutefort',
 			[ $this, 'render_page' ],
-			'dashicons-shield-alt',
+			'dashicons-shield',
 			60
 		);
 	}
