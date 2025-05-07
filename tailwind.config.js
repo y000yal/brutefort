@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
     darkMode: 'media',
-    important: '#brutefort-admin-app',
+    important: '.force-tailwind',
     content: [
         './src/**/*.{js,ts,jsx,tsx}',
         './**/*.php',
@@ -29,6 +29,7 @@ module.exports = {
             };
 
             addUtilities(newUtilities, ['responsive', 'hover']);
-        })
+        }),
+        require('tailwind-scrollbar'),
     ],
 };

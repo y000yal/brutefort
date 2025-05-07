@@ -1,20 +1,20 @@
 import React from "react";
-import { ShieldCheck, ListPlus, Prohibit } from '@phosphor-icons/react';
+import { Wrench, ReadCvLogo , UsersThree } from '@phosphor-icons/react';
 
 export const TABS: Record<string, { label: string; icon: React.ElementType , path: string }> = {
     general: {
         label: 'General',
-        icon: ShieldCheck,
+        icon: Wrench,
         path: 'general',
     },
     whitelist: {
-        label: 'Whitelist',
-        icon: ListPlus,
-        path:'whitelist',
+        label: 'Logs',
+        icon: ReadCvLogo ,
+        path:'logs',
     },
     blacklist: {
-        label: 'Blacklist',
-        icon: Prohibit,
-        path: 'blacklist'
+        label: 'About Us',
+        icon: UsersThree,
+        path: 'about-us'
     },
 };

@@ -11,13 +11,37 @@
     .slider span {
         @apply w-4 h-4 bg-yellow-400 dark:bg-gray-800;
     }
+    .force-tailwind h1 {
+        @apply text-4xl font-bold text-primary mb-4 mt-0;
+    }
+
+    .force-tailwind h2 {
+        @apply text-3xl font-semibold text-primary mb-3;
+    }
+
+    .force-tailwind h3 {
+        @apply text-2xl font-medium text-primary mb-2;
+    }
+
+    .force-tailwind h4 {
+        @apply text-xl font-medium text-primary mb-1;
+    }
+
+    .force-tailwind h5 {
+        @apply text-lg font-medium text-primary;
+    }
+
+    .force-tailwind h6 {
+        @apply text-base font-medium text-primary;
+    }
+}
+body {
+    color: black;
 }
 .dark body{
     background: #1d2327;
 }
-.dark body h1 , h2 , h3 , h4 , h5, h6{
-    color: white;
-}
+
 a:focus, a:focus .media-icon img, a:focus .plugin-icon, .wp-person a:focus .gravatar {
     box-shadow: 0 0 0 0;
     outline: none;
@@ -34,3 +58,23 @@ a:not([aria-current="page"]):hover {
 #toplevel_page_brutefort .wp-menu-image:before {
     display: none !important;
 }
+
+.scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: white;
+    border-radius: 20px;
+}
+.dark .scrollbar::-webkit-scrollbar-track {
+    background: #1e2a3a;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-primary-dark);
+    border-radius: 20px;
+
+}
+

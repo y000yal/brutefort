@@ -38,7 +38,7 @@ const TabsNav: React.FC = () => {
         return () => window.removeEventListener("resize", updatePill);
     }, [activeTabKey, location.pathname]);
     return (
-        <div className="mb-6">
+        <div className="mb-2">
             <div className="relative inline-flex bg-gray-100 p-1 rounded-[15px]">
                 {/* Animated pill */}
                 <span

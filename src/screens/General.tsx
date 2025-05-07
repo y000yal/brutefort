@@ -1,18 +1,40 @@
-import React from "react";
+import React, {useState} from "react";
+import {Gauge} from "@phosphor-icons/react";
+import {SETTINGS} from "../constants/settings";
 
 const GeneralTab = () => {
-    return (
-        <div className="space-y-4 bg-white dark:bg-black p-6 rounded-md shadow transition-colors duration-300">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">General Settings</h2>
-            <p className="text-gray-600 dark:text-gray-300">
-                Configure brute-force protection settings such as login limits, IP bans, and more.
-            </p>
+    const [activeSetting, setActiveSetting] = useState('rateLimitSettings');
 
-            {/* Example setting field */}
-            <div className="flex items-center justify-between">
-                <p className="text-primary">Primary Text</p>
-                <p className="bg-primary-light">Light Background</p>
-                <p className="hover:text-primary-dark">Hover for Dark Primary</p>
+    return (
+        <div
+            className=" p-4  rounded-lg w-full items-center justify-center transition-colors flex  duration-300 gap-4 ">
+            <div className="min-w-xl max-w-80">
+                <div className="header mb-5 rounded-md">
+                    <span className="text-2xl font-bold">Settings</span>
+                    <p style={{marginTop: '5px'}}>All your general settings belongs in this area.</p>
+                    <div className="flex h-[50px] gap-3 overflow-x-scroll scrollbar  scrollbar-thin">
+                        {Object.entries(SETTINGS).map(([key, {label, icon: Icon}]) => (
+                            <button
+                                key={key}
+                                className={`min-w-fit max-h-[30px] rounded-lg flex items-start justify-center gap-2  pt-1 pb-1 pr-2 pl-2 cursor-pointer ${
+                                    activeSetting === key 
+                                    ? 'text-gray-600 bg-[#f3f4f7]'
+                                        : ''
+                                }`}
+                                onClick={() => setActiveSetting(key)}
+                            >
+                                <Icon size={24}/>
+                                <span className="">{label}</span>
+
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <hr/>
+                <div className="settings-body flex flex-col mt-5">
+
+
+                </div>
             </div>
         </div>
     );

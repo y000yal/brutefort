@@ -2,71 +2,106 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/@phosphor-icons/react/dist/csr/ListPlus.mjs":
-/*!******************************************************************!*\
-  !*** ./node_modules/@phosphor-icons/react/dist/csr/ListPlus.mjs ***!
-  \******************************************************************/
+/***/ "./node_modules/@phosphor-icons/react/dist/csr/Gauge.mjs":
+/*!***************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/csr/Gauge.mjs ***!
+  \***************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ListPlus: () => (/* binding */ I)
+/* harmony export */   Gauge: () => (/* binding */ w)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/IconBase.mjs */ "./node_modules/@phosphor-icons/react/dist/lib/IconBase.mjs");
-/* harmony import */ var _defs_ListPlus_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/ListPlus.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/ListPlus.mjs");
-var i = Object.defineProperty, f = Object.defineProperties;
-var p = Object.getOwnPropertyDescriptors;
-var r = Object.getOwnPropertySymbols;
-var c = Object.prototype.hasOwnProperty, l = Object.prototype.propertyIsEnumerable;
-var s = (e, t, o) => t in e ? i(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o, m = (e, t) => {
-  for (var o in t || (t = {}))
-    c.call(t, o) && s(e, o, t[o]);
-  if (r)
-    for (var o of r(t))
-      l.call(t, o) && s(e, o, t[o]);
-  return e;
-}, a = (e, t) => f(e, p(t));
+/* harmony import */ var _defs_Gauge_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/Gauge.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/Gauge.mjs");
+var i = Object.defineProperty, p = Object.defineProperties;
+var s = Object.getOwnPropertyDescriptors;
+var a = Object.getOwnPropertySymbols;
+var c = Object.prototype.hasOwnProperty, g = Object.prototype.propertyIsEnumerable;
+var t = (o, e, r) => e in o ? i(o, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : o[e] = r, m = (o, e) => {
+  for (var r in e || (e = {}))
+    c.call(e, r) && t(o, r, e[r]);
+  if (a)
+    for (var r of a(e))
+      g.call(e, r) && t(o, r, e[r]);
+  return o;
+}, f = (o, e) => p(o, s(e));
 
 
 
-const I = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((e, t) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], a(m({ ref: t }, e), { weights: _defs_ListPlus_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
-I.displayName = "ListPlus";
+const w = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((o, e) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], f(m({ ref: e }, o), { weights: _defs_Gauge_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
+w.displayName = "Gauge";
 
 
 
 /***/ }),
 
-/***/ "./node_modules/@phosphor-icons/react/dist/csr/Prohibit.mjs":
-/*!******************************************************************!*\
-  !*** ./node_modules/@phosphor-icons/react/dist/csr/Prohibit.mjs ***!
-  \******************************************************************/
+/***/ "./node_modules/@phosphor-icons/react/dist/csr/MapPinArea.mjs":
+/*!********************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/csr/MapPinArea.mjs ***!
+  \********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Prohibit: () => (/* binding */ w)
+/* harmony export */   MapPinArea: () => (/* binding */ I)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/IconBase.mjs */ "./node_modules/@phosphor-icons/react/dist/lib/IconBase.mjs");
-/* harmony import */ var _defs_Prohibit_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/Prohibit.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/Prohibit.mjs");
-var f = Object.defineProperty, p = Object.defineProperties;
-var s = Object.getOwnPropertyDescriptors;
-var e = Object.getOwnPropertySymbols;
-var c = Object.prototype.hasOwnProperty, h = Object.prototype.propertyIsEnumerable;
-var i = (r, o, t) => o in r ? f(r, o, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[o] = t, m = (r, o) => {
-  for (var t in o || (o = {}))
-    c.call(o, t) && i(r, t, o[t]);
-  if (e)
-    for (var t of e(o))
-      h.call(o, t) && i(r, t, o[t]);
+/* harmony import */ var _defs_MapPinArea_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/MapPinArea.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/MapPinArea.mjs");
+var p = Object.defineProperty, f = Object.defineProperties;
+var n = Object.getOwnPropertyDescriptors;
+var o = Object.getOwnPropertySymbols;
+var s = Object.prototype.hasOwnProperty, c = Object.prototype.propertyIsEnumerable;
+var t = (r, e, a) => e in r ? p(r, e, { enumerable: !0, configurable: !0, writable: !0, value: a }) : r[e] = a, m = (r, e) => {
+  for (var a in e || (e = {}))
+    s.call(e, a) && t(r, a, e[a]);
+  if (o)
+    for (var a of o(e))
+      c.call(e, a) && t(r, a, e[a]);
   return r;
-}, a = (r, o) => p(r, s(o));
+}, i = (r, e) => f(r, n(e));
 
 
 
-const w = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((r, o) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], a(m({ ref: o }, r), { weights: _defs_Prohibit_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
-w.displayName = "Prohibit";
+const I = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((r, e) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], i(m({ ref: e }, r), { weights: _defs_MapPinArea_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
+I.displayName = "MapPinArea";
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@phosphor-icons/react/dist/csr/ReadCvLogo.mjs":
+/*!********************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/csr/ReadCvLogo.mjs ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ReadCvLogo: () => (/* binding */ v)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/IconBase.mjs */ "./node_modules/@phosphor-icons/react/dist/lib/IconBase.mjs");
+/* harmony import */ var _defs_ReadCvLogo_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/ReadCvLogo.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/ReadCvLogo.mjs");
+var i = Object.defineProperty, p = Object.defineProperties;
+var s = Object.getOwnPropertyDescriptors;
+var a = Object.getOwnPropertySymbols;
+var c = Object.prototype.hasOwnProperty, d = Object.prototype.propertyIsEnumerable;
+var t = (e, o, r) => o in e ? i(e, o, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[o] = r, m = (e, o) => {
+  for (var r in o || (o = {}))
+    c.call(o, r) && t(e, r, o[r]);
+  if (a)
+    for (var r of a(o))
+      d.call(o, r) && t(e, r, o[r]);
+  return e;
+}, f = (e, o) => p(e, s(o));
+
+
+
+const v = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((e, o) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], f(m({ ref: o }, e), { weights: _defs_ReadCvLogo_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
+v.displayName = "ReadCvLogo";
 
 
 
@@ -107,41 +142,6 @@ I.displayName = "Shield";
 
 /***/ }),
 
-/***/ "./node_modules/@phosphor-icons/react/dist/csr/ShieldCheck.mjs":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@phosphor-icons/react/dist/csr/ShieldCheck.mjs ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ShieldCheck: () => (/* binding */ w)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/IconBase.mjs */ "./node_modules/@phosphor-icons/react/dist/lib/IconBase.mjs");
-/* harmony import */ var _defs_ShieldCheck_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/ShieldCheck.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/ShieldCheck.mjs");
-var c = Object.defineProperty, f = Object.defineProperties;
-var h = Object.getOwnPropertyDescriptors;
-var t = Object.getOwnPropertySymbols;
-var p = Object.prototype.hasOwnProperty, s = Object.prototype.propertyIsEnumerable;
-var m = (o, e, r) => e in o ? c(o, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : o[e] = r, a = (o, e) => {
-  for (var r in e || (e = {}))
-    p.call(e, r) && m(o, r, e[r]);
-  if (t)
-    for (var r of t(e))
-      s.call(e, r) && m(o, r, e[r]);
-  return o;
-}, i = (o, e) => f(o, h(e));
-
-
-
-const w = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((o, e) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], i(a({ ref: e }, o), { weights: _defs_ShieldCheck_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
-w.displayName = "ShieldCheck";
-
-
-
-/***/ }),
-
 /***/ "./node_modules/@phosphor-icons/react/dist/csr/ShieldSlash.mjs":
 /*!*********************************************************************!*\
   !*** ./node_modules/@phosphor-icons/react/dist/csr/ShieldSlash.mjs ***!
@@ -177,10 +177,80 @@ w.displayName = "ShieldSlash";
 
 /***/ }),
 
-/***/ "./node_modules/@phosphor-icons/react/dist/defs/ListPlus.mjs":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@phosphor-icons/react/dist/defs/ListPlus.mjs ***!
-  \*******************************************************************/
+/***/ "./node_modules/@phosphor-icons/react/dist/csr/UsersThree.mjs":
+/*!********************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/csr/UsersThree.mjs ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   UsersThree: () => (/* binding */ I)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/IconBase.mjs */ "./node_modules/@phosphor-icons/react/dist/lib/IconBase.mjs");
+/* harmony import */ var _defs_UsersThree_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/UsersThree.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/UsersThree.mjs");
+var f = Object.defineProperty, i = Object.defineProperties;
+var p = Object.getOwnPropertyDescriptors;
+var s = Object.getOwnPropertySymbols;
+var c = Object.prototype.hasOwnProperty, h = Object.prototype.propertyIsEnumerable;
+var t = (r, e, o) => e in r ? f(r, e, { enumerable: !0, configurable: !0, writable: !0, value: o }) : r[e] = o, m = (r, e) => {
+  for (var o in e || (e = {}))
+    c.call(e, o) && t(r, o, e[o]);
+  if (s)
+    for (var o of s(e))
+      h.call(e, o) && t(r, o, e[o]);
+  return r;
+}, a = (r, e) => i(r, p(e));
+
+
+
+const I = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((r, e) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], a(m({ ref: e }, r), { weights: _defs_UsersThree_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
+I.displayName = "UsersThree";
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@phosphor-icons/react/dist/csr/Wrench.mjs":
+/*!****************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/csr/Wrench.mjs ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Wrench: () => (/* binding */ I)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/IconBase.mjs */ "./node_modules/@phosphor-icons/react/dist/lib/IconBase.mjs");
+/* harmony import */ var _defs_Wrench_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../defs/Wrench.mjs */ "./node_modules/@phosphor-icons/react/dist/defs/Wrench.mjs");
+var f = Object.defineProperty, i = Object.defineProperties;
+var n = Object.getOwnPropertyDescriptors;
+var t = Object.getOwnPropertySymbols;
+var p = Object.prototype.hasOwnProperty, s = Object.prototype.propertyIsEnumerable;
+var m = (r, e, o) => e in r ? f(r, e, { enumerable: !0, configurable: !0, writable: !0, value: o }) : r[e] = o, a = (r, e) => {
+  for (var o in e || (e = {}))
+    p.call(e, o) && m(r, o, e[o]);
+  if (t)
+    for (var o of t(e))
+      s.call(e, o) && m(r, o, e[o]);
+  return r;
+}, c = (r, e) => i(r, n(e));
+
+
+
+const I = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((r, e) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_IconBase_mjs__WEBPACK_IMPORTED_MODULE_1__["default"], c(a({ ref: e }, r), { weights: _defs_Wrench_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] })));
+I.displayName = "Wrench";
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@phosphor-icons/react/dist/defs/Gauge.mjs":
+/*!****************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/defs/Gauge.mjs ***!
+  \****************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -192,27 +262,33 @@ __webpack_require__.r(__webpack_exports__);
 const t = /* @__PURE__ */ new Map([
   [
     "bold",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M28,64A12,12,0,0,1,40,52H216a12,12,0,0,1,0,24H40A12,12,0,0,1,28,64Zm12,76H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Zm104,40H40a12,12,0,0,0,0,24H144a12,12,0,0,0,0-24Zm88,0H220V168a12,12,0,0,0-24,0v12H184a12,12,0,0,0,0,24h12v12a12,12,0,0,0,24,0V204h12a12,12,0,0,0,0-24Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M209.88,69.83A115.19,115.19,0,0,0,128,36h-.41C63.85,36.22,12,88.76,12,153.13V176a20,20,0,0,0,20,20H224a20,20,0,0,0,20-20V152A115.25,115.25,0,0,0,209.88,69.83ZM220,172H127.32l46.44-65A12,12,0,1,0,154.24,93L97.82,172H36V153.13c0-1.72,0-3.43.14-5.13H56a12,12,0,0,0,0-24H40.62c10.91-33.39,40-58.52,75.38-63.21V80a12,12,0,0,0,24,0V60.8A92,92,0,0,1,215.66,124H200a12,12,0,0,0,0,24h19.9c.06,1.33.1,2.66.1,4Z" }))
   ],
   [
     "duotone",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M216,64V192H40V64Z", opacity: "0.2" }), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M32,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H40A8,8,0,0,1,32,64Zm8,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16Zm104,48H40a8,8,0,0,0,0,16H144a8,8,0,0,0,0-16Zm88,0H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "path",
+      {
+        d: "M232,152v24a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V153.13C24,95.65,70.15,48.2,127.63,48A104,104,0,0,1,232,152Z",
+        opacity: "0.2"
+      }
+    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z" }))
   ],
   [
     "fill",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM64,72H192a8,8,0,0,1,0,16H64a8,8,0,0,1,0-16Zm56,112H64a8,8,0,0,1,0-16h56a8,8,0,0,1,0,16Zm16-48H64a8,8,0,0,1,0-16h72a8,8,0,0,1,0,16Zm64,32H184v16a8,8,0,0,1-16,0V168H152a8,8,0,0,1,0-16h16V136a8,8,0,0,1,16,0v16h16a8,8,0,0,1,0,16Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M240,152v24a16,16,0,0,1-16,16H115.93a4,4,0,0,1-3.24-6.35L174.27,101a8.21,8.21,0,0,0-1.37-11.3,8,8,0,0,0-11.37,1.61l-72,99.06A4,4,0,0,1,86.25,192H32a16,16,0,0,1-16-16V153.13c0-1.79,0-3.57.13-5.33a4,4,0,0,1,4-3.8H48a8,8,0,0,0,8-8.53A8.17,8.17,0,0,0,47.73,128H23.92a4,4,0,0,1-3.87-5c12-43.84,49.66-77.13,95.52-82.28a4,4,0,0,1,4.43,4V72a8,8,0,0,0,8.53,8A8.17,8.17,0,0,0,136,71.73V44.67a4,4,0,0,1,4.43-4A112.18,112.18,0,0,1,236.23,123a4,4,0,0,1-3.88,5H208.27a8.17,8.17,0,0,0-8.25,7.47,8,8,0,0,0,8,8.53h27.92a4,4,0,0,1,4,3.86C240,149.23,240,150.61,240,152Z" }))
   ],
   [
     "light",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M34,64a6,6,0,0,1,6-6H216a6,6,0,0,1,0,12H40A6,6,0,0,1,34,64Zm6,70H216a6,6,0,0,0,0-12H40a6,6,0,0,0,0,12Zm104,52H40a6,6,0,0,0,0,12H144a6,6,0,0,0,0-12Zm88,0H214V168a6,6,0,0,0-12,0v18H184a6,6,0,0,0,0,12h18v18a6,6,0,0,0,12,0V198h18a6,6,0,0,0,0-12Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M205.65,74.08A109.26,109.26,0,0,0,128,42h-.39C67.17,42.21,18,92.06,18,153.13V176a14,14,0,0,0,14,14H224a14,14,0,0,0,14-14V152A109.3,109.3,0,0,0,205.65,74.08ZM226,176a2,2,0,0,1-2,2H115.78l57.07-78.47a6,6,0,0,0-9.7-7.06L100.94,178H32a2,2,0,0,1-2-2V153.13A102.36,102.36,0,0,1,30.62,142H56a6,6,0,0,0,0-12H32.71C42.6,88.4,78.53,56.86,122,54.19V80a6,6,0,0,0,12,0V54.19A98.05,98.05,0,0,1,223.53,130H200a6,6,0,0,0,0,12h25.5c.33,3.3.5,6.64.5,10Z" }))
   ],
   [
     "regular",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M32,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H40A8,8,0,0,1,32,64Zm8,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16Zm104,48H40a8,8,0,0,0,0,16H144a8,8,0,0,0,0-16Zm88,0H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z" }))
   ],
   [
     "thin",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M36,64a4,4,0,0,1,4-4H216a4,4,0,0,1,0,8H40A4,4,0,0,1,36,64Zm4,68H216a4,4,0,0,0,0-8H40a4,4,0,0,0,0,8Zm104,56H40a4,4,0,0,0,0,8H144a4,4,0,0,0,0-8Zm88,0H212V168a4,4,0,0,0-8,0v20H184a4,4,0,0,0,0,8h20v20a4,4,0,0,0,8,0V196h20a4,4,0,0,0,0-8Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M204.23,75.5A107.37,107.37,0,0,0,127.62,44C68.28,44.21,20,93.16,20,153.13V176a12,12,0,0,0,12,12H224a12,12,0,0,0,12-12V152A107.25,107.25,0,0,0,204.23,75.5ZM228,176a4,4,0,0,1-4,4H111.85l59.38-81.65a4,4,0,1,0-6.46-4.7L102,180H32a4,4,0,0,1-4-4V153.13A103.42,103.42,0,0,1,28.84,140H56a4,4,0,0,0,0-8H30.21C39.59,87.66,77.84,53.93,124,52.09V80a4,4,0,0,0,8,0V52.08A100.08,100.08,0,0,1,226,132H200a4,4,0,0,0,0,8h27.29a101.6,101.6,0,0,1,.71,12Z" }))
   ]
 ]);
 
@@ -220,42 +296,97 @@ const t = /* @__PURE__ */ new Map([
 
 /***/ }),
 
-/***/ "./node_modules/@phosphor-icons/react/dist/defs/Prohibit.mjs":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@phosphor-icons/react/dist/defs/Prohibit.mjs ***!
-  \*******************************************************************/
+/***/ "./node_modules/@phosphor-icons/react/dist/defs/MapPinArea.mjs":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/defs/MapPinArea.mjs ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ a)
+/* harmony export */   "default": () => (/* binding */ t)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
-const a = /* @__PURE__ */ new Map([
+const t = /* @__PURE__ */ new Map([
   [
     "bold",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm84,108a83.6,83.6,0,0,1-16.75,50.28L77.72,60.75A84,84,0,0,1,212,128ZM44,128A83.6,83.6,0,0,1,60.75,77.72L178.28,195.25A84,84,0,0,1,44,128Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M108,80a20,20,0,1,1,20,20A20,20,0,0,1,108,80ZM60,80a68,68,0,0,1,136,0c0,62.25-59.51,97-62.05,98.42a12,12,0,0,1-11.9,0C119.51,177,60,142.25,60,80Zm24,0c0,38.2,30.71,64.2,44,73.64C141.21,144.15,172,118,172,80a44,44,0,0,0-88,0Zm124.57,65.6a12,12,0,1,0-9.14,22.19C213.56,173.61,220,180.27,220,184c0,4-7.13,11.07-22.77,17.08-18.3,7-42.89,10.92-69.23,10.92s-50.93-3.88-69.23-10.92C43.12,195.07,36,188,36,184c0-3.73,6.44-10.39,20.57-16.21a12,12,0,1,0-9.14-22.19C31.27,152.25,12,164.31,12,184c0,34.14,58.36,52,116,52,29.22,0,56.86-4.44,77.85-12.52C220.1,218,244,205.59,244,184,244,164.31,224.73,152.25,208.57,145.6Z" }))
   ],
   [
     "duotone",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z", opacity: "0.2" }), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "path",
+      {
+        d: "M184,80c0,56-56,88-56,88S72,136,72,80a56,56,0,0,1,112,0Z",
+        opacity: "0.2"
+      }
+    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M112,80a16,16,0,1,1,16,16A16,16,0,0,1,112,80ZM64,80a64,64,0,0,1,128,0c0,59.95-57.58,93.54-60,94.95a8,8,0,0,1-7.94,0C121.58,173.54,64,140,64,80Zm16,0c0,42.2,35.84,70.21,48,78.5,12.15-8.28,48-36.3,48-78.5a48,48,0,0,0-96,0Zm122.77,67.63a8,8,0,0,0-5.54,15C213.74,168.74,224,176.92,224,184c0,13.36-36.52,32-96,32s-96-18.64-96-32c0-7.08,10.26-15.26,26.77-21.36a8,8,0,0,0-5.54-15C29.22,156.49,16,169.41,16,184c0,31.18,57.71,48,112,48s112-16.82,112-48C240,169.41,226.78,156.49,202.77,147.63Z" }))
   ],
   [
     "fill",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M200,128a71.69,71.69,0,0,1-15.78,44.91L83.09,71.78A71.95,71.95,0,0,1,200,128ZM56,128a71.95,71.95,0,0,0,116.91,56.22L71.78,83.09A71.69,71.69,0,0,0,56,128Zm180,0A108,108,0,1,1,128,20,108.12,108.12,0,0,1,236,128Zm-20,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M124,175a8,8,0,0,0,7.94,0c2.45-1.41,60-35,60-94.95A64,64,0,0,0,64,80C64,140,121.58,173.54,124,175ZM128,56a24,24,0,1,1-24,24A24,24,0,0,1,128,56ZM240,184c0,31.18-57.71,48-112,48S16,215.18,16,184c0-14.59,13.22-27.51,37.23-36.37a8,8,0,0,1,5.54,15C42.26,168.74,32,176.92,32,184c0,13.36,36.52,32,96,32s96-18.64,96-32c0-7.08-10.26-15.26-26.77-21.36a8,8,0,0,1,5.54-15C226.78,156.49,240,169.41,240,184Z" }))
   ],
   [
     "light",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm90,102a89.6,89.6,0,0,1-22.29,59.22L68.78,60.29A89.95,89.95,0,0,1,218,128ZM38,128A89.6,89.6,0,0,1,60.29,68.78L187.22,195.71A89.95,89.95,0,0,1,38,128Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M114,80a14,14,0,1,1,14,14A14,14,0,0,1,114,80ZM66,80a62,62,0,0,1,124,0c0,58.81-56.61,91.83-59,93.21a6,6,0,0,1-6,0C122.61,171.83,66,138.81,66,80Zm12,0c0,44.52,38.81,73.49,50,80.91,11.18-7.42,50-36.38,50-80.91A50,50,0,0,0,78,80Zm124.08,69.51a6,6,0,1,0-4.16,11.25C215.5,167.25,226,175.94,226,184c0,16.08-40.25,34-98,34s-98-17.92-98-34c0-8.06,10.5-16.75,28.08-23.24a6,6,0,1,0-4.16-11.25C30.76,158.06,18,170.31,18,184c0,13.34,12.18,25.38,34.31,33.88C72.62,225.7,99.5,230,128,230s55.38-4.3,75.69-12.12C225.82,209.38,238,197.34,238,184,238,170.31,225.24,158.06,202.08,149.51Z" }))
   ],
   [
     "regular",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M112,80a16,16,0,1,1,16,16A16,16,0,0,1,112,80ZM64,80a64,64,0,0,1,128,0c0,59.95-57.58,93.54-60,94.95a8,8,0,0,1-7.94,0C121.58,173.54,64,140,64,80Zm16,0c0,42.2,35.84,70.21,48,78.5,12.15-8.28,48-36.3,48-78.5a48,48,0,0,0-96,0Zm122.77,67.63a8,8,0,0,0-5.54,15C213.74,168.74,224,176.92,224,184c0,13.36-36.52,32-96,32s-96-18.64-96-32c0-7.08,10.26-15.26,26.77-21.36a8,8,0,0,0-5.54-15C29.22,156.49,16,169.41,16,184c0,31.18,57.71,48,112,48s112-16.82,112-48C240,169.41,226.78,156.49,202.77,147.63Z" }))
   ],
   [
     "thin",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M128,28A100,100,0,1,0,228,128,100.11,100.11,0,0,0,128,28Zm92,100a91.67,91.67,0,0,1-24.21,62.13L65.87,60.21A92,92,0,0,1,220,128ZM36,128A91.67,91.67,0,0,1,60.21,65.87L190.13,195.79A92,92,0,0,1,36,128Z" }))
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M116,80a12,12,0,1,1,12,12A12,12,0,0,1,116,80ZM97.08,147.73C78.05,127.35,68,103.93,68,80a60,60,0,0,1,120,0c0,23.93-10.05,47.35-29.08,67.73A136.54,136.54,0,0,1,130,171.47a4,4,0,0,1-4,0A136.54,136.54,0,0,1,97.08,147.73ZM76,80c0,47.09,42.25,77,52,83.3,9.75-6.28,52-36.21,52-83.3A52,52,0,0,0,76,80Zm125.38,71.38a4,4,0,0,0-2.76,7.51c18.67,6.89,29.38,16,29.38,25.11,0,17.39-40.18,36-100,36S28,201.39,28,184c0-9.07,10.71-18.22,29.38-25.11a4,4,0,0,0-2.76-7.51C32.29,159.62,20,171.21,20,184c0,12.46,11.73,23.83,33,32,20.09,7.73,46.72,12,75,12s54.89-4.25,75-12c21.29-8.19,33-19.56,33-32C236,171.21,223.71,159.62,201.38,151.38Z" }))
+  ]
+]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@phosphor-icons/react/dist/defs/ReadCvLogo.mjs":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/defs/ReadCvLogo.mjs ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ e)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+const e = /* @__PURE__ */ new Map([
+  [
+    "bold",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M211.48,35.32l-130.25-23A20,20,0,0,0,58.05,28.54l-29.75,169a20,20,0,0,0,16.22,23.16l130.25,23h0a20.1,20.1,0,0,0,3.52.31A20,20,0,0,0,198,227.46l29.75-169A20,20,0,0,0,211.48,35.32ZM175,219.36,52.63,197.75,81,36.64,203.37,58.25ZM91.9,67a12,12,0,0,1,13.9-9.73L173,69.14A12,12,0,0,1,171,93a12.59,12.59,0,0,1-2.1-.18L101.63,80.9A12,12,0,0,1,91.9,67ZM85,106.39a12,12,0,0,1,13.91-9.73l67.22,11.88A12,12,0,0,1,164,132.35a12.5,12.5,0,0,1-2.1-.18L94.69,120.29A12,12,0,0,1,85,106.39ZM78,145.78a12,12,0,0,1,13.9-9.73L125.54,142a12,12,0,0,1-2.07,23.82,11.63,11.63,0,0,1-2.1-.19l-33.61-5.93A12,12,0,0,1,78,145.78Z" }))
+  ],
+  [
+    "duotone",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "path",
+      {
+        d: "M215.88,56.39l-29.75,169a8,8,0,0,1-9.27,6.49l-130.25-23a8,8,0,0,1-6.49-9.26l29.75-169a8,8,0,0,1,9.27-6.49l130.25,23A8,8,0,0,1,215.88,56.39Z",
+        opacity: "0.2"
+      }
+    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M210.78,39.25l-130.25-23A16,16,0,0,0,62,29.23l-29.75,169a16,16,0,0,0,13,18.53l130.25,23h0a16,16,0,0,0,18.54-13l29.75-169A16,16,0,0,0,210.78,39.25ZM178.26,224h0L48,201,77.75,32,208,55ZM89.34,58.42a8,8,0,0,1,9.27-6.48l83,14.65a8,8,0,0,1-1.39,15.88,8.36,8.36,0,0,1-1.4-.12l-83-14.66A8,8,0,0,1,89.34,58.42ZM83.8,89.94a8,8,0,0,1,9.27-6.49l83,14.66A8,8,0,0,1,174.67,114a7.55,7.55,0,0,1-1.41-.13l-83-14.65A8,8,0,0,1,83.8,89.94Zm-5.55,31.51A8,8,0,0,1,87.52,115L129,122.29a8,8,0,0,1-1.38,15.88,8.27,8.27,0,0,1-1.4-.12l-41.5-7.33A8,8,0,0,1,78.25,121.45Z" }))
+  ],
+  [
+    "fill",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M210.78,39.25l-130.25-23A16,16,0,0,0,62,29.23l-29.75,169a16,16,0,0,0,13,18.53l130.25,23a16,16,0,0,0,18.54-13l29.75-169A16,16,0,0,0,210.78,39.25ZM135.5,131.56a8,8,0,0,1-7.87,6.61,8.27,8.27,0,0,1-1.4-.12l-41.5-7.33A8,8,0,0,1,87.52,115L129,122.29A8,8,0,0,1,135.5,131.56Zm47-24.18a8,8,0,0,1-7.86,6.61,7.55,7.55,0,0,1-1.41-.13l-83-14.65a8,8,0,0,1,2.79-15.76l83,14.66A8,8,0,0,1,182.53,107.38Zm5.55-31.52a8,8,0,0,1-7.87,6.61,8.36,8.36,0,0,1-1.4-.12l-83-14.66a8,8,0,1,1,2.78-15.75l83,14.65A8,8,0,0,1,188.08,75.86Z" }))
+  ],
+  [
+    "light",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M210.43,41.22l-130.25-23A14,14,0,0,0,64,29.58l-29.75,169a14,14,0,0,0,11.36,16.22l130.25,23h0a13.64,13.64,0,0,0,2.46.22A14,14,0,0,0,192,226.42l29.75-169A14,14,0,0,0,210.43,41.22ZM210,55.36l-29.75,169a2,2,0,0,1-.82,1.3,2,2,0,0,1-1.49.33L47.65,203A2,2,0,0,1,46,200.64l29.75-169a2,2,0,0,1,.82-1.3A2.06,2.06,0,0,1,78.1,30L208.35,53A2,2,0,0,1,210,55.36ZM186.11,75.51a6,6,0,0,1-5.9,5,6.2,6.2,0,0,1-1.05-.09l-83-14.66a6,6,0,1,1,2.09-11.81l83,14.65A6,6,0,0,1,186.11,75.51ZM180.56,107a6,6,0,0,1-5.9,5,5.48,5.48,0,0,1-1-.1l-83-14.65a6,6,0,0,1,2.09-11.82l83,14.66A6,6,0,0,1,180.56,107Zm-47,24.19a6,6,0,0,1-5.91,4.95,6.38,6.38,0,0,1-1.05-.09l-41.49-7.33a6,6,0,1,1,2.09-11.81l41.49,7.32A6,6,0,0,1,133.53,131.22Z" }))
+  ],
+  [
+    "regular",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M210.78,39.25l-130.25-23A16,16,0,0,0,62,29.23l-29.75,169a16,16,0,0,0,13,18.53l130.25,23h0a16,16,0,0,0,18.54-13l29.75-169A16,16,0,0,0,210.78,39.25ZM178.26,224h0L48,201,77.75,32,208,55ZM89.34,58.42a8,8,0,0,1,9.27-6.48l83,14.65a8,8,0,0,1-1.39,15.88,8.36,8.36,0,0,1-1.4-.12l-83-14.66A8,8,0,0,1,89.34,58.42ZM83.8,89.94a8,8,0,0,1,9.27-6.49l83,14.66A8,8,0,0,1,174.67,114a7.55,7.55,0,0,1-1.41-.13l-83-14.65A8,8,0,0,1,83.8,89.94Zm-5.55,31.51A8,8,0,0,1,87.52,115L129,122.29a8,8,0,0,1-1.38,15.88,8.27,8.27,0,0,1-1.4-.12l-41.5-7.33A8,8,0,0,1,78.25,121.45Z" }))
+  ],
+  [
+    "thin",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M210.09,43.19l-130.25-23a12,12,0,0,0-13.91,9.73l-29.75,169a12,12,0,0,0,9.73,13.9l130.26,23a11.58,11.58,0,0,0,2.11.19,12,12,0,0,0,11.79-9.92l29.75-169A12,12,0,0,0,210.09,43.19Zm1.85,12.51-29.75,169a4,4,0,0,1-4.63,3.25l-130.26-23a4,4,0,0,1-3.24-4.63l29.75-169a4,4,0,0,1,4.63-3.25l130.26,23A4,4,0,0,1,211.94,55.7Zm-27.8,19.47a4,4,0,0,1-3.93,3.3,4.14,4.14,0,0,1-.7-.06l-83-14.66a4,4,0,1,1,1.39-7.88l83,14.66A4,4,0,0,1,184.14,75.17Zm-5.54,31.51a4,4,0,0,1-3.94,3.31,3.39,3.39,0,0,1-.7-.07L91,95.27a4,4,0,1,1,1.39-7.88l83,14.66A4,4,0,0,1,178.6,106.68Zm-47,24.19a4,4,0,0,1-3.94,3.3,4.23,4.23,0,0,1-.7-.06l-41.49-7.33a4,4,0,1,1,1.39-7.87l41.49,7.32A4,4,0,0,1,131.56,130.87Z" }))
   ]
 ]);
 
@@ -312,55 +443,6 @@ const a = /* @__PURE__ */ new Map([
 
 /***/ }),
 
-/***/ "./node_modules/@phosphor-icons/react/dist/defs/ShieldCheck.mjs":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@phosphor-icons/react/dist/defs/ShieldCheck.mjs ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ t)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-const t = /* @__PURE__ */ new Map([
-  [
-    "bold",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,36H48A20,20,0,0,0,28,56v56c0,54.29,26.32,87.22,48.4,105.29,23.71,19.39,47.44,26,48.44,26.29a12.1,12.1,0,0,0,6.32,0c1-.28,24.73-6.9,48.44-26.29,22.08-18.07,48.4-51,48.4-105.29V56A20,20,0,0,0,208,36Zm-4,76c0,35.71-13.09,64.69-38.91,86.15A126.28,126.28,0,0,1,128,219.38a126.14,126.14,0,0,1-37.09-21.23C65.09,176.69,52,147.71,52,112V60H204ZM79.51,144.49a12,12,0,1,1,17-17L112,143l47.51-47.52a12,12,0,0,1,17,17l-56,56a12,12,0,0,1-17,0Z" }))
-  ],
-  [
-    "duotone",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
-      "path",
-      {
-        d: "M216,56v56c0,96-88,120-88,120S40,208,40,112V56a8,8,0,0,1,8-8H208A8,8,0,0,1,216,56Z",
-        opacity: "0.2"
-      }
-    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z" }))
-  ],
-  [
-    "fill",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm-34.32,69.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" }))
-  ],
-  [
-    "light",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z" }))
-  ],
-  [
-    "regular",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z" }))
-  ],
-  [
-    "thin",
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M208,44H48A12,12,0,0,0,36,56v56c0,51.16,24.73,82.12,45.47,99.1,22.4,18.32,44.55,24.5,45.48,24.76a4,4,0,0,0,2.1,0c.93-.26,23.08-6.44,45.48-24.76,20.74-17,45.47-47.94,45.47-99.1V56A12,12,0,0,0,208,44Zm4,68c0,38.44-14.23,69.63-42.29,92.71A132.45,132.45,0,0,1,128,227.82a132.23,132.23,0,0,1-41.71-23.11C58.23,181.63,44,150.44,44,112V56a4,4,0,0,1,4-4H208a4,4,0,0,1,4,4Zm-41.17-10.83a4,4,0,0,1,0,5.66l-56,56a4,4,0,0,1-5.66,0l-24-24a4,4,0,0,1,5.66-5.66L112,154.34l53.17-53.17A4,4,0,0,1,170.83,101.17Z" }))
-  ]
-]);
-
-
-
-/***/ }),
-
 /***/ "./node_modules/@phosphor-icons/react/dist/defs/ShieldSlash.mjs":
 /*!**********************************************************************!*\
   !*** ./node_modules/@phosphor-icons/react/dist/defs/ShieldSlash.mjs ***!
@@ -403,6 +485,104 @@ const t = /* @__PURE__ */ new Map([
   [
     "thin",
     /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M51,37.31A4,4,0,0,0,45,42.69l1.31,1.44A12,12,0,0,0,36,56v56c0,51.16,24.73,82.12,45.47,99.1,22.4,18.32,44.55,24.5,45.48,24.76a4,4,0,0,0,2.1,0c1.37-.37,32.56-9.14,58.23-36.71L205,218.69a4,4,0,1,0,5.92-5.38Zm77,190.51a132.23,132.23,0,0,1-41.71-23.11C58.23,181.63,44,150.44,44,112V56a4,4,0,0,1,4-4H53.5L181.88,193.21C160.23,216.7,133.58,226.06,128,227.82ZM220,56v56c0,20-3.77,38.49-11.2,54.94a4,4,0,0,1-3.65,2.36,4.06,4.06,0,0,1-1.65-.36,4,4,0,0,1-2-5.29c7-15.41,10.49-32.79,10.49-51.65V56a4,4,0,0,0-4-4H98.52a4,4,0,1,1,0-8H208A12,12,0,0,1,220,56Z" }))
+  ]
+]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@phosphor-icons/react/dist/defs/UsersThree.mjs":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/defs/UsersThree.mjs ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ t)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+const t = /* @__PURE__ */ new Map([
+  [
+    "bold",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M164.38,181.1a52,52,0,1,0-72.76,0,75.89,75.89,0,0,0-30,28.89,12,12,0,0,0,20.78,12,53,53,0,0,1,91.22,0,12,12,0,1,0,20.78-12A75.89,75.89,0,0,0,164.38,181.1ZM100,144a28,28,0,1,1,28,28A28,28,0,0,1,100,144Zm147.21,9.59a12,12,0,0,1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12,12,0,0,1-1.82-22.91,20,20,0,1,0-24.78-28.3,12,12,0,1,1-21-11.6,44,44,0,1,1,73.28,48.35,92.18,92.18,0,0,1,22.85,21.69A12,12,0,0,1,247.21,153.59Zm-192.28-24c-9.48,2.05-21,10.55-29.33,21.65A12,12,0,0,1,6.41,136.79,92.37,92.37,0,0,1,29.26,115.1a44,44,0,1,1,73.28-48.35,12,12,0,1,1-21,11.6,20,20,0,1,0-24.78,28.3,12,12,0,0,1-1.82,22.91Z" }))
+  ],
+  [
+    "duotone",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "path",
+      {
+        d: "M168,144a40,40,0,1,1-40-40A40,40,0,0,1,168,144ZM64,56A32,32,0,1,0,96,88,32,32,0,0,0,64,56Zm128,0a32,32,0,1,0,32,32A32,32,0,0,0,192,56Z",
+        opacity: "0.2"
+      }
+    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1,0-16,24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.85,8,57,57,0,0,0-98.15,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z" }))
+  ],
+  [
+    "fill",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M64.12,147.8a4,4,0,0,1-4,4.2H16a8,8,0,0,1-7.8-6.17,8.35,8.35,0,0,1,1.62-6.93A67.79,67.79,0,0,1,37,117.51a40,40,0,1,1,66.46-35.8,3.94,3.94,0,0,1-2.27,4.18A64.08,64.08,0,0,0,64,144C64,145.28,64,146.54,64.12,147.8Zm182-8.91A67.76,67.76,0,0,0,219,117.51a40,40,0,1,0-66.46-35.8,3.94,3.94,0,0,0,2.27,4.18A64.08,64.08,0,0,1,192,144c0,1.28,0,2.54-.12,3.8a4,4,0,0,0,4,4.2H240a8,8,0,0,0,7.8-6.17A8.33,8.33,0,0,0,246.17,138.89Zm-89,43.18a48,48,0,1,0-58.37,0A72.13,72.13,0,0,0,65.07,212,8,8,0,0,0,72,224H184a8,8,0,0,0,6.93-12A72.15,72.15,0,0,0,157.19,182.07Z" }))
+  ],
+  [
+    "light",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M243.6,148.8a6,6,0,0,1-8.4-1.2A53.58,53.58,0,0,0,192,126a6,6,0,0,1,0-12,26,26,0,1,0-25.18-32.5,6,6,0,0,1-11.62-3,38,38,0,1,1,59.91,39.63A65.69,65.69,0,0,1,244.8,140.4,6,6,0,0,1,243.6,148.8ZM189.19,213a6,6,0,0,1-2.19,8.2,5.9,5.9,0,0,1-3,.81,6,6,0,0,1-5.2-3,59,59,0,0,0-101.62,0,6,6,0,1,1-10.38-6A70.1,70.1,0,0,1,103,182.55a46,46,0,1,1,50.1,0A70.1,70.1,0,0,1,189.19,213ZM128,178a34,34,0,1,0-34-34A34,34,0,0,0,128,178ZM70,120a6,6,0,0,0-6-6A26,26,0,1,1,89.18,81.49a6,6,0,1,0,11.62-3,38,38,0,1,0-59.91,39.63A65.69,65.69,0,0,0,11.2,140.4a6,6,0,1,0,9.6,7.2A53.58,53.58,0,0,1,64,126,6,6,0,0,0,70,120Z" }))
+  ],
+  [
+    "regular",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z" }))
+  ],
+  [
+    "thin",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M237,147.44a4,4,0,0,1-5.48-1.4c-8.33-14-20.93-22-34.56-22a4,4,0,0,1-1.2-.2,36.76,36.76,0,0,1-3.8.2,4,4,0,0,1,0-8,28,28,0,1,0-27.12-35,4,4,0,0,1-7.75-2,36,36,0,1,1,54,39.48c10.81,3.85,20.51,12,27.31,23.48A4,4,0,0,1,237,147.44ZM187.46,214a4,4,0,0,1-1.46,5.46,3.93,3.93,0,0,1-2,.54,4,4,0,0,1-3.46-2,61,61,0,0,0-105.08,0,4,4,0,0,1-6.92-4,68.35,68.35,0,0,1,39.19-31,44,44,0,1,1,40.54,0A68.35,68.35,0,0,1,187.46,214ZM128,180a36,36,0,1,0-36-36A36,36,0,0,0,128,180ZM64,116A28,28,0,1,1,91.12,81a4,4,0,0,0,7.75-2A36,36,0,1,0,45.3,118.75,63.55,63.55,0,0,0,12.8,141.6a4,4,0,0,0,6.4,4.8A55.55,55.55,0,0,1,64,124a4,4,0,0,0,0-8Z" }))
+  ]
+]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@phosphor-icons/react/dist/defs/Wrench.mjs":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@phosphor-icons/react/dist/defs/Wrench.mjs ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ l)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+const l = /* @__PURE__ */ new Map([
+  [
+    "bold",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M230.47,67.5a12,12,0,0,0-19.26-4.32L172.43,99l-12.68-2.72L157,83.57l35.79-38.78a12,12,0,0,0-4.32-19.26A76.07,76.07,0,0,0,88.41,121.64L30.92,174.18a4.68,4.68,0,0,0-.39.38,36,36,0,0,0,50.91,50.91l.38-.39,52.54-57.49A76.05,76.05,0,0,0,230.47,67.5ZM160,148a51.5,51.5,0,0,1-23.35-5.52,12,12,0,0,0-14.26,2.62L64.31,208.66a12,12,0,0,1-17-17l63.55-58.07a12,12,0,0,0,2.62-14.26A51.5,51.5,0,0,1,108,96a52.06,52.06,0,0,1,52-52h.89L135.17,71.87a12,12,0,0,0-2.91,10.65l5.66,26.35a12,12,0,0,0,9.21,9.21l26.35,5.66a12,12,0,0,0,10.65-2.91L212,95.12c0,.3,0,.59,0,.89A52.06,52.06,0,0,1,160,148Z" }))
+  ],
+  [
+    "duotone",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "path",
+      {
+        d: "M224,96a64,64,0,0,1-94.94,56L73,217A24,24,0,0,1,39,183L104,126.94a64,64,0,0,1,80-90.29L144,80l5.66,26.34L176,112l43.35-40A63.8,63.8,0,0,1,224,96Z",
+        opacity: "0.2"
+      }
+    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M226.76,69a8,8,0,0,0-12.84-2.88l-40.3,37.19-17.23-3.7-3.7-17.23,37.19-40.3A8,8,0,0,0,187,29.24,72,72,0,0,0,88,96,72.34,72.34,0,0,0,94,124.94L33.79,177c-.15.12-.29.26-.43.39a32,32,0,0,0,45.26,45.26c.13-.13.27-.28.39-.42L131.06,162A72,72,0,0,0,232,96,71.56,71.56,0,0,0,226.76,69ZM160,152a56.14,56.14,0,0,1-27.07-7,8,8,0,0,0-9.92,1.77L67.11,211.51a16,16,0,0,1-22.62-22.62L109.18,133a8,8,0,0,0,1.77-9.93,56,56,0,0,1,58.36-82.31l-31.2,33.81a8,8,0,0,0-1.94,7.1L141.83,108a8,8,0,0,0,6.14,6.14l26.35,5.66a8,8,0,0,0,7.1-1.94l33.81-31.2A56.06,56.06,0,0,1,160,152Z" }))
+  ],
+  [
+    "fill",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M232,96a72,72,0,0,1-100.94,66L79,222.22c-.12.14-.26.29-.39.42a32,32,0,0,1-45.26-45.26c.14-.13.28-.27.43-.39L94,124.94a72.07,72.07,0,0,1,83.54-98.78,8,8,0,0,1,3.93,13.19L144,80l5.66,26.35L176,112l40.65-37.52a8,8,0,0,1,13.19,3.93A72.6,72.6,0,0,1,232,96Z" }))
+  ],
+  [
+    "light",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M224.91,69.75a6,6,0,0,0-9.63-2.16l-41.07,37.9L154.7,101.3l-4.19-19.51,37.9-41.07a6,6,0,0,0-2.16-9.63,70,70,0,0,0-89.77,94.39l-61.39,53c-.11.09-.21.19-.32.3A30,30,0,0,0,77.2,221.23c.11-.11.21-.21.3-.32l53-61.39a70,70,0,0,0,94.39-89.77ZM160,154a58,58,0,0,1-28-7.22,6,6,0,0,0-7.45,1.33L68.57,212.88a18,18,0,0,1-25.45-25.45l64.76-55.94A6,6,0,0,0,109.2,124a58,58,0,0,1,64-84.53L139.58,75.93a6,6,0,0,0-1.45,5.33l5.65,26.35a6,6,0,0,0,4.61,4.61l26.35,5.65a6,6,0,0,0,5.33-1.45L216.49,82.8A58.06,58.06,0,0,1,160,154Z" }))
+  ],
+  [
+    "regular",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M226.76,69a8,8,0,0,0-12.84-2.88l-40.3,37.19-17.23-3.7-3.7-17.23,37.19-40.3A8,8,0,0,0,187,29.24,72,72,0,0,0,88,96,72.34,72.34,0,0,0,94,124.94L33.79,177c-.15.12-.29.26-.43.39a32,32,0,0,0,45.26,45.26c.13-.13.27-.28.39-.42L131.06,162A72,72,0,0,0,232,96,71.56,71.56,0,0,0,226.76,69ZM160,152a56.14,56.14,0,0,1-27.07-7,8,8,0,0,0-9.92,1.77L67.11,211.51a16,16,0,0,1-22.62-22.62L109.18,133a8,8,0,0,0,1.77-9.93,56,56,0,0,1,58.36-82.31l-31.2,33.81a8,8,0,0,0-1.94,7.1L141.83,108a8,8,0,0,0,6.14,6.14l26.35,5.66a8,8,0,0,0,7.1-1.94l33.81-31.2A56.06,56.06,0,0,1,160,152Z" }))
+  ],
+  [
+    "thin",
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", { d: "M223.05,70.5a4,4,0,0,0-6.42-1.44l-41.82,38.6L153,103l-4.68-21.79,38.6-41.82a4,4,0,0,0-1.44-6.43A68,68,0,0,0,98.94,126L36.4,180l-.21.2a28,28,0,0,0,39.6,39.6l.2-.21,54-62.54A68,68,0,0,0,228,96,67.51,67.51,0,0,0,223.05,70.5ZM160,156a60,60,0,0,1-29-7.47,4,4,0,0,0-5,.89L70,214.25A20,20,0,0,1,41.75,186l64.82-56a4,4,0,0,0,.89-5,60,60,0,0,1,69.46-86.59L141.05,77.29a4,4,0,0,0-1,3.55l5.66,26.35a4,4,0,0,0,3.07,3.07l26.35,5.66a4,4,0,0,0,3.55-1l38.87-35.87A60.05,60.05,0,0,1,160,156Z" }))
   ]
 ]);
 
@@ -39851,7 +40031,7 @@ var TabsNav = function TabsNav() {
     };
   }, [activeTabKey, location.pathname]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "mb-6"
+    className: "mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "relative inline-flex bg-gray-100 p-1 rounded-[15px]"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
@@ -39962,17 +40142,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var MainLayout = function MainLayout() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "pr-6 pl-0 max-w-8xl force-tailwind"
+    className: "pr-6 pl-0 max-w-8xl force-tailwind dark:text-gray-700"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex justify-between mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center gap-2"
+    className: "flex items-center gap-2 dark:text-white"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_phosphor_icons_react__WEBPACK_IMPORTED_MODULE_3__.ShieldSlash, {
     size: 32
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
-    className: "text-3xl font-bold mb-6 dark:text-gray-200"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-3xl font-bold "
   }, "BruteFort")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ThemeToggle__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_TabsNav__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "bg-white p-6 rounded-md shadow dark:bg-gray-800 dark:text-white"
+    className: "bg-white p-4 rounded-md dark:bg-gray-800 dark:text-white"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Outlet, null)));
 };
 
@@ -40007,13 +40187,39 @@ var Router = function Router() {
   }), "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "general",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_screens__WEBPACK_IMPORTED_MODULE_2__.General, null)
-  }), "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "whitelist",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_screens__WEBPACK_IMPORTED_MODULE_2__.WhiteList, null)
-  }), "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "blacklist",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_screens__WEBPACK_IMPORTED_MODULE_2__.BlackList, null)
-  }), "  "));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    path: "logs",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_screens__WEBPACK_IMPORTED_MODULE_2__.Logs, null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    path: "about-us",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_screens__WEBPACK_IMPORTED_MODULE_2__.About, null)
+  })));
+};
+
+/***/ }),
+
+/***/ "./src/constants/settings.ts":
+/*!***********************************!*\
+  !*** ./src/constants/settings.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SETTINGS: () => (/* binding */ SETTINGS)
+/* harmony export */ });
+/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/Gauge.mjs");
+/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/MapPinArea.mjs");
+
+var SETTINGS = {
+  rateLimitSettings: {
+    label: 'Rate Limit Settings',
+    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_0__.Gauge
+  },
+  ipSettings: {
+    label: 'Ip Settings',
+    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_1__.MapPinArea
+  }
 };
 
 /***/ }),
@@ -40028,34 +40234,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   TABS: () => (/* binding */ TABS)
 /* harmony export */ });
-/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/ShieldCheck.mjs");
-/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/ListPlus.mjs");
-/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/Prohibit.mjs");
+/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/Wrench.mjs");
+/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/ReadCvLogo.mjs");
+/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/UsersThree.mjs");
 
 var TABS = {
   general: {
     label: 'General',
-    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_0__.ShieldCheck,
+    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_0__.Wrench,
     path: 'general'
   },
   whitelist: {
-    label: 'Whitelist',
-    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_1__.ListPlus,
-    path: 'whitelist'
+    label: 'Logs',
+    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_1__.ReadCvLogo,
+    path: 'logs'
   },
   blacklist: {
-    label: 'Blacklist',
-    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__.Prohibit,
-    path: 'blacklist'
+    label: 'About Us',
+    icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__.UsersThree,
+    path: 'about-us'
   }
 };
 
 /***/ }),
 
-/***/ "./src/screens/BlackList.tsx":
-/*!***********************************!*\
-  !*** ./src/screens/BlackList.tsx ***!
-  \***********************************/
+/***/ "./src/screens/About.tsx":
+/*!*******************************!*\
+  !*** ./src/screens/About.tsx ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -40065,20 +40271,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-var GeneralTab = function GeneralTab() {
+var About = function About() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "space-y-4 bg-white dark:bg-black p-6 rounded-md shadow transition-colors duration-300"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
-    className: "text-xl font-semibold text-gray-800 dark:text-white"
-  }, "General Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "text-gray-600 dark:text-gray-300"
-  }, "BlackList"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center justify-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "hover:text-primary-dark"
-  }, "Hover for Dark Primary")));
+    className: " p-4  rounded-lg w-full items-center justify-center transition-colors flex  duration-300 gap-4 "
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "min-w-lg max-w-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "header mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-2xl font-bold"
+  }, "About BruteFort"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    style: {
+      marginTop: '5px'
+    }
+  }, "Our mission and what we aim for.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "settings-body flex flex-col mt-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "mb-1"
+  }, "\"Your First Line of Defense Against Brute Force\""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "At ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("b", null, "BruteFort"), ", our mission is to empower WordPress users around the world with rock-solid, intelligent security solutions\u2014built with care in Nepal. We\u2019re committed to defending digital freedom by making cutting-edge protection tools accessible, lightweight, and easy to use. Our goal is to eliminate brute-force attacks and malicious intrusions so that creators, businesses, and developers can build fearlessly."))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeneralTab);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (About);
 
 /***/ }),
 
@@ -40094,32 +40306,63 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _constants_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/settings */ "./src/constants/settings.ts");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 var GeneralTab = function GeneralTab() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('rateLimitSettings'),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeSetting = _useState2[0],
+    setActiveSetting = _useState2[1];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "space-y-4 bg-white dark:bg-black p-6 rounded-md shadow transition-colors duration-300"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
-    className: "text-xl font-semibold text-gray-800 dark:text-white"
-  }, "General Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "text-gray-600 dark:text-gray-300"
-  }, "Configure brute-force protection settings such as login limits, IP bans, and more."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center justify-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "text-primary"
-  }, "Primary Text"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "bg-primary-light"
-  }, "Light Background"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "hover:text-primary-dark"
-  }, "Hover for Dark Primary")));
+    className: " p-4  rounded-lg w-full items-center justify-center transition-colors flex  duration-300 gap-4 "
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "min-w-xl max-w-80"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "header mb-5 rounded-md"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-2xl font-bold"
+  }, "Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    style: {
+      marginTop: '5px'
+    }
+  }, "All your general settings belongs in this area."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex h-[50px] gap-3 overflow-x-scroll scrollbar  scrollbar-thin"
+  }, Object.entries(_constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS).map(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      key = _ref2[0],
+      _ref2$ = _ref2[1],
+      label = _ref2$.label,
+      Icon = _ref2$.icon;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      key: key,
+      className: "min-w-fit max-h-[30px] rounded-lg flex items-start justify-center gap-2  pt-1 pb-1 pr-2 pl-2 cursor-pointer ".concat(activeSetting === key ? 'text-gray-600 bg-[#f3f4f7]' : ''),
+      onClick: function onClick() {
+        return setActiveSetting(key);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Icon, {
+      size: 24
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      className: ""
+    }, label));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "settings-body flex flex-col mt-5"
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeneralTab);
 
 /***/ }),
 
-/***/ "./src/screens/WhiteList.tsx":
-/*!***********************************!*\
-  !*** ./src/screens/WhiteList.tsx ***!
-  \***********************************/
+/***/ "./src/screens/Logs.tsx":
+/*!******************************!*\
+  !*** ./src/screens/Logs.tsx ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -40129,24 +40372,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-var GeneralTab = function GeneralTab() {
+var Logs = function Logs() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "space-y-4 bg-white dark:bg-black p-6 rounded-md shadow transition-colors duration-300"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
-    className: "text-xl font-semibold text-gray-800 dark:text-white"
-  }, "General Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "text-gray-600 dark:text-gray-300"
-  }, "White"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center justify-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "text-primary"
-  }, "Primary Text"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "bg-primary-light"
-  }, "Light Background"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    className: "hover:text-primary-dark"
-  }, "Hover for Dark Primary")));
+    className: " p-4  rounded-lg w-full items-center justify-center transition-colors flex  duration-300 gap-4 "
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "min-w-lg"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "header mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-2xl font-bold "
+  }, "Logs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    style: {
+      marginTop: '5px'
+    }
+  }, "View your logs here.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "settings-body flex flex-col mt-5"
+  })));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeneralTab);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Logs);
 
 /***/ }),
 
@@ -40158,13 +40401,13 @@ var GeneralTab = function GeneralTab() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   BlackList: () => (/* reexport safe */ _BlackList__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   About: () => (/* reexport safe */ _About__WEBPACK_IMPORTED_MODULE_1__["default"]),
 /* harmony export */   General: () => (/* reexport safe */ _General__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   WhiteList: () => (/* reexport safe */ _WhiteList__WEBPACK_IMPORTED_MODULE_1__["default"])
+/* harmony export */   Logs: () => (/* reexport safe */ _Logs__WEBPACK_IMPORTED_MODULE_2__["default"])
 /* harmony export */ });
 /* harmony import */ var _General__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./General */ "./src/screens/General.tsx");
-/* harmony import */ var _WhiteList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WhiteList */ "./src/screens/WhiteList.tsx");
-/* harmony import */ var _BlackList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BlackList */ "./src/screens/BlackList.tsx");
+/* harmony import */ var _About__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./About */ "./src/screens/About.tsx");
+/* harmony import */ var _Logs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Logs */ "./src/screens/Logs.tsx");
 
 
 
