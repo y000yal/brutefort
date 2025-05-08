@@ -40373,7 +40373,7 @@ var Tooltip = function Tooltip(_ref) {
     var handleMouseEnter = function handleMouseEnter() {
       var rect = el.getBoundingClientRect();
       setCoords({
-        top: rect.top + window.scrollY,
+        top: rect.top + window.scrollY - 2,
         left: rect.left + window.scrollX
       });
       setVisible(true);

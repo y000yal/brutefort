@@ -24,7 +24,7 @@ const Tooltip: React.FC<TooltipProps> = ({
         const handleMouseEnter = () => {
             const rect = el.getBoundingClientRect();
             setCoords({
-                top: rect.top + window.scrollY,
+                top: rect.top + window.scrollY-2,
                 left: rect.left + window.scrollX ,
             });
             setVisible(true);
