@@ -2,6 +2,7 @@
 @import './components/tabs.css';
 @import './components/cards.css';
 @import './components/theme.css';
+@import './components/forms.css';
 
 @custom-variant dark (&:is(.dark *));
 

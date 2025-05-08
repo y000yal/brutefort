@@ -12,3 +12,16 @@ export interface SwitchProps {
     label?: string;
     onChange: () => void;
 }
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    tooltip?: string;
+};
+
+export type RadioProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    tooltip?: string;
+};
+export type CheckBoxProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    tooltip?: string;
+};
