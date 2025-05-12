@@ -25,3 +25,8 @@ export type CheckBoxProps = React.InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     tooltip?: string;
 };
+export interface SpinnerProps {
+    size?: number; // tailwind width/height in px
+    color?: string; // tailwind color class
+    className?: string;
+}

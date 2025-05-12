@@ -11,6 +11,7 @@
     .slider span {
         @apply w-4 h-4 bg-yellow-400 dark:bg-gray-800;
     }
+
     .force-tailwind h1 {
         @apply text-4xl font-bold text-primary mb-4 mt-0;
     }
@@ -38,7 +39,8 @@
 body {
     color: black;
 }
-.dark body{
+
+.dark body {
     background: #1d2327;
 }
 
@@ -46,15 +48,19 @@ a:focus, a:focus .media-icon img, a:focus .plugin-icon, .wp-person a:focus .grav
     box-shadow: 0 0 0 0;
     outline: none;
 }
+
 a[aria-current="page"] {
     color: white;
 }
-a{
+
+a {
     color: black;
 }
+
 a:not([aria-current="page"]):hover {
     color: var(--color-primary-dark);
 }
+
 #toplevel_page_brutefort .wp-menu-image:before {
     display: none !important;
 }
@@ -68,6 +74,7 @@ a:not([aria-current="page"]):hover {
     background: white;
     border-radius: 20px;
 }
+
 .dark .scrollbar::-webkit-scrollbar-track {
     background: #1e2a3a;
 }
@@ -78,3 +85,18 @@ a:not([aria-current="page"]):hover {
 
 }
 
+.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
+    box-shadow: none;
+}
+
+.Toastify__progress-bar {
+    background: var(--color-primary)
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
