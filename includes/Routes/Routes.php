@@ -8,7 +8,7 @@
 
 namespace BruteFort\Routes;
 
-use BruteFort\Routes\Controllers\RateLimitController;
+use BruteFort\Routes\RateLimitRoutes;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Routes {
@@ -68,7 +68,7 @@ class Routes {
 	#[ArrayShape( [ 'rate-limit' => "string" ] )]
 	public function get_routes_classes(): array {
 		return [
-			'rate-limit' => RateLimitController::class,
+			'rate-limit' => RateLimitRoutes::class,
 		];
 	}
 }

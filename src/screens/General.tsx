@@ -10,21 +10,30 @@ const GeneralTab = () => {
     const ActiveComponent = SETTINGS[activeSetting].component;
     const handleSave = (): any => {
         setIsSaving(true)
-        fetch(BruteFortData.restUrl+'settings', {
-            method: 'GET',
+        const routeConfig = SETTINGS?.[activeSetting]?.Routes?.Save;
+        const endpoint = SETTINGS?.[activeSetting]?.id;
+
+        if (!BruteFortData?.restUrl || !endpoint || !routeConfig?.value) {
+            console.error('Missing API config.');
+            return;
+        }
+
+        fetch(`${BruteFortData.restUrl}${endpoint}${routeConfig.value}`, {
+            method: routeConfig.type || 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-WP-Nonce': BruteFortData.nonce, // Pass nonce for security
-            }
+                'X-WP-Nonce': BruteFortData.nonce,
+            },
+            body: JSON.stringify({name: 'sushma'}),
         })
             .then((response) => {
                 if (!response.ok) {
-                    // If the response is not ok, reject with error message
+
                     return response.json().then((data) => {
-                        setMessage(`Error: ${data.message}`);
+
                     });
                 }
-                return response.json(); // Parse the JSON response if successful
+                console.log(response.json()); // Parse the JSON response if successful
             })
             .then((responseData) => {
                 // Show success message if request was successful
@@ -33,7 +42,7 @@ const GeneralTab = () => {
                 })
             })
             .catch(() => {
-                // Handle network or other errors outside of the response
+
                 showToast("Saved Successfully", {
                     type: 'error'
                 })

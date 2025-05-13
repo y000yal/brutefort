@@ -43071,14 +43071,26 @@ var SETTINGS = {
     label: "Rate Limit Settings",
     icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__.Gauge,
     component: _screens_Settings_RateLimit__WEBPACK_IMPORTED_MODULE_0__["default"],
-    description: "All settings related with rate limiting, intervals , limit extensions can be found here."
+    description: "All settings related with rate limiting, intervals , limit extensions can be found here.",
+    Routes: {
+      Save: {
+        value: '/',
+        type: 'POST'
+      }
+    }
   },
   ipSettings: {
     id: "ip-settings",
     label: "IP Settings",
     icon: _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_3__.MapPin,
     component: _screens_Settings_IpSettings__WEBPACK_IMPORTED_MODULE_1__["default"],
-    description: "Ip settings, from whitelisting to direct blacklisting can be found in this section."
+    description: "Ip settings, from whitelisting to direct blacklisting can be found in this section.",
+    Routes: {
+      Save: {
+        value: '/',
+        type: 'POST'
+      }
+    }
   }
 };
 
@@ -43195,28 +43207,34 @@ var GeneralTab = function GeneralTab() {
     setIsSaving = _useState4[1];
   var ActiveComponent = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting].component;
   var handleSave = function handleSave() {
+    var _SETTINGS$activeSetti, _SETTINGS$activeSetti2, _BruteFortData;
     setIsSaving(true);
-    fetch(BruteFortData.restUrl + 'settings', {
-      method: 'GET',
+    var routeConfig = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === null || _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === void 0 || (_SETTINGS$activeSetti = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting]) === null || _SETTINGS$activeSetti === void 0 || (_SETTINGS$activeSetti = _SETTINGS$activeSetti.Routes) === null || _SETTINGS$activeSetti === void 0 ? void 0 : _SETTINGS$activeSetti.Save;
+    var endpoint = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === null || _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === void 0 || (_SETTINGS$activeSetti2 = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting]) === null || _SETTINGS$activeSetti2 === void 0 ? void 0 : _SETTINGS$activeSetti2.id;
+    if (!((_BruteFortData = BruteFortData) !== null && _BruteFortData !== void 0 && _BruteFortData.restUrl) || !endpoint || !(routeConfig !== null && routeConfig !== void 0 && routeConfig.value)) {
+      console.error('Missing API config.');
+      return;
+    }
+    fetch("".concat(BruteFortData.restUrl).concat(endpoint).concat(routeConfig.value), {
+      method: routeConfig.type || 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-WP-Nonce': BruteFortData.nonce // Pass nonce for security
-      }
+        'X-WP-Nonce': BruteFortData.nonce
+      },
+      body: JSON.stringify({
+        name: 'sushma'
+      })
     }).then(function (response) {
       if (!response.ok) {
-        // If the response is not ok, reject with error message
-        return response.json().then(function (data) {
-          setMessage("Error: ".concat(data.message));
-        });
+        return response.json().then(function (data) {});
       }
-      return response.json(); // Parse the JSON response if successful
+      console.log(response.json()); // Parse the JSON response if successful
     }).then(function (responseData) {
       // Show success message if request was successful
       (0,_utils__WEBPACK_IMPORTED_MODULE_4__.showToast)("Saved Successfully", {
         type: 'success'
       });
     })["catch"](function () {
-      // Handle network or other errors outside of the response
       (0,_utils__WEBPACK_IMPORTED_MODULE_4__.showToast)("Saved Successfully", {
         type: 'error'
       });

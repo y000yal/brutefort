@@ -9,6 +9,8 @@
 
 namespace BruteFort\Routes;
 
+use BruteFort\Middlewares\PermissionMiddleware;
+
 /**
  * Abstract class for defining routes.
  *
@@ -47,4 +49,9 @@ abstract class AbstractRoutes {
 	 * @return void
 	 */
 	abstract public function register_routes(): void;
+
+	/**
+	 * @var string|PermissionMiddleware
+	 */
+	public string|PermissionMiddleware $middleware = PermissionMiddleware::class;
 }
