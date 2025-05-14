@@ -17,12 +17,10 @@ const GeneralTab = () => {
         const endpoint = SETTINGS?.[activeSetting]?.id;
 
         if (!BruteFortData?.restUrl || !endpoint || !routeConfig?.value) {
-            console.error('Missing API config.');
-            return;
+            showToast( __("Missing Api Config", 'brutefort'), {type: 'error'});
         }
 
         const formData = formRef.current?.getFormData?.() || {};
-
 
         fetch(`${BruteFortData.restUrl}${endpoint}${routeConfig.value}`, {
             method: routeConfig.type || 'POST',
