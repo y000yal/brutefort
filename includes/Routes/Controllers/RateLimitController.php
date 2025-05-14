@@ -7,8 +7,8 @@ namespace BruteFort\Routes\Controllers;
 use WP_Rest_Request;
 
 class RateLimitController {
-	public function index(  ): void {
-		
+	public function index(): void {
+
 	}
 
 	/**
@@ -22,10 +22,9 @@ class RateLimitController {
 	 */
 	public function store( WP_Rest_Request $request ): \WP_HTTP_Response|\WP_REST_Response|\WP_Error {
 		$params = $request->get_json_params();
-
-		return rest_ensure_response([
-			'success' => true,
-			'allData' => $params,
-		]);
+		echo '<pre>';
+		print_r( $params );
+		echo '</pre>';
+		die();
 	}
 }

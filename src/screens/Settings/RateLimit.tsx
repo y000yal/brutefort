@@ -1,12 +1,28 @@
-import React, {useState} from "react";
-import {Input, CheckBox, Radio, Tooltip} from "../../components/forms";
+
+import React, {useState, forwardRef, useImperativeHandle} from "react";
+import {Input, CheckBox, Tooltip} from "../../components/forms";
 import {Info} from "@phosphor-icons/react";
 
-const RateLimit = () => {
+const RateLimit = forwardRef((props, ref) => {
     const [extendLockout, setExtendLockout] = useState(false);
+
+    useImperativeHandle(ref, () => ({
+        getFormData: () => {
+            return {
+                bf_max_attempts: document.getElementById('bf-max-attempts')?.value || '',
+                bf_time_window: document.getElementById('bf-time-window')?.value || '',
+                bf_lockout_duration: document.getElementById('bf-lockout-duration')?.value || '',
+                bg_extend_lockout: document.getElementById('bf-extend-lockout')?.checked || false,
+                bf_extend_duration: document.getElementById('bf-extend-duration')?.value || '',
+                bf_custom_error_message: document.getElementById('bf-custom-error-message')?.value || '',
+            };
+        }
+    }));
+
     const handleLockoutExtension = (e) => {
         setExtendLockout(e.target.checked);
-    }
+    };
+
     return (
         <div className="flex gap-4 justify-around flex-col">
             <div className="flex gap-3 flex-col">
@@ -86,7 +102,7 @@ const RateLimit = () => {
                 />
             </>
         </div>
-    )
-};
-export default RateLimit;
+    );
+});
 
+export default RateLimit;

@@ -43205,9 +43205,10 @@ var GeneralTab = function GeneralTab() {
     _useState4 = _slicedToArray(_useState3, 2),
     isSaving = _useState4[0],
     setIsSaving = _useState4[1];
+  var formRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var ActiveComponent = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting].component;
   var handleSave = function handleSave() {
-    var _SETTINGS$activeSetti, _SETTINGS$activeSetti2, _BruteFortData;
+    var _SETTINGS$activeSetti, _SETTINGS$activeSetti2, _BruteFortData, _formRef$current, _formRef$current$getF;
     setIsSaving(true);
     var routeConfig = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === null || _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === void 0 || (_SETTINGS$activeSetti = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting]) === null || _SETTINGS$activeSetti === void 0 || (_SETTINGS$activeSetti = _SETTINGS$activeSetti.Routes) === null || _SETTINGS$activeSetti === void 0 ? void 0 : _SETTINGS$activeSetti.Save;
     var endpoint = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === null || _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === void 0 || (_SETTINGS$activeSetti2 = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting]) === null || _SETTINGS$activeSetti2 === void 0 ? void 0 : _SETTINGS$activeSetti2.id;
@@ -43215,27 +43216,27 @@ var GeneralTab = function GeneralTab() {
       console.error('Missing API config.');
       return;
     }
+    var formData = ((_formRef$current = formRef.current) === null || _formRef$current === void 0 || (_formRef$current$getF = _formRef$current.getFormData) === null || _formRef$current$getF === void 0 ? void 0 : _formRef$current$getF.call(_formRef$current)) || {};
     fetch("".concat(BruteFortData.restUrl).concat(endpoint).concat(routeConfig.value), {
       method: routeConfig.type || 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-WP-Nonce': BruteFortData.nonce
       },
-      body: JSON.stringify({
-        name: 'sushma'
-      })
+      body: JSON.stringify(formData)
     }).then(function (response) {
       if (!response.ok) {
-        return response.json().then(function (data) {});
+        return response.json().then(function (data) {
+          throw new Error(data.message || "Something went wrong");
+        });
       }
-      console.log(response.json()); // Parse the JSON response if successful
+      return response.json();
     }).then(function (responseData) {
-      // Show success message if request was successful
       (0,_utils__WEBPACK_IMPORTED_MODULE_4__.showToast)("Saved Successfully", {
         type: 'success'
       });
-    })["catch"](function () {
-      (0,_utils__WEBPACK_IMPORTED_MODULE_4__.showToast)("Saved Successfully", {
+    })["catch"](function (err) {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_4__.showToast)(err.message || "Save failed", {
         type: 'error'
       });
     })["finally"](function () {
@@ -43243,7 +43244,7 @@ var GeneralTab = function GeneralTab() {
     });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: " p-4 rounded-lg w-full items-center justify-center transition-colors flex  duration-300 gap-4 "
+    className: "p-4 rounded-lg w-full items-center justify-center transition-colors flex duration-300 gap-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "min-w-xl max-w-80"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -43255,7 +43256,7 @@ var GeneralTab = function GeneralTab() {
       marginTop: '5px'
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(_constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting].description, 'brutefort')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex h-[50px] gap-3 overflow-x-scroll scrollbar  scrollbar-thin"
+    className: "flex h-[50px] gap-3 overflow-x-scroll scrollbar scrollbar-thin"
   }, Object.entries(_constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS).map(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
       key = _ref2[0],
@@ -43264,15 +43265,13 @@ var GeneralTab = function GeneralTab() {
       Icon = _ref2$.icon;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       key: key,
-      className: "min-w-fit max-h-[30px] rounded-lg flex items-start justify-center gap-2  pt-1 pb-1 pr-2 pl-2 cursor-pointer ".concat(activeSetting === key ? 'text-gray-600 bg-[#f3f4f7]' : ''),
+      className: "min-w-fit max-h-[30px] rounded-lg flex items-start justify-center gap-2 pt-1 pb-1 pr-2 pl-2 cursor-pointer ".concat(activeSetting === key ? 'text-gray-600 bg-[#f3f4f7]' : ''),
       onClick: function onClick() {
         return setActiveSetting(key);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Icon, {
       size: 24
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-      className: ""
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(label, 'brutefort')));
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(label, 'brutefort')));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "save-btn flex gap-2 items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -43284,7 +43283,9 @@ var GeneralTab = function GeneralTab() {
     color: "border-primary-light"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "settings-body flex flex-col mt-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(ActiveComponent, null))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(ActiveComponent, {
+    ref: formRef
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeneralTab);
 
@@ -43370,11 +43371,26 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-var RateLimit = function RateLimit() {
+var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function (props, ref) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
     extendLockout = _useState2[0],
     setExtendLockout = _useState2[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useImperativeHandle)(ref, function () {
+    return {
+      getFormData: function getFormData() {
+        var _document$getElementB, _document$getElementB2, _document$getElementB3, _document$getElementB4, _document$getElementB5, _document$getElementB6;
+        return {
+          bf_max_attempts: ((_document$getElementB = document.getElementById('bf-max-attempts')) === null || _document$getElementB === void 0 ? void 0 : _document$getElementB.value) || '',
+          bf_time_window: ((_document$getElementB2 = document.getElementById('bf-time-window')) === null || _document$getElementB2 === void 0 ? void 0 : _document$getElementB2.value) || '',
+          bf_lockout_duration: ((_document$getElementB3 = document.getElementById('bf-lockout-duration')) === null || _document$getElementB3 === void 0 ? void 0 : _document$getElementB3.value) || '',
+          bg_extend_lockout: ((_document$getElementB4 = document.getElementById('bf-extend-lockout')) === null || _document$getElementB4 === void 0 ? void 0 : _document$getElementB4.checked) || false,
+          bf_extend_duration: ((_document$getElementB5 = document.getElementById('bf-extend-duration')) === null || _document$getElementB5 === void 0 ? void 0 : _document$getElementB5.value) || '',
+          bf_custom_error_message: ((_document$getElementB6 = document.getElementById('bf-custom-error-message')) === null || _document$getElementB6 === void 0 ? void 0 : _document$getElementB6.value) || ''
+        };
+      }
+    };
+  });
   var handleLockoutExtension = function handleLockoutExtension(e) {
     setExtendLockout(e.target.checked);
   };
@@ -43443,7 +43459,7 @@ var RateLimit = function RateLimit() {
     placeholder: "Too many attempts!!.",
     tooltip: "Change the error message shown when limit is reached."
   })));
-};
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RateLimit);
 
 /***/ }),
