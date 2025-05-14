@@ -51,7 +51,7 @@ class Settings {
 		);
 
 		wp_localize_script( 'brutefort-admin', 'BruteFortData', [
-			'restUrl' => esc_url_raw( rest_url( 'brutefort/v1/' ) ),
+//			'restUrl' => esc_url_raw( rest_url( 'brutefort/v1/' ) ),
 			'nonce'   => wp_create_nonce( 'wp_rest' ),
 		] );
 	}

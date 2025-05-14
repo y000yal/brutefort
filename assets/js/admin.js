@@ -43213,8 +43213,9 @@ var GeneralTab = function GeneralTab() {
     var routeConfig = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === null || _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === void 0 || (_SETTINGS$activeSetti = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting]) === null || _SETTINGS$activeSetti === void 0 || (_SETTINGS$activeSetti = _SETTINGS$activeSetti.Routes) === null || _SETTINGS$activeSetti === void 0 ? void 0 : _SETTINGS$activeSetti.Save;
     var endpoint = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === null || _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS === void 0 || (_SETTINGS$activeSetti2 = _constants_settings__WEBPACK_IMPORTED_MODULE_1__.SETTINGS[activeSetting]) === null || _SETTINGS$activeSetti2 === void 0 ? void 0 : _SETTINGS$activeSetti2.id;
     if (!((_BruteFortData = BruteFortData) !== null && _BruteFortData !== void 0 && _BruteFortData.restUrl) || !endpoint || !(routeConfig !== null && routeConfig !== void 0 && routeConfig.value)) {
-      console.error('Missing API config.');
-      return;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_4__.showToast)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Missing Api Config!!", 'brutefort'), {
+        type: 'error'
+      });
     }
     var formData = ((_formRef$current = formRef.current) === null || _formRef$current === void 0 || (_formRef$current$getF = _formRef$current.getFormData) === null || _formRef$current$getF === void 0 ? void 0 : _formRef$current$getF.call(_formRef$current)) || {};
     fetch("".concat(BruteFortData.restUrl).concat(endpoint).concat(routeConfig.value), {

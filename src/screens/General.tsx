@@ -17,7 +17,7 @@ const GeneralTab = () => {
         const endpoint = SETTINGS?.[activeSetting]?.id;
 
         if (!BruteFortData?.restUrl || !endpoint || !routeConfig?.value) {
-            showToast( __("Missing Api Config", 'brutefort'), {type: 'error'});
+            showToast( __("Missing Api Config!!", 'brutefort'), {type: 'error'});
         }
 
         const formData = formRef.current?.getFormData?.() || {};
