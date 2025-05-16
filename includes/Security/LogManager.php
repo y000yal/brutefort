@@ -11,8 +11,9 @@
  */
 
 
-namespace BruteFort\Logs;
+namespace BruteFort\Security;
 
+use BruteFort\Database\TableList;
 use WP_User;
 use wpdb;
 
@@ -23,7 +24,7 @@ class LogManager {
 	public static function init(): void {
 		global $wpdb;
 		self::$db    = $wpdb;
-		self::$table = $wpdb->prefix . 'brutefort_logs';
+		self::$table = TableList::brute_fort_logs();
 	}
 
 	public static function logAttempt( array $data ): void {
@@ -32,7 +33,6 @@ class LogManager {
 			'username'      => '',
 			'user_id'       => null,
 			'status'        => 'fail', // fail, success, locked
-			'attempt_time'  => current_time( 'mysql' ),
 			'lockout_until' => null,
 			'attempts'      => 1,
 			'user_agent'    => $_SERVER['HTTP_USER_AGENT'] ?? '',
@@ -49,7 +49,7 @@ class LogManager {
 			'ip_address' => null,
 			'limit'      => 50,
 			'offset'     => 0,
-			'orderby'    => 'attempt_time',
+			'orderby'    => 'created_at',
 			'order'      => 'DESC',
 		];
 
@@ -86,23 +86,46 @@ class LogManager {
 	}
 
 	public static function isIPLocked( string $ip ): bool {
-		$now = current_time( 'mysql' );
-		$row = self::$db->get_row( self::$db->prepare(
+		LogManager::init();
+
+		$now            = current_time( 'mysql' );
+		$lockout_record = self::$db->get_row( self::$db->prepare(
 			"SELECT * FROM " . self::$table . " 
-             WHERE ip_address = %s AND status = 'locked' AND lockout_until > %s 
-             ORDER BY id DESC LIMIT 1", $ip, $now
+         WHERE ip_address = %s AND status = 'locked' 
+         ORDER BY id DESC LIMIT 1",
+			$ip
 		) );
 
-		return $row !== null;
+		if ( $lockout_record && $now && $lockout_record->lockout_until > $now ) {
+			return true;
+		}
+		$settings       = ( new \BruteFort\Services\RateLimitService() )->get_rate_limit_settings();
+		$fail_window    = (int) $settings['bf_time_window'];
+		$max_attempts   = (int) $settings['bf_max_attempts'];
+
+		$recent_fails = self::getFailedAttempts( $ip, $fail_window );
+		if ( $recent_fails >= $max_attempts ) {
+			return true;
+		}
+		return false;
 	}
 
+
 	public static function getFailedAttempts( string $ip, int $window_minutes ): int {
-		$since = gmdate( 'Y-m-d H:i:s', strtotime( "-$window_minutes minutes" ) );
+		// Get current timestamp in site timezone
+		$now = current_time( 'timestamp' );
+
+		// Subtract window to get cutoff
+		$cutoff_timestamp = $now - ( $window_minutes * 60 );
+
+		// Format as MySQL datetime string using site timezone
+		$since = date( 'Y-m-d H:i:s', $cutoff_timestamp );
 
 		return (int) self::$db->get_var( self::$db->prepare(
 			"SELECT COUNT(*) FROM " . self::$table . "
-             WHERE ip_address = %s AND attempt_time > %s AND status = 'fail'",
+         WHERE ip_address = %s AND created_at > %s AND status = 'fail'",
 			$ip, $since
 		) );
 	}
+
 }

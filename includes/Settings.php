@@ -61,7 +61,7 @@ class Settings {
 	}
 
 	public function include_classes(): void {
-		new Routes();
+
 	}
 
 	/**

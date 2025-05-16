@@ -1,4 +1,5 @@
 <?php // phpcs:ignore
+
 /**
  * Plugin Name: BruteFort
  * Plugin URI: https://brutefort.com/
@@ -11,6 +12,10 @@
  *
  * @package BruteFort
  */
+
+use BruteFort\Routes\Routes;
+use BruteFort\Settings;
+use BruteFort\Security\LoginGuard;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -74,7 +79,15 @@ final class BruteFort {
 	}
 
 	private function includes(): void {
-		new \BruteFort\Settings();
+		//load admin routes
+		new Routes();
+
+		if ( $this->is_request( 'admin' ) ) {
+			new Settings();
+		}
+		if ( $this->is_request( 'frontend' ) ) {
+			new LoginGuard();
+		}
 	}
 
 	private function is_request( string $type ): bool {

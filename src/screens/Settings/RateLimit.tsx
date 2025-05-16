@@ -1,4 +1,4 @@
-import React, {useState, forwardRef, useImperativeHandle, useEffect} from "react";
+import React, {useState, forwardRef, useImperativeHandle, useEffect, useRef} from "react";
 import {Input, CheckBox, Tooltip} from "../../components/forms";
 import {Info} from "@phosphor-icons/react";
 import {RateLimitProps} from "../../types";
@@ -10,6 +10,13 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const {errors, settings} = props;
     const [isLoading, setIsLoading] = useState(false);
     const [initialFormData, setInitialFormData] = useState({});
+    const maxAttemptsRef = useRef<HTMLInputElement>(null);
+    const timeWindowRef = useRef<HTMLInputElement>(null);
+    const lockoutDurationRef = useRef<HTMLInputElement>(null);
+    const enableLockoutExtensionRef = useRef<HTMLInputElement>(null);
+    const extendLockoutDurationRef = useRef<HTMLInputElement>(null);
+    const customErrorMessageRef = useRef<HTMLInputElement>(null);
+
     useImperativeHandle(ref, () => ({
         /**
          * Retrieves form data from the DOM elements related to rate limiting settings.
@@ -17,40 +24,38 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
          * @returns {Object} An object containing the values and types of various
          * rate limiting settings:
          */
-        getFormData: () => {
-            return {
-                bf_max_attempts: {
-                    value: (document.getElementById('bf-max-attempts') as HTMLInputElement | null)?.value || '',
-                    type: (document.getElementById('bf-max-attempts') as HTMLInputElement | null)?.type || '',
-                    required: true,
-                },
-                bf_time_window: {
-                    value: (document.getElementById('bf-time-window') as HTMLInputElement | null)?.value || '',
-                    type: (document.getElementById('bf-time-window') as HTMLInputElement | null)?.type || '',
-                    required: true,
-                },
-                bf_lockout_duration: {
-                    value: (document.getElementById('bf-lockout-duration') as HTMLInputElement | null)?.value || '',
-                    type: (document.getElementById('bf-lockout-duration') as HTMLInputElement | null)?.type || '',
-                    required: true,
-                },
-                bf_enable_lockout_extension: {
-                    value: (document.getElementById('bf-enable-lockout-extension') as HTMLInputElement | null)?.checked || false,
-                    type: (document.getElementById('bf-enable-lockout-extension') as HTMLInputElement | null)?.type || '',
-                    required: false,
-                },
-                bf_extend_duration: {
-                    value: (document.getElementById('bf-extend-duration') as HTMLInputElement | null)?.value || '',
-                    type: (document.getElementById('bf-extend-duration') as HTMLInputElement | null)?.type || '',
-                    required: true,
-                },
-                bf_custom_error_message: {
-                    value: (document.getElementById('bf-custom-error-message') as HTMLInputElement | null)?.value || '',
-                    type: (document.getElementById('bf-custom-error-message') as HTMLInputElement | null)?.type || '',
-                    required: true
-                },
-            };
-        }
+        getFormData: () => ({
+            bf_max_attempts: {
+                value: maxAttemptsRef.current?.value || '',
+                type: maxAttemptsRef.current?.type || '',
+                required: true,
+            },
+            bf_time_window: {
+                value: timeWindowRef.current?.value || '',
+                type: timeWindowRef.current?.type || '',
+                required: true,
+            },
+            bf_lockout_duration: {
+                value: lockoutDurationRef.current?.value || '',
+                type: lockoutDurationRef.current?.type || '',
+                required: true,
+            },
+            bf_enable_lockout_extension: {
+                value: enableLockoutExtensionRef.current?.checked || false,
+                type: enableLockoutExtensionRef.current?.type || '',
+                required: false,
+            },
+            bf_extend_lockout_duration: {
+                value: extendLockoutDurationRef.current?.value || '',
+                type: extendLockoutDurationRef.current?.type || '',
+                required: true,
+            },
+            bf_custom_error_message: {
+                value: customErrorMessageRef.current?.value || '',
+                type: customErrorMessageRef.current?.type || '',
+                required: true,
+            },
+        })
     }));
 
     const handleLockoutExtension = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +70,8 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
         api.get(url).then(result => {
             if (result.status === 200) {
                 setIsLoading(false);
-                setInitialFormData(result?.data?.data);
+                const data = result?.data?.data;
+                setInitialFormData(data !== null ? data : initialFormData);
             }
         })
     }, [])
@@ -76,7 +82,7 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
         <div className="flex gap-4 justify-around flex-col">
             {isLoading || !Object.keys(initialFormData).length ? (
                 <div className="flex items-center justify-center">
-                    <Spinner size={18} className="rounded-lg" color="border-primary-light" />
+                    <Spinner size={18} className="rounded-lg" color="border-primary-light"/>
                 </div>
             ) : (
                 <>
@@ -90,6 +96,7 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                         </div>
                         <div className="settings-body flex items-center gap-2">
                             <Input
+                                ref={maxAttemptsRef}
                                 id="bf-max-attempts"
                                 name="bf_max_attempts"
                                 min={1}
@@ -99,6 +106,7 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                             />
                             <span className="italic">attempt(s)/</span>
                             <Input
+                                ref={timeWindowRef}
                                 id="bf-time-window"
                                 name="bf_time_window"
                                 min={1}
@@ -112,20 +120,22 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                     </div>
                     <>
                         <Input
+                            ref={lockoutDurationRef}
                             id="bf-lockout-duration"
                             name="bf_lockout_duration"
                             min={1}
                             defaultValue={initialFormData?.bf_lockout_duration || 5}
-                            type="number"
+                            type="text"
                             label="Lockout Duration"
                             placeholder="in minutes..."
-                            tooltip="How long an IP is blocked after limit."
-                            className={errors?.bf_lockout_duration ? 'input-error' : ''}
+                            tooltip="How long an IP is blocked after limit (in minutes)."
+                            className={`html-duration-picker ${errors?.bf_lockout_duration ? 'input-error' : ''}`}
 
                         />
                     </>
                     <>
                         <CheckBox
+                            ref={enableLockoutExtensionRef}
                             id="bf-enable-lockout-extension"
                             name="bf_enable_lockout_extension"
                             defaultChecked={initialFormData?.bf_enable_lockout_extension || enableLockoutExtension}
@@ -138,28 +148,30 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                     <>
                         {enableLockoutExtension && (
                             <Input
-                                id="bf-extend-duration"
-                                name="bf_extend_duration"
+                                ref={extendLockoutDurationRef}
+                                id="bf-extend-lockout-duration"
+                                name="bf_extend_lockout_duration"
                                 min={1}
-                                defaultValue={initialFormData?.bf_extend_duration || 1}
+                                defaultValue={initialFormData?.bf_extend_lockout_duration || 1}
                                 type="number"
                                 label="Extended Duration"
                                 placeholder="in hours..."
                                 tooltip="How long should the restriction time be extended in hours."
-                                className={errors?.bf_extend_duration ? 'input-error' : ''}
+                                className={errors?.bf_extend_lockout_duration ? 'input-error' : ''}
                             />
                         )}
                     </>
                     <>
                         <Input
+                            ref={customErrorMessageRef}
                             className={errors?.bf_custom_error_message ? 'input-error' : ''}
                             id="bf-custom-error-message"
                             name="bf_custom_error_message"
-                            defaultValue={initialFormData?.bf_custom_error_message || "Too many attempts!!"}
+                            defaultValue={initialFormData?.bf_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
                             type="text"
                             label="Custom Error Message"
-                            placeholder="Too many attempts!!."
-                            tooltip="Change the error message shown when limit is reached."
+                            placeholder="Too many attempts!! Try again after {{locked_out_until}}."
+                            tooltip="Use {{locked_out_until}} tag to show locked out until period."
                         />
                     </>
                 </>

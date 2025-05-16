@@ -2,7 +2,7 @@
 
 namespace BruteFort\Security;
 
-use BruteFort\Logs\LogManager;
+
 use BruteFort\Services\RateLimitService;
 use BruteFort\Traits\SecurityTraits;
 
@@ -14,59 +14,73 @@ class LoginGuard {
 
 
 	public function __construct() {
-		add_filter( 'authenticate', array( $this, 'brutefort_check_login_attempts' ), 30, 3 );
-		add_action( 'wp_login_failed', array( $this, 'brutefort_register_failed_attempt' ) );
 		$this->rate_limit_service = new RateLimitService();
+		$this->init();
 	}
 
-	public static function init(): void {
-		self::$settings = get_option( 'brutefort_settings', [
-			'bf_max_attempts'             => 4,
-			'bf_time_window'              => 15,
-			'bf_lockout_duration'         => 5,
-			'bf_enable_lockout_extension' => true,
-			'bf_extend_duration'          => 1,
-			'bf_custom_error_message'     => 'Too many attempts. Please try again later.',
-		] );
+	public function init(): void {
+		self::$settings = $this->rate_limit_service->get_rate_limit_settings();
 
-		add_filter( 'authenticate', [ __CLASS__, 'checkLoginAttempt' ], 30, 3 );
-		add_action( 'wp_login_failed', [ __CLASS__, 'logFailedAttempt' ] );
-		add_action( 'wp_login', [ __CLASS__, 'logSuccess' ], 10, 2 );
+		add_filter( 'authenticate', [ $this, 'maybeBlockLogin' ], 30, 3 );
+		add_action( 'wp_login_failed', [ $this, 'logFailedAttempt' ] );
+		add_action( 'wp_login', [ $this, 'logSuccess' ], 10, 2 );
 	}
 
-	public static function checkLoginAttempt( $user, $username, $password ) {
+	public function maybeBlockLogin( $user, $username, $password ) {
 		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-		LogManager::init(); // Ensure initialized
+		LogManager::init();
+
 		if ( LogManager::isIPLocked( $ip ) ) {
-			return new \WP_Error( 'brutefort_locked', self::$settings['bf_custom_error_message'] );
+			$logs = LogManager::getLogs( [
+				'status' => 'locked',
+				'limit'  => 1,
+				'offset' => 0
+			] );
+
+			$locked_until = date_i18n( 'F j, Y g:i a', strtotime( $logs[0]['lockout_until'] ?? '' ) );
+			$message      = str_replace( '{{locked_out_until}}', $locked_until, self::$settings['bf_custom_error_message'] );
+
+			return new \WP_Error( 'brutefort_locked', $message );
 		}
 
 		return $user;
 	}
 
-	public static function logFailedAttempt( $username ): void {
+
+	public function logFailedAttempt( $username ): void {
+
 		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
 		LogManager::init(); // Always initialize
 
 		$failed = LogManager::getFailedAttempts( $ip, self::$settings['bf_time_window'] );
+
 		$failed ++;
 
-		$is_locking = $failed >= self::$settings['bf_max_attempts'];
+		$is_locking    = $failed > self::$settings['bf_max_attempts'];
+		$lockout_until = null;
+		if ( $is_locking ) {
+			$total_duration = (int) self::$settings['bf_lockout_duration'] * 60; //this is the initial lockout duration converted to seconds
 
+			if ( ! empty( self::$settings['bf_enable_lockout_extension'] ) && self::$settings['bf_extend_lockout_duration'] > 0 ) {
+				$total_duration += (int) self::$settings['bf_extend_lockout_duration'] * 60 * 60; // hours → seconds
+			}
+
+			$lockout_timestamp = current_time( 'timestamp' ) + $total_duration;
+			$lockout_until     = date_i18n( 'Y-m-d H:i:s', $lockout_timestamp );
+		}
 		LogManager::logAttempt( [
 			'ip_address'    => $ip,
 			'username'      => $username,
 			'status'        => $is_locking ? 'locked' : 'fail',
-			'lockout_until' => $is_locking
-				? gmdate( 'Y-m-d H:i:s', strtotime( '+' . self::$settings['bf_lockout_duration'] . ' minutes' ) )
-				: null,
+			'lockout_until' => $is_locking ? $lockout_until : null,
 			'attempts'      => $failed,
 		] );
+
 	}
 
-	public static function logSuccess( $user_login, $user ): void {
+	public function logSuccess( $user_login, $user ): void {
 		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
 		LogManager::init();

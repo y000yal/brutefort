@@ -1,28 +1,31 @@
 // components/Form/Input.tsx
-import React from "react";
+import React, {forwardRef} from "react";
 import {InputProps} from "../../types";
 import {Info} from "@phosphor-icons/react";
 import {Tooltip} from "./index";
+import {__} from "@wordpress/i18n";
 
 
-const Input: React.FC<InputProps> = ({label, tooltip, type = "text", className = "", ...props}) => {
+const Input: forwardRef<InputProps> = (({label, tooltip, type = "text", className = "", ...rest}, ref) => {
     return (
-        <label className="flex flex-col gap-1 text-sm font-medium text-gray-700 relative dark:text-white">
+        <label htmlFor={rest.id}
+               className="flex flex-col gap-1 text-sm font-medium text-gray-700 relative dark:text-white">
             <div className="flex items-center gap-1">
-                {label && <span>{label}</span>}
+                {label && <span>{__(label, 'brutefort')}</span>}
                 {tooltip && (
-                    <Tooltip content={tooltip}>
-                        <Info />
+                    <Tooltip content={__(tooltip, 'brutefort')}>
+                        <Info size={14}/>
                     </Tooltip>
                 )}
             </div>
             <input
+                ref={ref}
                 type={type}
                 className={`rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
-                {...props}
+                {...rest}
             />
         </label>
     );
-};
+});
 
 export default Input;

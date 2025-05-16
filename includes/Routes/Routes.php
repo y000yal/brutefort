@@ -19,7 +19,6 @@ class Routes {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 	}
 

@@ -47536,7 +47536,7 @@ function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t =
 
 
 
-var Checkbox = function Checkbox(_ref) {
+var Checkbox = function Checkbox(_ref, ref) {
   var label = _ref.label,
     tooltip = _ref.tooltip,
     _ref$className = _ref.className,
@@ -47545,6 +47545,7 @@ var Checkbox = function Checkbox(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     className: "inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-white"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", _extends({
+    ref: ref,
     type: "checkbox",
     className: "rounded border-gray-300 focus:ring-blue-500 ".concat(className)
   }, props)), label && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, label), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -47570,8 +47571,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/Info.mjs");
+/* harmony import */ var _phosphor_icons_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @phosphor-icons/react */ "./node_modules/@phosphor-icons/react/dist/csr/Info.mjs");
 /* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index */ "./src/components/forms/index.tsx");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
 var _excluded = ["label", "tooltip", "type", "className"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
@@ -47580,24 +47582,29 @@ function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t =
 
 
 
-var Input = function Input(_ref) {
+
+var Input = function Input(_ref, ref) {
   var label = _ref.label,
     tooltip = _ref.tooltip,
     _ref$type = _ref.type,
     type = _ref$type === void 0 ? "text" : _ref$type,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties(_ref, _excluded);
+    rest = _objectWithoutProperties(_ref, _excluded);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: rest.id,
     className: "flex flex-col gap-1 text-sm font-medium text-gray-700 relative dark:text-white"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-1"
-  }, label && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, label), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_index__WEBPACK_IMPORTED_MODULE_1__.Tooltip, {
-    content: tooltip
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_phosphor_icons_react__WEBPACK_IMPORTED_MODULE_2__.Info, null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", _extends({
+  }, label && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(label, 'brutefort')), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_index__WEBPACK_IMPORTED_MODULE_1__.Tooltip, {
+    content: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(tooltip, 'brutefort')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_phosphor_icons_react__WEBPACK_IMPORTED_MODULE_3__.Info, {
+    size: 14
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", _extends({
+    ref: ref,
     type: type,
     className: "rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ".concat(className)
-  }, props)));
+  }, rest)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Input);
 
@@ -48189,6 +48196,12 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
     _useState6 = _slicedToArray(_useState5, 2),
     initialFormData = _useState6[0],
     setInitialFormData = _useState6[1];
+  var maxAttemptsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var timeWindowRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var lockoutDurationRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var enableLockoutExtensionRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var extendLockoutDurationRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var customErrorMessageRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useImperativeHandle)(ref, function () {
     return {
       /**
@@ -48198,36 +48211,36 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
        * rate limiting settings:
        */
       getFormData: function getFormData() {
-        var _document$getElementB, _document$getElementB2, _document$getElementB3, _document$getElementB4, _document$getElementB5, _document$getElementB6, _document$getElementB7, _document$getElementB8, _document$getElementB9, _document$getElementB0, _document$getElementB1, _document$getElementB10;
+        var _maxAttemptsRef$curre, _maxAttemptsRef$curre2, _timeWindowRef$curren, _timeWindowRef$curren2, _lockoutDurationRef$c, _lockoutDurationRef$c2, _enableLockoutExtensi, _enableLockoutExtensi2, _extendLockoutDuratio, _extendLockoutDuratio2, _customErrorMessageRe, _customErrorMessageRe2;
         return {
           bf_max_attempts: {
-            value: ((_document$getElementB = document.getElementById('bf-max-attempts')) === null || _document$getElementB === void 0 ? void 0 : _document$getElementB.value) || '',
-            type: ((_document$getElementB2 = document.getElementById('bf-max-attempts')) === null || _document$getElementB2 === void 0 ? void 0 : _document$getElementB2.type) || '',
+            value: ((_maxAttemptsRef$curre = maxAttemptsRef.current) === null || _maxAttemptsRef$curre === void 0 ? void 0 : _maxAttemptsRef$curre.value) || '',
+            type: ((_maxAttemptsRef$curre2 = maxAttemptsRef.current) === null || _maxAttemptsRef$curre2 === void 0 ? void 0 : _maxAttemptsRef$curre2.type) || '',
             required: true
           },
           bf_time_window: {
-            value: ((_document$getElementB3 = document.getElementById('bf-time-window')) === null || _document$getElementB3 === void 0 ? void 0 : _document$getElementB3.value) || '',
-            type: ((_document$getElementB4 = document.getElementById('bf-time-window')) === null || _document$getElementB4 === void 0 ? void 0 : _document$getElementB4.type) || '',
+            value: ((_timeWindowRef$curren = timeWindowRef.current) === null || _timeWindowRef$curren === void 0 ? void 0 : _timeWindowRef$curren.value) || '',
+            type: ((_timeWindowRef$curren2 = timeWindowRef.current) === null || _timeWindowRef$curren2 === void 0 ? void 0 : _timeWindowRef$curren2.type) || '',
             required: true
           },
           bf_lockout_duration: {
-            value: ((_document$getElementB5 = document.getElementById('bf-lockout-duration')) === null || _document$getElementB5 === void 0 ? void 0 : _document$getElementB5.value) || '',
-            type: ((_document$getElementB6 = document.getElementById('bf-lockout-duration')) === null || _document$getElementB6 === void 0 ? void 0 : _document$getElementB6.type) || '',
+            value: ((_lockoutDurationRef$c = lockoutDurationRef.current) === null || _lockoutDurationRef$c === void 0 ? void 0 : _lockoutDurationRef$c.value) || '',
+            type: ((_lockoutDurationRef$c2 = lockoutDurationRef.current) === null || _lockoutDurationRef$c2 === void 0 ? void 0 : _lockoutDurationRef$c2.type) || '',
             required: true
           },
           bf_enable_lockout_extension: {
-            value: ((_document$getElementB7 = document.getElementById('bf-enable-lockout-extension')) === null || _document$getElementB7 === void 0 ? void 0 : _document$getElementB7.checked) || false,
-            type: ((_document$getElementB8 = document.getElementById('bf-enable-lockout-extension')) === null || _document$getElementB8 === void 0 ? void 0 : _document$getElementB8.type) || '',
+            value: ((_enableLockoutExtensi = enableLockoutExtensionRef.current) === null || _enableLockoutExtensi === void 0 ? void 0 : _enableLockoutExtensi.checked) || false,
+            type: ((_enableLockoutExtensi2 = enableLockoutExtensionRef.current) === null || _enableLockoutExtensi2 === void 0 ? void 0 : _enableLockoutExtensi2.type) || '',
             required: false
           },
-          bf_extend_duration: {
-            value: ((_document$getElementB9 = document.getElementById('bf-extend-duration')) === null || _document$getElementB9 === void 0 ? void 0 : _document$getElementB9.value) || '',
-            type: ((_document$getElementB0 = document.getElementById('bf-extend-duration')) === null || _document$getElementB0 === void 0 ? void 0 : _document$getElementB0.type) || '',
+          bf_extend_lockout_duration: {
+            value: ((_extendLockoutDuratio = extendLockoutDurationRef.current) === null || _extendLockoutDuratio === void 0 ? void 0 : _extendLockoutDuratio.value) || '',
+            type: ((_extendLockoutDuratio2 = extendLockoutDurationRef.current) === null || _extendLockoutDuratio2 === void 0 ? void 0 : _extendLockoutDuratio2.type) || '',
             required: true
           },
           bf_custom_error_message: {
-            value: ((_document$getElementB1 = document.getElementById('bf-custom-error-message')) === null || _document$getElementB1 === void 0 ? void 0 : _document$getElementB1.value) || '',
-            type: ((_document$getElementB10 = document.getElementById('bf-custom-error-message')) === null || _document$getElementB10 === void 0 ? void 0 : _document$getElementB10.type) || '',
+            value: ((_customErrorMessageRe = customErrorMessageRef.current) === null || _customErrorMessageRe === void 0 ? void 0 : _customErrorMessageRe.value) || '',
+            type: ((_customErrorMessageRe2 = customErrorMessageRef.current) === null || _customErrorMessageRe2 === void 0 ? void 0 : _customErrorMessageRe2.type) || '',
             required: true
           }
         };
@@ -48247,7 +48260,8 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
       if (result.status === 200) {
         var _result$data;
         setIsLoading(false);
-        setInitialFormData(result === null || result === void 0 || (_result$data = result.data) === null || _result$data === void 0 ? void 0 : _result$data.data);
+        var data = result === null || result === void 0 || (_result$data = result.data) === null || _result$data === void 0 ? void 0 : _result$data.data;
+        setInitialFormData(data !== null ? data : initialFormData);
       }
     });
   }, []);
@@ -48273,6 +48287,7 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_phosphor_icons_react__WEBPACK_IMPORTED_MODULE_4__.Info, null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "settings-body flex items-center gap-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
+    ref: maxAttemptsRef,
     id: "bf-max-attempts",
     name: "bf_max_attempts",
     min: 1,
@@ -48282,6 +48297,7 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "italic"
   }, "attempt(s)/"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
+    ref: timeWindowRef,
     id: "bf-time-window",
     name: "bf_time_window",
     min: 1,
@@ -48292,16 +48308,18 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "italic"
   }, "minutes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
+    ref: lockoutDurationRef,
     id: "bf-lockout-duration",
     name: "bf_lockout_duration",
     min: 1,
     defaultValue: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_lockout_duration) || 5,
-    type: "number",
+    type: "text",
     label: "Lockout Duration",
     placeholder: "in minutes...",
-    tooltip: "How long an IP is blocked after limit.",
-    className: errors !== null && errors !== void 0 && errors.bf_lockout_duration ? 'input-error' : ''
+    tooltip: "How long an IP is blocked after limit (in minutes).",
+    className: "html-duration-picker ".concat(errors !== null && errors !== void 0 && errors.bf_lockout_duration ? 'input-error' : '')
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.CheckBox, {
+    ref: enableLockoutExtensionRef,
     id: "bf-enable-lockout-extension",
     name: "bf_enable_lockout_extension",
     defaultChecked: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_enable_lockout_extension) || enableLockoutExtension,
@@ -48310,24 +48328,26 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
     tooltip: "Tick this if you want to extend the lockout period if the login attempt keeps on failing (in hrs).",
     className: errors !== null && errors !== void 0 && errors.bg_extend_lockout ? 'input-error' : ''
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, enableLockoutExtension && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
-    id: "bf-extend-duration",
-    name: "bf_extend_duration",
+    ref: extendLockoutDurationRef,
+    id: "bf-extend-lockout-duration",
+    name: "bf_extend_lockout_duration",
     min: 1,
-    defaultValue: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_extend_duration) || 1,
+    defaultValue: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_extend_lockout_duration) || 1,
     type: "number",
     label: "Extended Duration",
     placeholder: "in hours...",
     tooltip: "How long should the restriction time be extended in hours.",
-    className: errors !== null && errors !== void 0 && errors.bf_extend_duration ? 'input-error' : ''
+    className: errors !== null && errors !== void 0 && errors.bf_extend_lockout_duration ? 'input-error' : ''
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
+    ref: customErrorMessageRef,
     className: errors !== null && errors !== void 0 && errors.bf_custom_error_message ? 'input-error' : '',
     id: "bf-custom-error-message",
     name: "bf_custom_error_message",
-    defaultValue: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_custom_error_message) || "Too many attempts!!",
+    defaultValue: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_custom_error_message) || "Too many attempts!! Try again after {{locked_out_until}}.",
     type: "text",
     label: "Custom Error Message",
-    placeholder: "Too many attempts!!.",
-    tooltip: "Change the error message shown when limit is reached."
+    placeholder: "Too many attempts!! Try again after {{locked_out_until}}.",
+    tooltip: "Use {{locked_out_until}} tag to show locked out until period."
   }))));
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RateLimit);

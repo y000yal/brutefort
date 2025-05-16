@@ -40,7 +40,6 @@ class Database {
 					    ip_address VARCHAR(45) NOT NULL,
 					    username VARCHAR(60),
 					    user_id BIGINT UNSIGNED DEFAULT NULL,
-					    attempt_time DATETIME NOT NULL,
 					    status ENUM('success', 'fail', 'locked') DEFAULT 'fail',
 					    lockout_until DATETIME DEFAULT NULL,
 					    attempts INT DEFAULT 1,
