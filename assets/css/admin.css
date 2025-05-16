@@ -10,6 +10,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-700: oklch(50.5% 0.213 27.518);
     --color-yellow-400: oklch(85.2% 0.199 91.936);
     --color-blue-400: oklch(70.7% 0.165 254.624);
     --color-blue-500: oklch(62.3% 0.214 259.815);
@@ -945,6 +946,19 @@ a:not([aria-current="page"]):hover {
 }
 input[type="checkbox"], input[type="radio"] {
   margin: unset;
+}
+input.input-error, input.input-error:hover, input.input-error:focus {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--color-red-700);
+  --tw-shadow: 0 0 0 1px var(--tw-shadow-color, red);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  --tw-ring-color: var(--color-red-700);
+  outline-style: var(--tw-outline-style);
+  outline-width: 1px;
+  outline-style: var(--tw-outline-style);
+  outline-width: 2px;
+  outline-color: transparent;
 }
 @property --tw-translate-x {
   syntax: "*";

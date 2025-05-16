@@ -1,8 +1,10 @@
+/** global BruteFortData **/
 import React, {useRef, useState} from "react";
 import {SETTINGS} from "../constants/settings";
 import {__} from "@wordpress/i18n";
 import Spinner from "../components/Spinner";
 import {showToast} from "../utils";
+import api from "../axios/api";
 
 const GeneralTab = () => {
     const [activeSetting, setActiveSetting] = useState('rateLimitSettings');
@@ -11,42 +13,37 @@ const GeneralTab = () => {
 
     const ActiveComponent = SETTINGS[activeSetting].component;
 
+    const [errors, setErrors] = useState({});
+
     const handleSave = (): any => {
         setIsSaving(true);
         const routeConfig = SETTINGS?.[activeSetting]?.Routes?.Save;
         const endpoint = SETTINGS?.[activeSetting]?.id;
 
         if (!BruteFortData?.restUrl || !endpoint || !routeConfig?.value) {
-            showToast( __("Missing Api Config!!", 'brutefort'), {type: 'error'});
+            showToast(__("Missing Api Config!!", 'brutefort'), {type: 'error'});
         }
 
         const formData = formRef.current?.getFormData?.() || {};
 
-        fetch(`${BruteFortData.restUrl}${endpoint}${routeConfig.value}`, {
-            method: routeConfig.type || 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-WP-Nonce': BruteFortData.nonce,
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    return response.json().then((data) => {
-                        throw new Error(data.message || "Something went wrong");
-                    });
+        api
+            .post(`${endpoint}${routeConfig.value}`, {
+                formData
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    showToast(response?.message || __("Settings saved successfully.", "brutefort"), {type: "success"})
+                    setErrors({})
                 }
-                return response.json();
             })
-            .then((responseData) => {
-                showToast("Saved Successfully", {type: 'success'});
+            .catch(response => {
+
+               if(response.status > 200) {
+                   showToast(response?.response?.data?.message || __("Settings not saved.", "brutefort"), {type: "error"})
+                   setErrors(response?.response?.data?.errors || errors)
+               }
             })
-            .catch((err) => {
-                showToast(err.message || "Save failed", {type: 'error'});
-            })
-            .finally(() => {
-                setIsSaving(false);
-            });
+            .finally(() => setIsSaving(false))
     };
 
     return (
@@ -73,12 +70,12 @@ const GeneralTab = () => {
                         <button className="button button-primary" onClick={handleSave}>
                             {__('Save', 'brutefort')}
                         </button>
-                        {isSaving && <Spinner size={18} borderRadius="rounded-lg" color="border-primary-light"/>}
+                        {isSaving && <Spinner size={18} className="rounded-lg" color="border-primary-light"/>}
                     </div>
                 </div>
                 <hr/>
                 <div className="settings-body flex flex-col mt-5">
-                    <ActiveComponent ref={formRef}/>
+                    <ActiveComponent ref={formRef} errors={errors} settings={SETTINGS[activeSetting]}/>
                 </div>
             </div>
         </div>

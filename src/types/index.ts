@@ -12,6 +12,7 @@ export interface SwitchProps {
     label?: string;
     onChange: () => void;
 }
+
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     tooltip?: string;
@@ -25,8 +26,28 @@ export type CheckBoxProps = React.InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     tooltip?: string;
 };
+
 export interface SpinnerProps {
-    size?: number; // tailwind width/height in px
-    color?: string; // tailwind color class
+    size?: number;
+    color?: string;
     className?: string;
+    borderRadius?: string;
 }
+
+export type RateLimitRef = {
+    getFormData: () => any;
+};
+
+export interface RateLimitProps {
+    errors?: Record<string, string>;
+    settings?: {
+        id: string,
+        label: string;
+        icon: React.ElementType;
+        component: SettingComponentType,
+        description: string,
+        Routes: Record<string, any>
+    };
+}
+
+export type SettingComponentType = React.ForwardRefExoticComponent<RateLimitProps & React.RefAttributes<RateLimitRef>>;

@@ -30,6 +30,7 @@ final class BruteFort {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -73,11 +74,7 @@ final class BruteFort {
 	}
 
 	private function includes(): void {
-
-
-			new \BruteFort\Settings();
-
-		// Add frontend includes if needed
+		new \BruteFort\Settings();
 	}
 
 	private function is_request( string $type ): bool {
@@ -130,6 +127,7 @@ final class BruteFort {
 		$new_actions = [
 			'settings' => '<a href="' . admin_url( 'admin.php?page=brute-fort-settings' ) . '">' . esc_html__( 'Settings', 'brutefort' ) . '</a>',
 		];
+
 		return array_merge( $new_actions, $actions );
 	}
 
@@ -139,8 +137,10 @@ final class BruteFort {
 				'docs'    => '<a href="' . esc_url( 'https://docs.wpuserregistration.com/' ) . '">' . esc_html__( 'Docs', 'brutefort' ) . '</a>',
 				'support' => '<a href="' . esc_url( 'https://wpuserregistration.com/support/' ) . '">' . esc_html__( 'Free support', 'brutefort' ) . '</a>',
 			];
+
 			return array_merge( $plugin_meta, $new_plugin_meta );
 		}
+
 		return $plugin_meta;
 	}
 
@@ -160,9 +160,11 @@ if ( ! function_exists( 'BF' ) ) {
 function brutefort_free_activated(): void {
 	set_transient( 'brutefort_free_activated', true );
 }
+
 function brutefort_free_deactivated(): void {
 	delete_transient( 'brutefort_free_activated' );
 }
+
 function brutefort_free_deactivate(): void {
 	if ( get_transient( 'brutefort_pro_activated' ) ) {
 		deactivate_plugins( 'brutefort/brutefort.php' );
@@ -170,6 +172,7 @@ function brutefort_free_deactivate(): void {
 		delete_transient( 'brutefort_pro_activated' );
 	}
 }
+
 add_action( 'activate_brutefort/brutefort.php', 'brutefort_free_activated' );
 add_action( 'deactivate_brutefort/brutefort.php', 'brutefort_free_deactivated' );
 add_action( 'admin_init', 'brutefort_free_deactivate' );

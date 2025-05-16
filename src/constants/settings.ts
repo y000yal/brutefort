@@ -2,8 +2,9 @@ import React from "react";
 import {Gauge, MapPin} from "@phosphor-icons/react";
 import RateLimit from "../screens/Settings/RateLimit";
 import IpSettings from "../screens/Settings/IpSettings";
+import {SettingComponentType} from "../types";
 
-export const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementType; component: React.ComponentType, description: string, Routes: Record<string, any> }> = {
+export const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementType; component: SettingComponentType, description: string, Routes: Record<string, any> }> = {
     rateLimitSettings: {
         id: "rate-limit-settings",
         label: "Rate Limit Settings",
@@ -14,6 +15,10 @@ export const SETTINGS: Record<string, { id: string, label: string; icon: React.E
             Save: {
                 value: '/',
                 type: 'POST'
+            },
+            Index: {
+                value: '/',
+                type: 'GET'
             }
         }
     },

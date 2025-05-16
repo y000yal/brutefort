@@ -2,7 +2,7 @@
 
 namespace BruteFort\Routes;
 
-use BruteFort\Routes\Controllers\RateLimitController;
+use BruteFort\Controllers\RateLimitController;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -32,8 +32,8 @@ class RateLimitRoutes extends AbstractRoutes {
 			[
 				[
 					'methods'             => 'GET',
-					'callback'            => [ new RateLimitController(), 'index' ],
 					'permission_callback' => [ $this->middleware, 'authorize' ],
+					'callback'            => [ new RateLimitController(), 'index' ],
 				],
 			]
 		);
@@ -43,12 +43,12 @@ class RateLimitRoutes extends AbstractRoutes {
 			[
 				[
 					'methods'             => 'POST',
-					'callback'            => [ new RateLimitController(), 'store' ],
 					'permission_callback' => [ $this->middleware, 'authorize' ],
+					'callback'            => [ new RateLimitController(), 'store' ],
 				],
 			]
 		);
-		
+
 	}
 
 	/**

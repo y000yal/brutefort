@@ -7,7 +7,6 @@ interface ShowToastOptions {
     duration?: number;
     hideCloseButton?: boolean;
     hideProgressBar?: boolean;
-    progressColor?: string;
 }
 
 export const showToast = (
@@ -17,8 +16,7 @@ export const showToast = (
         position = "bottom-right",
         duration = 3000,
         hideCloseButton = true,
-        hideProgressBar= true,
-        progressColor,
+        hideProgressBar= true
     }: ShowToastOptions = {}
 ) => {
     toast(message, {
@@ -26,7 +24,6 @@ export const showToast = (
         position,
         autoClose: duration,
         closeButton: !hideCloseButton,
-        hideProgressBar: hideProgressBar,
-        progressStyle: progressColor ? { background: progressColor } : undefined,
+        hideProgressBar: hideProgressBar
     });
 };
