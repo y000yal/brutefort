@@ -12,6 +12,7 @@ class Database {
 	 */
 	public static function get_tables(): array {
 		return array(
+			'brute_fort_log_details' => TableList::brute_fort_log_details(),
 			'brute_fort_logs' => TableList::brute_fort_logs(),
 		);
 	}
@@ -25,29 +26,50 @@ class Database {
 	 * @return void
 	 */
 	public static function create_tables(): void {
-		$brute_for_log_table = TableList::brute_fort_logs();
-		$posts_table         = TableList::posts_table();
-		$posts_meta_table    = TableList::posts_meta_table();
-		$users_table         = TableList::users_table();
+		$brute_force_log_table         = TableList::brute_fort_logs();
+		$brute_force_log_details_table = TableList::brute_fort_log_details();
+		$posts_table                   = TableList::posts_table();
+		$posts_meta_table              = TableList::posts_meta_table();
+		$users_table                   = TableList::users_table();
 		global $wpdb;
 		$collate = "";
 		if ( $wpdb->has_cap( 'collation' ) ) {
 			$collate = $wpdb->get_charset_collate();
 		}
 
-		$all_sql[] = "CREATE TABLE IF NOT EXISTS $brute_for_log_table (
-					    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+		$all_sql[] = "CREATE TABLE IF NOT EXISTS $brute_force_log_table (
+					    ID BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 					    ip_address VARCHAR(45) NOT NULL,
-					    username VARCHAR(60),
-					    user_id BIGINT UNSIGNED DEFAULT NULL,
-					    status ENUM('success', 'fail', 'locked') DEFAULT 'fail',
-					    lockout_until DATETIME DEFAULT NULL,
+					    last_status ENUM('success', 'fail', 'locked', 'unlocked') DEFAULT 'fail',
 					    attempts INT DEFAULT 1,
-					    user_agent TEXT,
-					    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+					    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+					    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+					    
+					    INDEX idx_ip_address (ip_address),
+					    INDEX idx_last_status (last_status),
+					    INDEX idx_created_at (created_at)
 					) $collate
                     ";
-
+		$all_sql[] = "CREATE TABLE IF NOT EXISTS $brute_force_log_details_table (
+						ID BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+					    log_id BIGINT UNSIGNED,
+					    username VARCHAR(60),
+					    user_id BIGINT UNSIGNED DEFAULT NULL,
+					    status ENUM('success', 'fail', 'locked', 'unlocked') DEFAULT 'fail',
+					    is_extended INT UNSIGNED DEFAULT 0,
+					    lockout_until DATETIME DEFAULT NULL,
+					    user_agent TEXT,
+					    attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+					    
+					    INDEX idx_log_id (log_id),
+					    INDEX idx_username (username),
+					    INDEX idx_user_id (user_id),
+					    INDEX idx_status (status),
+					    INDEX idx_attempt_time (attempt_time),
+					    INDEX idx_lockout_until (lockout_until),
+                        CONSTRAINT fk_log_id FOREIGN KEY (log_id) REFERENCES $brute_force_log_table(ID) ON DELETE CASCADE
+					) $collate
+                    ";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
@@ -65,7 +87,7 @@ class Database {
 	 *
 	 * @return void
 	 */
-	public static function drop_tables() {
+	public static function drop_tables(): void {
 		global $wpdb;
 		foreach ( self::get_tables() as $table ) {
 			$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore

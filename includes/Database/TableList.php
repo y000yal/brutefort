@@ -9,23 +9,32 @@ namespace BruteFort\Database;
 class TableList {
 
 	/**
-	 * Returns the name of the users table.
+	 * Main table for logging requests.
 	 *
 	 * @return string The name of the users table.
 	 */
-	public static function brute_fort_logs() {
+	public static function brute_fort_logs(): string {
 		global $wpdb;
 
 		return $wpdb->prefix . 'brute_fort_logs';
 	}
-
 
 	/**
 	 * Returns the name of the users table.
 	 *
 	 * @return string The name of the users table.
 	 */
-	public static function users_table() {
+	public static function brute_fort_log_details(): string {
+		global $wpdb;
+
+		return $wpdb->prefix . 'brute_fort_log_details';
+	}
+	/**
+	 * Returns the name of the users table.
+	 *
+	 * @return string The name of the users table.
+	 */
+	public static function users_table(): string {
 		global $wpdb;
 
 		return $wpdb->prefix . 'users';
@@ -36,7 +45,7 @@ class TableList {
 	 *
 	 * @return string The name of the users meta table.
 	 */
-	public static function users_meta_table() {
+	public static function users_meta_table(): string {
 		global $wpdb;
 
 		return $wpdb->prefix . 'usermeta';
@@ -47,7 +56,7 @@ class TableList {
 	 *
 	 * @return string The name of the posts table.
 	 */
-	public static function posts_table() {
+	public static function posts_table(): string {
 		global $wpdb;
 
 		return $wpdb->posts;
@@ -58,7 +67,7 @@ class TableList {
 	 *
 	 * @return string The name of the posts meta table.
 	 */
-	public static function posts_meta_table() {
+	public static function posts_meta_table(): string {
 		global $wpdb;
 
 		return $wpdb->postmeta;

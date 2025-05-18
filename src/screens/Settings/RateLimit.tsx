@@ -7,11 +7,13 @@ import Spinner from "../../components/Spinner";
 
 const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const [enableLockoutExtension, setEnableLockoutExtension] = useState(false);
+    const [enableLockout, setEnableLockout] = useState(true);
     const {errors, settings} = props;
     const [isLoading, setIsLoading] = useState(false);
     const [initialFormData, setInitialFormData] = useState({});
     const maxAttemptsRef = useRef<HTMLInputElement>(null);
     const timeWindowRef = useRef<HTMLInputElement>(null);
+    const enableLockoutRef = useRef<HTMLInputElement>(null);
     const lockoutDurationRef = useRef<HTMLInputElement>(null);
     const enableLockoutExtensionRef = useRef<HTMLInputElement>(null);
     const extendLockoutDurationRef = useRef<HTMLInputElement>(null);
@@ -33,6 +35,11 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
             bf_time_window: {
                 value: timeWindowRef.current?.value || '',
                 type: timeWindowRef.current?.type || '',
+                required: true,
+            },
+            bf_enable_lockout: {
+                value: enableLockoutRef.current?.checked || true,
+                type: enableLockoutRef.current?.type || '',
                 required: true,
             },
             bf_lockout_duration: {
@@ -61,7 +68,9 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const handleLockoutExtension = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEnableLockoutExtension(e.target.checked);
     };
-
+    const handleLockout = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEnableLockout(e.target.checked);
+    };
     useEffect(() => {
         setIsLoading(true);
         const routeConfig = settings?.Routes?.Index?.value;
@@ -119,48 +128,65 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                         </div>
                     </div>
                     <>
-                        <Input
-                            ref={lockoutDurationRef}
-                            id="bf-lockout-duration"
-                            name="bf_lockout_duration"
-                            min={1}
-                            defaultValue={initialFormData?.bf_lockout_duration || 5}
-                            type="text"
-                            label="Lockout Duration"
-                            placeholder="in minutes..."
-                            tooltip="How long an IP is blocked after limit (in minutes)."
-                            className={`html-duration-picker ${errors?.bf_lockout_duration ? 'input-error' : ''}`}
-
-                        />
-                    </>
-                    <>
                         <CheckBox
-                            ref={enableLockoutExtensionRef}
-                            id="bf-enable-lockout-extension"
-                            name="bf_enable_lockout_extension"
-                            defaultChecked={initialFormData?.bf_enable_lockout_extension || enableLockoutExtension}
-                            label="Enable lockout extension"
-                            onChange={handleLockoutExtension}
-                            tooltip="Tick this if you want to extend the lockout period if the login attempt keeps on failing (in hrs)."
-                            className={errors?.bg_extend_lockout ? 'input-error' : ''}
+                            ref={enableLockoutRef}
+                            id="bf-enable-lockout"
+                            name="bf_enable_lockout"
+                            defaultChecked={initialFormData?.bf_enable_lockout || enableLockout}
+                            label="Enable lockout"
+                            onChange={handleLockout}
+                            tooltip="Enabling this will override requests per set time just above."
+                            className={errors?.bf_enable_lockout ? 'input-error' : ''}
                         />
                     </>
-                    <>
-                        {enableLockoutExtension && (
-                            <Input
-                                ref={extendLockoutDurationRef}
-                                id="bf-extend-lockout-duration"
-                                name="bf_extend_lockout_duration"
-                                min={1}
-                                defaultValue={initialFormData?.bf_extend_lockout_duration || 1}
-                                type="number"
-                                label="Extended Duration"
-                                placeholder="in hours..."
-                                tooltip="How long should the restriction time be extended in hours."
-                                className={errors?.bf_extend_lockout_duration ? 'input-error' : ''}
-                            />
-                        )}
-                    </>
+                    {enableLockout && (
+                        <>
+                            <>
+                                <Input
+                                    ref={lockoutDurationRef}
+                                    id="bf-lockout-duration"
+                                    name="bf_lockout_duration"
+                                    min={1}
+                                    defaultValue={initialFormData?.bf_lockout_duration || 5}
+                                    type="text"
+                                    label="Lockout Duration"
+                                    placeholder="in minutes..."
+                                    tooltip="How long an IP is blocked after limit (in minutes)."
+                                    className={`html-duration-picker ${errors?.bf_lockout_duration ? 'input-error' : ''}`}
+
+                                />
+                            </>
+                            <>
+                                <CheckBox
+                                    ref={enableLockoutExtensionRef}
+                                    id="bf-enable-lockout-extension"
+                                    name="bf_enable_lockout_extension"
+                                    defaultChecked={initialFormData?.bf_enable_lockout_extension || enableLockoutExtension}
+                                    label="Enable lockout extension"
+                                    onChange={handleLockoutExtension}
+                                    tooltip="Tick this if you want to extend the lockout period if the login attempt keeps on failing (in hrs)."
+                                    className={errors?.bg_extend_lockout ? 'input-error' : ''}
+                                />
+                            </>
+                            <>
+                                {enableLockoutExtension && (
+                                    <Input
+                                        ref={extendLockoutDurationRef}
+                                        id="bf-extend-lockout-duration"
+                                        name="bf_extend_lockout_duration"
+                                        min={1}
+                                        defaultValue={initialFormData?.bf_extend_lockout_duration || 1}
+                                        type="number"
+                                        label="Extended Duration"
+                                        placeholder="in hours..."
+                                        tooltip="How long should the restriction time be extended in hours."
+                                        className={errors?.bf_extend_lockout_duration ? 'input-error' : ''}
+                                    />
+                                )}
+                            </>
+                        </>
+                    )}
+
                     <>
                         <Input
                             ref={customErrorMessageRef}

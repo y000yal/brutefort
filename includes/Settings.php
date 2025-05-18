@@ -81,8 +81,8 @@ class Settings {
 	 * @return void
 	 */
 	public static function on_deactivation(): void {
-		if ( get_option( 'bf_general_setting_enable_complete_uninstallation' ) ) {
+//		if ( get_option( 'bf_general_setting_enable_complete_uninstallation' ) ) {
 			Database::drop_tables();
-		}
+//		}
 	}
 }

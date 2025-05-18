@@ -48186,18 +48186,23 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
     _useState2 = _slicedToArray(_useState, 2),
     enableLockoutExtension = _useState2[0],
     setEnableLockoutExtension = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+    _useState4 = _slicedToArray(_useState3, 2),
+    enableLockout = _useState4[0],
+    setEnableLockout = _useState4[1];
   var errors = props.errors,
     settings = props.settings;
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-    _useState4 = _slicedToArray(_useState3, 2),
-    isLoading = _useState4[0],
-    setIsLoading = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState6 = _slicedToArray(_useState5, 2),
-    initialFormData = _useState6[0],
-    setInitialFormData = _useState6[1];
+    isLoading = _useState6[0],
+    setIsLoading = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+    _useState8 = _slicedToArray(_useState7, 2),
+    initialFormData = _useState8[0],
+    setInitialFormData = _useState8[1];
   var maxAttemptsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var timeWindowRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var enableLockoutRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var lockoutDurationRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var enableLockoutExtensionRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var extendLockoutDurationRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
@@ -48211,7 +48216,7 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
        * rate limiting settings:
        */
       getFormData: function getFormData() {
-        var _maxAttemptsRef$curre, _maxAttemptsRef$curre2, _timeWindowRef$curren, _timeWindowRef$curren2, _lockoutDurationRef$c, _lockoutDurationRef$c2, _enableLockoutExtensi, _enableLockoutExtensi2, _extendLockoutDuratio, _extendLockoutDuratio2, _customErrorMessageRe, _customErrorMessageRe2;
+        var _maxAttemptsRef$curre, _maxAttemptsRef$curre2, _timeWindowRef$curren, _timeWindowRef$curren2, _enableLockoutRef$cur, _enableLockoutRef$cur2, _lockoutDurationRef$c, _lockoutDurationRef$c2, _enableLockoutExtensi, _enableLockoutExtensi2, _extendLockoutDuratio, _extendLockoutDuratio2, _customErrorMessageRe, _customErrorMessageRe2;
         return {
           bf_max_attempts: {
             value: ((_maxAttemptsRef$curre = maxAttemptsRef.current) === null || _maxAttemptsRef$curre === void 0 ? void 0 : _maxAttemptsRef$curre.value) || '',
@@ -48221,6 +48226,11 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
           bf_time_window: {
             value: ((_timeWindowRef$curren = timeWindowRef.current) === null || _timeWindowRef$curren === void 0 ? void 0 : _timeWindowRef$curren.value) || '',
             type: ((_timeWindowRef$curren2 = timeWindowRef.current) === null || _timeWindowRef$curren2 === void 0 ? void 0 : _timeWindowRef$curren2.type) || '',
+            required: true
+          },
+          bf_enable_lockout: {
+            value: ((_enableLockoutRef$cur = enableLockoutRef.current) === null || _enableLockoutRef$cur === void 0 ? void 0 : _enableLockoutRef$cur.checked) || true,
+            type: ((_enableLockoutRef$cur2 = enableLockoutRef.current) === null || _enableLockoutRef$cur2 === void 0 ? void 0 : _enableLockoutRef$cur2.type) || '',
             required: true
           },
           bf_lockout_duration: {
@@ -48249,6 +48259,9 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
   });
   var handleLockoutExtension = function handleLockoutExtension(e) {
     setEnableLockoutExtension(e.target.checked);
+  };
+  var handleLockout = function handleLockout(e) {
+    setEnableLockout(e.target.checked);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _settings$Routes;
@@ -48307,7 +48320,16 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
     className: "w-[80px] ".concat(errors !== null && errors !== void 0 && errors.bf_time_window ? 'input-error' : '')
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "italic"
-  }, "minutes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
+  }, "minutes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.CheckBox, {
+    ref: enableLockoutRef,
+    id: "bf-enable-lockout",
+    name: "bf_enable_lockout",
+    defaultChecked: (initialFormData === null || initialFormData === void 0 ? void 0 : initialFormData.bf_enable_lockout) || enableLockout,
+    label: "Enable lockout",
+    onChange: handleLockout,
+    tooltip: "Enabling this will override requests per set time just above.",
+    className: errors !== null && errors !== void 0 && errors.bf_enable_lockout ? 'input-error' : ''
+  })), enableLockout && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
     ref: lockoutDurationRef,
     id: "bf-lockout-duration",
     name: "bf_lockout_duration",
@@ -48338,7 +48360,7 @@ var RateLimit = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(f
     placeholder: "in hours...",
     tooltip: "How long should the restriction time be extended in hours.",
     className: errors !== null && errors !== void 0 && errors.bf_extend_lockout_duration ? 'input-error' : ''
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_forms__WEBPACK_IMPORTED_MODULE_1__.Input, {
     ref: customErrorMessageRef,
     className: errors !== null && errors !== void 0 && errors.bf_custom_error_message ? 'input-error' : '',
     id: "bf-custom-error-message",
