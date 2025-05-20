@@ -31,6 +31,7 @@ class LoginGuard {
 
 	public function check_before_login( $user, $username, $password ) {
 		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+
 		if ( $this->logs_service->is_ip_locked( $ip, $username ) ) {
 			return $this->show_locked_error();
 		}
@@ -39,34 +40,41 @@ class LoginGuard {
 	}
 
 	public function show_locked_error(): \WP_Error {
-		$logs = $this->logs_service->get_logs( [
+		$enable_lockout = $this->settings['bf_enable_lockout'];
+		$logs           = $this->logs_service->get_logs( [
 			'status' => 'locked',
 			'limit'  => 1,
 			'offset' => 0
 		] );
+		$lockout_until  = $logs[0]['lockout_until'];
 
-		$locked_until = date_i18n( 'F j, Y g:i a', strtotime( $logs[0]['lockout_until'] ?? '' ) );
-		$message      = str_replace( '{{locked_out_until}}', $locked_until, $this->settings['bf_custom_error_message'] );
+		if ( ( $lockout_until ) == null ) {
+			$lockout_detail = $this->logs_service->get_lockout_detail( $enable_lockout );
+			$lockout_until  = $lockout_detail['lockout_timestamp'];
+		}
+		$lockout_until = date_i18n( 'F j, Y g:i a', strtotime( $lockout_until ) );
+
+		$message = str_replace( '{{locked_out_until}}', $lockout_until, $this->settings['bf_custom_error_message'] );
 
 		return new \WP_Error( 'brutefort_locked', $message );
 	}
 
 	public function log_failed_attempt( $username ): void {
-
 		$this->logs_service->log_fail_attempt( $username );
-
 	}
 
 	public function log_success( $user_login, $user ): void {
 		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-		$this->logs_service->init();
-
 		$this->logs_service->log_attempt( [
-			'ip_address' => $ip,
-			'username'   => $user_login,
-			'user_id'    => $user->ID,
-			'status'     => 'success',
+			'log_data'    => [
+				'ip_address'  => $ip,
+				'last_status' => 'success'
+			],
+			'log_details' => [
+				'username' => $user_login,
+				'status'   => 'success',
+			]
 		] );
 	}
 }

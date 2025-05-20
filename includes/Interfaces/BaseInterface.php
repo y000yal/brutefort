@@ -10,7 +10,7 @@ namespace BruteFort\Interfaces;
 
 interface BaseInterface {
 
-	public function index( array $conditions = [], array $order_by = [], $limit = null, $offset = null, bool $get_count = false );
+	public function index( array $conditions = [], string $order_by = "ID", string $order = "DESC" , $limit = null, $offset = null, bool $get_count = false );
 	/**
 	 * Create a new entry in the database.
 	 *

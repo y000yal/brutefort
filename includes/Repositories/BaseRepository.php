@@ -25,17 +25,18 @@ class BaseRepository implements BaseInterface {
 	 * index
 	 *
 	 * @param array $conditions
-	 * @param array $order_by
+	 * @param string $order_by
+	 * @param string $order
 	 * @param $limit
 	 * @param $offset
 	 * @param bool $get_count
 	 *
 	 * @return string|null
 	 */
-	public function index( array $conditions = [], array $order_by = [], $limit = null, $offset = null, bool $get_count = false ): ?string {
+	public function index( array $conditions = [], string $order_by = 'ID', string $order = "DESC", $limit = null, $offset = null, bool $get_count = false ): ?string {
 		global $wpdb;
 
-		$sql           = "SELECT " . ($get_count ? "COUNT(*)" : "*") . " FROM {$this->table}";
+		$sql           = "SELECT " . ( $get_count ? "COUNT(*)" : "*" ) . " FROM {$this->table}";
 		$args          = [];
 		$where_clauses = [];
 
@@ -71,9 +72,9 @@ class BaseRepository implements BaseInterface {
 		}
 
 		// ORDER BY
-		if ( ! empty( $order_by ) ) {
-			$sql .= " ORDER BY " . esc_sql( $order_by['column'] ) . " " . $order_by["value"];
-		}
+
+		$sql .= " ORDER BY " . esc_sql( $order_by ) . " " . $order;
+
 
 		// LIMIT / OFFSET
 		if ( is_numeric( $limit ) ) {
@@ -100,6 +101,7 @@ class BaseRepository implements BaseInterface {
 	 * @return array|false|mixed|object|stdClass|void
 	 */
 	public function create( $data ): mixed {
+
 		$result    = $this->wpdb()->insert(
 			$this->table,
 			$data

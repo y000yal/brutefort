@@ -24,13 +24,14 @@ class LogsService {
 	protected ?wpdb $db = null;
 	protected string|LogsRepository $logs_repository = '';
 	protected string|LogDetailsRepository $log_details_repository = '';
-	protected string|RateLimitService $rate_limit_service = '';
+	protected string|RateLimitService $rate_limit_service;
 	private array $settings;
 
 	public function __construct() {
 		global $wpdb;
 		$this->db                     = $wpdb;
 		$this->logs_repository        = new LogsRepository();
+		$this->rate_limit_service     = new RateLimitService();
 		$this->log_details_repository = new LogDetailsRepository();
 		$this->settings               = $this->rate_limit_service->get_rate_limit_settings();
 	}
@@ -68,6 +69,7 @@ class LogsService {
 		$log_details_entry         = wp_parse_args( $data['log_details'], $log_details_data_defaults );
 
 		$this->log_details_repository->create( $log_details_entry );
+
 	}
 
 	public function get_logs( array $args = [] ): array {
@@ -121,7 +123,7 @@ class LogsService {
 				'log_id' => $log['ID'],
 				'status' => 'locked'
 			]
-		], [ 'column' => 'ID', 'value' => "DESC" ], '1' );
+		], 'ID', 'DESC', 1 );
 
 		if ( $lockout_record && $now && $lockout_record->lockout_until > $now ) {
 			return true;
@@ -132,7 +134,6 @@ class LogsService {
 
 		$recent_fails = self::get_failed_attempts( $ip, $fail_window );
 		if ( $recent_fails >= $max_attempts ) {
-			self::log_fail_attempt( $username );
 			return true;
 		}
 
@@ -149,15 +150,11 @@ class LogsService {
 		$is_locking     = $failed > $this->settings['bf_max_attempts']; //if the attempt exceeds then the is_locking variable will be true;
 		$enable_lockout = $this->settings['bf_enable_lockout'];
 		$lockout_until  = null;
-		if ( $enable_lockout && $is_locking ) {
-			$total_duration = (int) $this->settings['bf_lockout_duration'] * 60; //this is the initial lockout duration converted to seconds
-
-			if ( $this->settings['bf_enable_lockout_extension'] && $this->settings['bf_extend_lockout_duration'] > 0 ) {
-				$total_duration += (int) $this->settings['bf_extend_lockout_duration'] * 60 * 60; // hours → seconds
-			}
-
-			$lockout_timestamp = current_time( 'timestamp' ) + $total_duration;
-			$lockout_until     = date_i18n( 'Y-m-d H:i:s', $lockout_timestamp );
+		$is_extended    = 0;
+		if ( $is_locking ) {
+			$lockout_detail = $this->get_lockout_detail( $enable_lockout );
+			$lockout_until  = $lockout_detail['lockout_timestamp'];
+			$is_extended    = $lockout_detail['is_extended'];
 		}
 
 		self::log_attempt( [
@@ -169,10 +166,28 @@ class LogsService {
 			],
 			'log_details' => [
 				'username'      => $username,
+				'is_extended'   => $is_extended,
 				'lockout_until' => $is_locking ? $lockout_until : null,
 				'status'        => $is_locking ? 'locked' : 'fail',
 			]
 		] );
+	}
+
+	public function get_lockout_detail( $enable_lockout ): array {
+
+		$total_duration = (int) ( $enable_lockout ? $this->settings['bf_lockout_duration'] : $this->settings['bf_time_window'] ) * 60; //this is the initial lockout duration converted to seconds
+		$is_extended    = 0;
+		if ( $this->settings['bf_enable_lockout_extension'] && $this->settings['bf_extend_lockout_duration'] > 0 ) {
+			$is_extended    = 1;
+			$total_duration += (int) $this->settings['bf_extend_lockout_duration'] * 60 * 60; // hours → seconds
+		}
+
+		$lockout_timestamp = current_time( 'timestamp' ) + $total_duration;
+
+		return [
+			'lockout_timestamp' => date_i18n( 'Y-m-d H:i:s', $lockout_timestamp ),
+			'is_extended'       => $is_extended
+		];
 	}
 
 	/**
@@ -198,7 +213,7 @@ class LogsService {
 						'value'    => $since
 					]
 				]
-			], [], null, '', true );
+			], 'ID', 'DESC', '', '', true );
 		}
 
 		return 0;

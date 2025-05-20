@@ -61,7 +61,7 @@ class RateLimitService {
 		$default_settings = json_encode( array(
 			"bf_max_attempts"             => 5,
 			"bf_time_window"              => 30,
-			"bf_enable_lockout"           => true,
+			"bf_enable_lockout"           => false,
 			"bf_lockout_duration"         => 60,
 			"bf_enable_lockout_extension" => false,
 			"bf_extend_lockout_duration"  => 1,

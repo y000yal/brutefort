@@ -4,12 +4,13 @@ import {Info} from "@phosphor-icons/react";
 import {RateLimitProps} from "../../types";
 import api from "../../axios/api";
 import Spinner from "../../components/Spinner";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const [enableLockoutExtension, setEnableLockoutExtension] = useState(false);
     const [enableLockout, setEnableLockout] = useState(true);
     const {errors, settings} = props;
-    const [isLoading, setIsLoading] = useState(false);
+    const [isFetching, setIsFetching] = useState(false);
     const [initialFormData, setInitialFormData] = useState({});
     const maxAttemptsRef = useRef<HTMLInputElement>(null);
     const timeWindowRef = useRef<HTMLInputElement>(null);
@@ -38,7 +39,7 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                 required: true,
             },
             bf_enable_lockout: {
-                value: enableLockoutRef.current?.checked || true,
+                value: enableLockoutRef.current?.checked || false,
                 type: enableLockoutRef.current?.type || '',
                 required: true,
             },
@@ -71,14 +72,17 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const handleLockout = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEnableLockout(e.target.checked);
     };
+    /**
+     * fetch settings data
+     */
     useEffect(() => {
-        setIsLoading(true);
+        setIsFetching(true);
         const routeConfig = settings?.Routes?.Index?.value;
         const endpoint = settings?.id;
         const url = `${endpoint}${routeConfig}`;
         api.get(url).then(result => {
             if (result.status === 200) {
-                setIsLoading(false);
+                setIsFetching(false);
                 const data = result?.data?.data;
                 setInitialFormData(data !== null ? data : initialFormData);
             }
@@ -86,10 +90,12 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     }, [])
     useEffect(() => {
         setEnableLockoutExtension(initialFormData?.bf_enable_lockout_extension);
+        setEnableLockout(initialFormData?.bf_enable_lockout);
     }, [initialFormData])
+
     return (
         <div className="flex gap-4 justify-around flex-col">
-            {isLoading || !Object.keys(initialFormData).length ? (
+            {isFetching || !Object.keys(initialFormData).length ? (
                 <div className="flex items-center justify-center">
                     <Spinner size={18} className="rounded-lg" color="border-primary-light"/>
                 </div>
