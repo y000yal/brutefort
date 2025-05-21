@@ -1,1 +1,0 @@
-{"version":3,"file":"assets/css/main.css","mappings":";;;AAAA,kBAAkB;;AAElB,6BAA6B;AAC7B,8BAA8B;AAC9B,8BAA8B","sources":["webpack:///./src/styles/admin.css"],"sourcesContent":["@use \"tailwindcss\";\r\n\r\n@use './components/tabs.scss';\r\n@use './components/cards.scss';\r\n@use './components/theme.scss';\r\n\r\n\r\n"],"names":[],"sourceRoot":""}

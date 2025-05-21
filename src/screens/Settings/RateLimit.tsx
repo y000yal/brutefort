@@ -20,6 +20,10 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const extendLockoutDurationRef = useRef<HTMLInputElement>(null);
     const customErrorMessageRef = useRef<HTMLInputElement>(null);
 
+    const indexRoute = settings?.Routes?.Index?.value;
+    const endpoint = settings?.id;
+    const url = `${endpoint}${indexRoute}`;
+
     useImperativeHandle(ref, () => ({
         /**
          * Retrieves form data from the DOM elements related to rate limiting settings.
@@ -75,24 +79,38 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     /**
      * fetch settings data
      */
-    useEffect(() => {
-        setIsFetching(true);
-        const routeConfig = settings?.Routes?.Index?.value;
-        const endpoint = settings?.id;
-        const url = `${endpoint}${routeConfig}`;
-        api.get(url).then(result => {
-            if (result.status === 200) {
-                setIsFetching(false);
-                const data = result?.data?.data;
-                setInitialFormData(data !== null ? data : initialFormData);
-            }
-        })
-    }, [])
-    useEffect(() => {
-        setEnableLockoutExtension(initialFormData?.bf_enable_lockout_extension);
-        setEnableLockout(initialFormData?.bf_enable_lockout);
-    }, [initialFormData])
+    // useEffect(() => {
+    //     setIsFetching(true);
+    //     const routeConfig = settings?.Routes?.Index?.value;
+    //     const endpoint = settings?.id;
+    //     const url = `${endpoint}${routeConfig}`;
+    //     api.get(url).then(result => {
+    //         if (result.status === 200) {
+    //             setIsFetching(false);
+    //             const data = result?.data?.data;
+    //             setInitialFormData(data !== null ? data : initialFormData);
+    //         }
+    //     })
+    // }, [])
+    const { data, isLoading } = useQuery({
+            initialData: undefined,
+            queryKey: ['rate-limit-settings-index'],
+            queryFn: async () => {
+                const res = await api.get(url);
+                return res.data.data;
+            },
+            staleTime: Infinity, // cache forever unless manually invalidate
+            enabled: !!url // only run when url is defined
+        });
 
+
+    useEffect(() => {
+        if (data) {
+            setInitialFormData(data);
+            setEnableLockoutExtension(data?.bf_enable_lockout_extension);
+            setEnableLockout(data?.bf_enable_lockout);
+        }
+    }, [data]);
     return (
         <div className="flex gap-4 justify-around flex-col">
             {isFetching || !Object.keys(initialFormData).length ? (

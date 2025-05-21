@@ -41,7 +41,7 @@ class Settings {
 
 		wp_enqueue_script(
 			'brutefort-admin',
-			BF()->plugin_url() . '/assets/js/admin' . $suffix . '.js',
+			BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
 			[ 'wp-element', 'wp-api-fetch' ],
 			BF_VERSION,
 			true

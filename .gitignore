@@ -5,3 +5,4 @@ build
 yarn-error.log
 release
 dist
+assets/js/build/

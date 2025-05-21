@@ -5,6 +5,7 @@ import {__} from "@wordpress/i18n";
 import Spinner from "../components/Spinner";
 import {showToast} from "../utils";
 import api from "../axios/api";
+import {useQueryClient} from "@tanstack/react-query";
 
 const GeneralTab = () => {
     const [activeSetting, setActiveSetting] = useState('rateLimitSettings');
@@ -14,6 +15,7 @@ const GeneralTab = () => {
     const ActiveComponent = SETTINGS[activeSetting].component;
 
     const [errors, setErrors] = useState({});
+    const queryClient = useQueryClient();
 
     const handleSave = (): any => {
         setIsSaving(true);
@@ -46,6 +48,7 @@ const GeneralTab = () => {
             .finally(() => setIsSaving(false))
     };
 
+    // @ts-ignore
     return (
         <div className="p-4 rounded-lg w-full items-center justify-center transition-colors flex duration-300 gap-4">
             <div className="min-w-xl max-w-80">
@@ -67,7 +70,7 @@ const GeneralTab = () => {
                         </div>
                     </div>
                     <div className="save-btn flex gap-2 items-center">
-                        <button className="button button-primary" onClick={handleSave}>
+                        <button className="button button-primary" onClick={handleSave}  disabled={isSaving}>
                             {__('Save', 'brutefort')}
                         </button>
                         {isSaving && <Spinner size={18} className="rounded-lg" color="border-primary-light"/>}
