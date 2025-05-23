@@ -31,9 +31,9 @@ class BaseRepository implements BaseInterface {
 	 * @param $offset
 	 * @param bool $get_count
 	 *
-	 * @return string|null
+	 * @return array|object|string|null
 	 */
-	public function index( array $conditions = [], string $order_by = 'ID', string $order = "DESC", $limit = null, $offset = null, bool $get_count = false ): ?string {
+	public function index( array $conditions = [], string $order_by = 'ID', string $order = "DESC", $limit = null, $offset = null, bool $get_count = false ): array|object|string|null {
 		global $wpdb;
 
 		$sql           = "SELECT " . ( $get_count ? "COUNT(*)" : "*" ) . " FROM {$this->table}";
@@ -88,8 +88,11 @@ class BaseRepository implements BaseInterface {
 		}
 
 		$prepared_sql = $wpdb->prepare( $sql, ...$args );
+		if ( $get_count ) {
+			return $wpdb->get_var( $prepared_sql );
+		}
 
-		return $wpdb->get_var( $prepared_sql );
+		return $wpdb->get_results( $prepared_sql );
 
 	}
 

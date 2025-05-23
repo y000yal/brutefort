@@ -44,9 +44,9 @@ class Routes {
 	/**
 	 * Get all REST classes grouped by namespace.
 	 *
+	 * @return array
 	 * @since 1.0.0
 	 *
-	 * @return array
 	 */
 	protected function get_rest_classes(): array {
 		return apply_filters(
@@ -60,14 +60,15 @@ class Routes {
 	/**
 	 * All controller classes under brutefort/v1.
 	 *
+	 * @return array
 	 * @since 1.0.0
 	 *
-	 * @return array
 	 */
-	#[ArrayShape( [ 'rate-limit' => "string" ] )]
+	#[ArrayShape( [ 'rate-limit' => "string", "logs" => "string" ] )]
 	public function get_routes_classes(): array {
 		return [
 			'rate-limit' => RateLimitRoutes::class,
+			'logs'       => LogRoutes::class
 		];
 	}
 }

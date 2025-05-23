@@ -1,11 +1,11 @@
 /** global BruteFortData **/
 import React, {useRef, useState} from "react";
-import {SETTINGS} from "../constants/settings";
+import {SETTINGS} from "../constants";
 import {__} from "@wordpress/i18n";
 import Spinner from "../components/Spinner";
 import {showToast} from "../utils";
 import api from "../axios/api";
-import {useQueryClient} from "@tanstack/react-query";
+
 
 const GeneralTab = () => {
     const [activeSetting, setActiveSetting] = useState('rateLimitSettings');
@@ -15,7 +15,7 @@ const GeneralTab = () => {
     const ActiveComponent = SETTINGS[activeSetting].component;
 
     const [errors, setErrors] = useState({});
-    const queryClient = useQueryClient();
+
 
     const handleSave = (): any => {
         setIsSaving(true);
@@ -40,10 +40,10 @@ const GeneralTab = () => {
             })
             .catch(response => {
 
-               if(response.status > 200) {
-                   showToast(response?.response?.data?.message || __("Settings not saved.", "brutefort"), {type: "error"})
-                   setErrors(response?.response?.data?.errors || errors)
-               }
+                if (response.status > 200) {
+                    showToast(response?.response?.data?.message || __("Settings not saved.", "brutefort"), {type: "error"})
+                    setErrors(response?.response?.data?.errors || errors)
+                }
             })
             .finally(() => setIsSaving(false))
     };
@@ -70,7 +70,7 @@ const GeneralTab = () => {
                         </div>
                     </div>
                     <div className="save-btn flex gap-2 items-center">
-                        <button className="button button-primary" onClick={handleSave}  disabled={isSaving}>
+                        <button className="button button-primary" onClick={handleSave} disabled={isSaving}>
                             {__('Save', 'brutefort')}
                         </button>
                         {isSaving && <Spinner size={18} className="rounded-lg" color="border-primary-light"/>}

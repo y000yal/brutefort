@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {NavLink, useLocation} from "react-router-dom";
-import {TABS} from "../constants/tabs";
+import {TABS} from "../constants";
 
 const TabsNav: React.FC = () => {
     const tabRefs = useRef<Record<string, HTMLAnchorElement | null>>({});

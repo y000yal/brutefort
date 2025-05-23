@@ -28,26 +28,3 @@ export const showToast = (
     });
 };
 
-export type User = {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-};
-
-const roles = ['Admin', 'Editor', 'Viewer'];
-
-export function generateUsers(count: number = 100): User[] {
-    const users: User[] = [];
-
-    for (let i = 1; i <= count; i++) {
-        users.push({
-            id: i,
-            name: `User ${i}`,
-            email: `user${i}@example.com`,
-            role: roles[i % roles.length],
-        });
-    }
-
-    return users;
-}

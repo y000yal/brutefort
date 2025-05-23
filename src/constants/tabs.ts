@@ -1,16 +1,16 @@
 import React from "react";
-import { Wrench, ReadCvLogo , UsersThree } from '@phosphor-icons/react';
+import {Wrench, ReadCvLogo, UsersThree} from '@phosphor-icons/react';
 
-export const TABS: Record<string, { label: string; icon: React.ElementType , path: string }> = {
+const TABS: Record<string, { label: string; icon: React.ElementType, path: string }> = {
     general: {
         label: 'General',
         icon: Wrench,
         path: 'general',
     },
-    whitelist: {
+    logs: {
         label: 'Logs',
-        icon: ReadCvLogo ,
-        path:'logs',
+        icon: ReadCvLogo,
+        path: 'logs',
     },
     blacklist: {
         label: 'About Us',
@@ -18,3 +18,5 @@ export const TABS: Record<string, { label: string; icon: React.ElementType , pat
         path: 'about-us'
     },
 };
+
+export default TABS;

@@ -1,58 +1,44 @@
-import React from 'react';
-import DataTable from "../components/table/DataTable";
-import { ColumnDef } from '@tanstack/react-table';
-import { IconButton, Menu, MenuItem } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-interface Payment {
-    status: string;
-    email: string;
-    amount: string;
-}
-
-const payments: Payment[] = [
-    { status: 'Success', email: 'ken99@example.com', amount: '$316.00' },
-    { status: 'Failed', email: 'carmella@example.com', amount: '$0.00' },
-];
+import React, {useEffect} from "react";
+import {useQuery} from '@tanstack/react-query';
+import api from "../axios/api";
+import {CONSTANTS} from "../constants";
 
 const Logs = () => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [selected, setSelected] = React.useState<Payment | null>(null);
+    const fetchRoute = CONSTANTS.LOG_ROUTES.getAll;
 
-    const columns: ColumnDef<Payment>[] = [
-        { accessorKey: 'status', header: 'Status' },
-        { accessorKey: 'email', header: 'Email' },
-        { accessorKey: 'amount', header: 'Amount' },
-    ];
-
-    const rowActions = (row: Payment) => (
-        <>
-            <IconButton
-                onClick={(e) => {
-                    setAnchorEl(e.currentTarget);
-                    setSelected(row);
-                }}
-            >
-                <MoreVertIcon />
-            </IconButton>
-        </>
-    );
-
+    const {data, isLoading} = useQuery({
+        initialData: undefined,
+        queryKey: ['logs'],
+        queryFn: async () => {
+            const res = await api.get(fetchRoute);
+            return res.data.data;
+        },
+        staleTime: Infinity,
+        enabled: !!fetchRoute
+    });
+    useEffect(() => {
+        if (data) {
+            console.log(data)
+        }
+    }, [data]);
     return (
-        <>
-            <DataTable columns={columns} data={payments} actions={rowActions} />
+        <div
+            className=" p-4  rounded-lg w-full items-center justify-center transition-colors flex  duration-300 gap-4 ">
+            <div className="min-w-lg">
+                <div className="header mb-5">
+                    <span className="text-2xl font-bold ">Logs</span>
+                    <p style={{marginTop: '5px'}}>View your logs here.</p>
 
-            <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-            >
-                <MenuItem onClick={() => navigator.clipboard.writeText(selected?.email ?? '')}>Copy Payment ID</MenuItem>
-                <MenuItem onClick={() => alert(`Customer: ${selected?.email}`)}>View Customer</MenuItem>
-                <MenuItem onClick={() => alert(`Details for: ${selected?.email}`)}>View Payment Details</MenuItem>
-            </Menu>
-        </>
+                </div>
+                <hr/>
+                <div className="settings-body flex flex-col mt-5">
+
+
+                </div>
+            </div>
+        </div>
     );
 };
 
 export default Logs;
+

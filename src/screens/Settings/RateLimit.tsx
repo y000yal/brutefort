@@ -4,7 +4,7 @@ import {Info} from "@phosphor-icons/react";
 import {RateLimitProps} from "../../types";
 import api from "../../axios/api";
 import Spinner from "../../components/Spinner";
-import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import {__} from "@wordpress/i18n";
 
 const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
@@ -149,8 +149,6 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                         />
                         <span className="italic self-end">{__("minute(s)", "brutefort")}</span>
                     </div>
-
-
 
 
                     <span className="settings-title">{__("Lockout Settings", "brutefort")}</span>

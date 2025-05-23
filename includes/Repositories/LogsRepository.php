@@ -26,7 +26,8 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 			"SELECT * FROM " . $this->table . " 
                     WHERE ip_address = %s
                     ORDER BY ID DESC LIMIT 1",
-			sanitize_text_field($ip)
+			sanitize_text_field( $ip )
 		) );
 	}
+
 }
