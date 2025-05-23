@@ -56,7 +56,9 @@ a[aria-current="page"] {
 a {
     color: black;
 }
-
+.dark a {
+    color: white;
+}
 a:not([aria-current="page"]):hover {
     color: var(--color-primary-dark);
 }

@@ -5,3 +5,9 @@ input[type="checkbox"], input[type="radio"] {
 input.input-error, input.input-error:hover, input.input-error:focus {
     @apply border-1 border-red-700 shadow-[0_0_0_1px_red] outline outline-2 outline-transparent ring-red-700
 }
+.settings-label {
+    @apply font-medium text-sm text-gray-700 dark:text-white
+}
+.settings-title {
+    @apply  text-lg font-bold dark:text-white
+}

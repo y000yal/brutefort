@@ -1,6 +1,7 @@
 // components/Tooltip.tsx
-import React, { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {createPortal} from "react-dom";
+import {__} from "@wordpress/i18n";
 
 type TooltipProps = {
     content: string;
@@ -14,7 +15,7 @@ const Tooltip: React.FC<TooltipProps> = ({
                                              bgColorClass = "bg-black",
                                          }) => {
     const [visible, setVisible] = useState(false);
-    const [coords, setCoords] = useState({ top: 0, left: 0 });
+    const [coords, setCoords] = useState({top: 0, left: 0});
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -24,8 +25,8 @@ const Tooltip: React.FC<TooltipProps> = ({
         const handleMouseEnter = () => {
             const rect = el.getBoundingClientRect();
             setCoords({
-                top: rect.top + window.scrollY-2,
-                left: rect.left + window.scrollX ,
+                top: rect.top + window.scrollY - 2,
+                left: rect.left + window.scrollX,
             });
             setVisible(true);
         };
@@ -56,7 +57,7 @@ const Tooltip: React.FC<TooltipProps> = ({
                             transform: "translate(-50%, -100%)",
                         }}
                     >
-                        {content}
+                        {__(content, "brutefort")}
                         {/* Bottom Arrow */}
                         <div
                             className={`absolute left-1/2 top-full -mt-0.5 h-3 w-3 rotate-90 ${bgColorClass}`}
