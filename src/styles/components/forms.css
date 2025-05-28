@@ -21,15 +21,18 @@ input.input-error, input.input-error:hover, input.input-error:focus {
     color: #c2353c;
     border: none;
 }
+
 .right-search-bar {
-    top: 13px;
+    top: 10px;
     position: absolute;
     right: 0;
 }
+
 .search-box input:focus {
     background: #e7e7e8;
     box-shadow: 0 0 0 0 transparent;
 }
+
 .search-box .search-bar-btn {
     font-weight: bold;
     padding: 3px 16px;
@@ -37,14 +40,17 @@ input.input-error, input.input-error:hover, input.input-error:focus {
     cursor: pointer;
 
 }
+
 .search-box .search-bar-btn.search {
     color: white;
     background: #e76a70;
 
 }
+
 .search-box .search-bar-btn.clear {
     color: #746e6f;
 }
+
 .settings-label {
     @apply font-medium text-sm text-gray-700 dark:text-white
 }
@@ -53,3 +59,23 @@ input.input-error, input.input-error:hover, input.input-error:focus {
     @apply text-lg font-bold dark:text-white
 }
 
+.log-status {
+    @apply px-4 py-1 rounded-xl text-white
+}
+
+.status-locked {
+    background: #131313;
+    color: white;
+}
+
+.status-success {
+    background: #3ebe80;
+}
+
+.status-fail {
+    background: #e76a70;
+}
+.log-id {
+    background: #dad8d8;
+    color: #7d797c;
+}
