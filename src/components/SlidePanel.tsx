@@ -1,12 +1,12 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {motion, AnimatePresence} from "framer-motion";
 
 interface SlidePanelProps {
     log: any | null;
     onClose: () => void;
 }
 
-const SlidePanel: React.FC<SlidePanelProps> = ({ log, onClose }) => {
+const SlidePanel: React.FC<SlidePanelProps> = ({log, onClose}) => {
     return (
         <AnimatePresence>
             {log && (
@@ -14,19 +14,32 @@ const SlidePanel: React.FC<SlidePanelProps> = ({ log, onClose }) => {
                     {/* Overlay */}
                     <motion.div
                         className="fixed inset-0 bg-[#0000005c] bg-opacity-30 z-15"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        exit={{opacity: 0}}
+                        transition={{duration: .7}} // slower fade
                         onClick={onClose}
                     />
 
                     {/* Panel */}
                     <motion.div
                         key="slide-panel"
-                        initial={{ x: '100%' }}
-                        animate={{ x: 0 }}
-                        exit={{ x: '100%' }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        initial={{x: '100%', opacity: 0}}
+                        animate={{
+                            x: 0,
+                            opacity: 1,
+                            transition: {
+                                opacity: {ease: "spring"},
+                                duration: .1
+                            }
+                        }}
+                        exit={{
+                            x: '100%',
+                            opacity: 0,
+                            transition: {
+                                duration: .3
+                            }
+                        }}
                         className="fixed top-0 right-0 h-full w-[40%] bg-white shadow-lg z-50"
                     >
                         <div className="flex justify-between items-center p-4 border-b">
