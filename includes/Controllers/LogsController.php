@@ -24,12 +24,17 @@ class LogsController extends BaseController {
 
 	public function index( WP_Rest_Request $request ): WP_REST_Response {
 		$request = $request->get_query_params();
-		$result = $this->logs_repository->index( [
-			[
-			]
-		], 'ID', 'DESC', 10 ,'',false);
+		$result  = $this->logs_service->get_logs_with_details();
+
 
 		return $this->response( array( 'data' => $result ), 200 );
+	}
+
+	public function get_log_details_by_id( WP_Rest_Request $request ): WP_REST_Response {
+		$id          = (int) absint( $request->get_param( 'id' ) );
+		$log_details = $this->logs_service->get_log_details( $id );
+
+		return $this->response( array( 'data' => $log_details, 'status' => true ), 200 );
 	}
 
 }

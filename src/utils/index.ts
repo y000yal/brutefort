@@ -28,3 +28,10 @@ export const showToast = (
     });
 };
 
+export const  formatDate = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+    });
+};

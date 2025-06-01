@@ -219,4 +219,63 @@ class LogsService {
 		return 0;
 	}
 
+	public function get_logs_with_details(): array {
+		$result = $this->logs_repository->index( [
+			[
+			]
+		], 'ID', 'DESC', 10, '', false );
+
+		return $this->restructure_log_data( $result );
+
+	}
+
+	public function restructure_log_data( $logs ): array {
+		$grouped = [];
+
+		foreach ( $logs as $log ) {
+			$log_id = $log->log_id;
+
+			if ( ! isset( $grouped[ $log_id ] ) ) {
+				// Initialize the base object
+				$grouped[ $log_id ] = (object) [
+					'ID'          => $log->ID,
+					'ip_address'  => $log->ip_address,
+					'last_status' => $log->last_status,
+					'attempts'    => $log->attempts,
+					'created_at'  => $log->created_at,
+					'updated_at'  => $log->updated_at,
+					'log_details' => [],
+				];
+			}
+
+			// Prepare the details object
+			$details = (object) [
+				'log_id'        => $log->log_id,
+				'username'      => $log->username,
+				'user_id'       => $log->user_id,
+				'status'        => $log->status,
+				'is_extended'   => $log->is_extended,
+				'lockout_until' => $log->lockout_until,
+				'user_agent'    => $log->user_agent,
+				'attempt_time'  => $log->attempt_time,
+			];
+
+			$grouped[ $log_id ]->log_details[] = $details;
+		}
+
+		// Re-index the array
+		return array_values( $grouped );
+	}
+
+
+	public function get_log_details( $id ): array {
+		return $this->log_details_repository->index( [
+			[
+				'log_id' => $id
+			]
+		], 'ID', 'DESC', 10, '', false );
+
+
+	}
+
 }

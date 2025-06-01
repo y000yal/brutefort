@@ -23,7 +23,7 @@ import SlidePanel from "../components/SlidePanel";
 const columnHelper = createColumnHelper();
 
 const Logs = () => {
-    const fetchRoute = CONSTANTS.LOG_ROUTES.getAll;
+    const fetchRoute = CONSTANTS.LOG_ROUTES.logs;
     const [searchInput, setSearchInput] = useState('');
     const [hasSearchInput, setHasSearchInput] = useState(false);
     const [selectedLog, setSelectedLog] = useState(null); // Selected row for details panel
@@ -163,7 +163,9 @@ const Logs = () => {
                 <DataTable data={data} columns={columns} isLoading={isLoading} onRowClick={row => setSelectedLog(row.original)}/>
             </div>
 
-            <SlidePanel log={selectedLog} onClose={() => setSelectedLog(null)} />
+            {selectedLog && (
+                <SlidePanel data={selectedLog} onClose={() => setSelectedLog(null)}  />
+            )}
 
         </>
 
