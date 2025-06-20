@@ -64,11 +64,12 @@ class Routes {
 	 * @since 1.0.0
 	 *
 	 */
-	#[ArrayShape( [ 'rate-limit' => "string", "logs" => "string" ] )]
+	#[ArrayShape( [ 'rate-limit' => "string", "logs" => "string", "ip-settings" => "string" ] )]
 	public function get_routes_classes(): array {
 		return [
-			'rate-limit' => RateLimitRoutes::class,
-			'logs'       => LogRoutes::class
+			'rate-limit'  => RateLimitRoutes::class,
+			'logs'        => LogRoutes::class,
+			'ip-settings' => IpRoutes::class
 		];
 	}
 }

@@ -32,6 +32,10 @@ const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementT
             Save: {
                 value: '/',
                 type: 'POST'
+            },
+            Index: {
+                value: '/',
+                type: 'GET'
             }
         }
     },
