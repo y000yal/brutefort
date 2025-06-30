@@ -351,6 +351,18 @@
   .h-4 {
     height: calc(var(--spacing) * 4);
   }
+  .h-\[0px\] {
+    height: 0px;
+  }
+  .h-\[30px\] {
+    height: 30px;
+  }
+  .h-\[38px\] {
+    height: 38px;
+  }
+  .h-\[40px\] {
+    height: 40px;
+  }
   .h-\[50\%\] {
     height: 50%;
   }
@@ -381,11 +393,20 @@
   .w-\[20\%\] {
     width: 20%;
   }
+  .w-\[25\%\] {
+    width: 25%;
+  }
+  .w-\[30\%\] {
+    width: 30%;
+  }
   .w-\[40\%\] {
     width: 40%;
   }
   .w-\[80\%\] {
     width: 80%;
+  }
+  .w-\[100\%\] {
+    width: 100%;
   }
   .w-\[515px\] {
     width: 515px;
@@ -457,6 +478,9 @@
   }
   .items-center {
     align-items: center;
+  }
+  .items-end {
+    align-items: flex-end;
   }
   .items-start {
     align-items: flex-start;
@@ -796,6 +820,13 @@
       }
     }
   }
+  .hover\:bg-primary-light {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-primary-light);
+      }
+    }
+  }
   .hover\:text-primary-dark {
     &:hover {
       @media (hover: hover) {
@@ -807,6 +838,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-red-500);
+      }
+    }
+  }
+  .hover\:text-white {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-white);
       }
     }
   }
@@ -1169,6 +1207,31 @@ input.input-error, input.input-error:hover, input.input-error:focus {
 .log-id {
   background: #dad8d8;
   color: #7d797c;
+}
+.button.button-primary {
+  --tw-border-style: none;
+  border-style: none;
+  background-color: var(--color-primary-light);
+  color: var(--color-white);
+}
+.button.button-primary:hover {
+  --tw-border-style: none;
+  border-style: none;
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+.button.button-primary:disabled {
+  --tw-border-style: none;
+  border-style: none;
+  background-color: var(--color-primary-light);
+  color: var(--color-white);
+}
+input[type="text"], input[type="password"], input[type="color"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="email"], input[type="month"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="week"], select, textarea {
+  box-shadow: 0 0 0 transparent;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  background-color: #fff;
+  color: #2c3338;
 }
 @property --tw-translate-x {
   syntax: "*";

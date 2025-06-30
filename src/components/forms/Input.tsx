@@ -9,7 +9,7 @@ import {__} from "@wordpress/i18n";
 const Input: forwardRef<InputProps> = (({label, tooltip, type = "text", className = "", ...rest}, ref) => {
     return (
         <label htmlFor={rest.id}
-               className="flex flex-col gap-1 text-sm font-medium text-gray-700 relative dark:text-white">
+               className="flex flex-col gap-1 text-sm font-medium text-gray-700 relative dark:text-white w-[100%]">
             <div className="flex items-center gap-1">
                 {label && <span>{__(label, 'brutefort')}</span>}
                 {tooltip && (
@@ -21,7 +21,7 @@ const Input: forwardRef<InputProps> = (({label, tooltip, type = "text", classNam
             <input
                 ref={ref}
                 type={type}
-                className={`rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+                className={`rounded-md border border-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
                 {...rest}
             />
         </label>

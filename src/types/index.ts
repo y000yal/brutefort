@@ -46,6 +46,7 @@ export interface RateLimitProps {
         icon: React.ElementType;
         component: SettingComponentType,
         description: string,
+        globalSave: boolean,
         Routes: Record<string, any>
     };
 }

@@ -145,6 +145,7 @@ class LogsService {
 
 		$failed = self::get_failed_attempts( $ip, $this->settings['bf_time_window'] );
 
+
 		$failed ++;
 
 		$is_locking     = $failed > $this->settings['bf_max_attempts']; //if the attempt exceeds then the is_locking variable will be true;

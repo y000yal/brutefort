@@ -4,7 +4,7 @@
 namespace BruteFort\Controllers;
 
 
-use BruteFort\Services\RateLimitService;
+use BruteFort\Services\IpSettingsService;
 use BruteFort\Controllers\Controller as BaseController;
 use WP_Error;
 use WP_HTTP_Response;
@@ -13,14 +13,15 @@ use WP_REST_Response;
 
 class IpSettingsController extends BaseController {
 
-	protected string|RateLimitService $rate_limit_service;
+	protected string|IpSettingsService $ip_settings_service;
 
 	public function __construct() {
-		$this->rate_limit_service = new RateLimitService();
+		$this->ip_settings_service = new IpSettingsService(); 
 	}
 
-	public function index(): WP_REST_Response {
-		return $this->response( array( 'data' => $this->rate_limit_service->get_rate_limit_settings() ), 200 );
+
+	public function index(WP_Rest_Request $request): WP_REST_Response {
+		return $this->response( array( 'data' => $this->ip_settings_service->get_all_ips() ), 200 );
 	}
 
 	/**
