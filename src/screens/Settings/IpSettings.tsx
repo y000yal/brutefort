@@ -1,5 +1,12 @@
-import React, { forwardRef, useMemo, useRef, useState } from "react";
-import { RateLimitProps } from "../../types";
+import React, {
+  forwardRef,
+  useMemo,
+  useRef,
+  useState,
+  useEffect,
+  use,
+} from "react";
+import { IpSettingsProps } from "../../types";
 import Spinner from "../../components/Spinner";
 import { __ } from "@wordpress/i18n";
 import { CheckBox, Input, Select } from "../../components/forms";
@@ -10,79 +17,121 @@ import {
   BookmarkSimple,
   CalendarCheck,
   Key,
+  List,
   MapPin,
+  Note,
+  PencilSimple,
   PlusCircle,
+  Trash,
   Warning,
 } from "@phosphor-icons/react";
 import CopyCell from "../../components/table/CopyCell";
 import { createColumnHelper } from "@tanstack/react-table";
+import { showToast } from "../../utils";
+import { useQueryClient } from "@tanstack/react-query";
+import { motion, AnimatePresence } from "framer-motion";
 
-const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
-  const { errors, settings } = props;
+const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
+  const [timestamp, setTimestamp] = useState(Math.floor(Date.now() / 1000));
+  const { settings } = props;
   const indexRoute = settings?.Routes?.Index?.value;
+  const deleteRoute = settings?.Routes?.Delete?.value;
   const endpoint = settings?.id;
-  const url = `${endpoint}${indexRoute}`;
+  const ip_url = `${endpoint}${indexRoute}`;
   const columnHelper = createColumnHelper();
   const ipAddressRef = useRef<HTMLInputElement>(null);
+  const [type, setType] = useState("whitelist");
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [errors, setErrors] = useState({});
+  const queryClient = useQueryClient();
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleSelectionChange = (rows: any[]) => {
+    setSelectedRows(rows);
+  };
 
   const { data, isLoading } = useQuery({
     initialData: undefined,
     queryKey: ["ip-settings"],
     queryFn: async () => {
-      const res = await api.get(url);
+      const res = await api.get(ip_url);
       return res.data.data;
     },
     staleTime: Infinity, // cache forever unless manually invalidate
-    enabled: !!url, // only run when url is defined
+    enabled: !!ip_url, // only run when ip_url is defined
   });
-  const columns = useMemo(
-    () => [
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimestamp(Math.floor(Date.now() / 1000)); // Update timestamp every second
+    }, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, []);
+  
+  const columns = useMemo(() => {
+    return [
       columnHelper.display({
         id: "select",
         header: ({ table }) => (
           <input
             type="checkbox"
             checked={table.getIsAllPageRowsSelected()}
-            onChange={table.getToggleAllPageRowsSelectedHandler()}
+            onChange={(e) => {
+              table.getToggleAllPageRowsSelectedHandler()(e);
+              const selected = table
+                .getSelectedRowModel()
+                .rows.map((row) => row.original);
+              handleSelectionChange(selected);
+            }}
           />
         ),
-        cell: ({ row }) => (
+        cell: ({ row, table }) => (
           <input
             type="checkbox"
             checked={row.getIsSelected()}
-            onChange={row.getToggleSelectedHandler()}
+            onChange={(e) => {
+              row.getToggleSelectedHandler()(e);
+              const selected = table
+                .getSelectedRowModel()
+                .rows.map((row) => row.original);
+              handleSelectionChange(selected);
+            }}
           />
         ),
       }),
-      columnHelper.accessor("ID", {
-        header: () => (
-          <>
-            <Key size={16} weight="bold" />
-            id
-          </>
-        ),
-        cell: ({ getValue }) => <CopyCell value={getValue()} />,
-      }),
-      columnHelper.accessor("alias", {
+      columnHelper.accessor("bf_list_type", {
         header: () => (
           <>
             <BookmarkSimple size={16} weight="bold" />
-            Alias
+            Type
           </>
         ),
         cell: (info) => (
-          <span className={`capitalize log-status status-${info.getValue()}`}>
+          <span
+            className={`capitalize log-status status-${
+              "whitelist" === info.getValue() ? "success" : "locked"
+            }`}
+          >
             {info.getValue()}
           </span>
         ),
+        meta: {
+          filterType: "dropdown",
+          filterOptions: ["Whitelist", "Blacklist"],
+        },
+        enableSorting: false,
       }),
-      columnHelper.accessor("ip_address", {
+      columnHelper.accessor("bf_ip_address", {
         header: () => (
           <>
-            <MapPin size={16} weight="bold" /> ipAddress
+            <List size={16} weight="bold" /> ipAddress
           </>
         ),
         cell: ({ getValue }) => <CopyCell value={getValue()} />,
+        enableSorting: false,
       }),
       columnHelper.accessor("created_at", {
         header: () => (
@@ -91,10 +140,10 @@ const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
           </>
         ),
         cell: (info) => {
-          const rawDate = new Date(info.getValue());
+          const rawDate = new Date(info.getValue() * 1000);
 
           const formattedDate = rawDate.toLocaleDateString(
-            undefined as string,
+            undefined as unknown as string,
             {
               year: "numeric",
               month: "long",
@@ -103,7 +152,7 @@ const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
           );
 
           const formattedTime = rawDate.toLocaleTimeString(
-            undefined as string,
+            undefined as unknown as string,
             {
               hour: "numeric",
               minute: "2-digit",
@@ -120,10 +169,109 @@ const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
             </span>
           );
         },
+        filterFn: (row, columnId, filterValue) => {
+          const timestamp = row.getValue<number>(columnId);
+          const rowDate = new Date(timestamp * 1000)
+            .toISOString()
+            .split("T")[0];
+          return rowDate === filterValue;
+        },
+        meta: {
+          filterType: "date",
+        },
+        enableSorting: true,
       }),
-    ],
-    []
-  );
+      // other columns here...
+    ];
+  }, [timestamp]); // add any dependency if needed
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    const res = await api
+      .post(ip_url, {
+        formData: {
+          bf_ip_address: {
+            value: ipAddressRef.current?.value,
+            type: "regex",
+            required: true,
+          },
+          bf_list_type: {
+            value: type,
+            type: "text",
+            required: true,
+          },
+          created_at: {
+            value: timestamp,
+            type: "text",
+            required: true,
+          },
+        },
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          showToast(
+            response?.message ||
+              __("Settings saved successfully.", "brutefort"),
+            { type: "success" }
+          );
+          setErrors({});
+          queryClient.invalidateQueries(["ip-settings"]);
+        }
+      })
+      .catch((response) => {
+        if (response.status > 200) {
+          showToast(
+            response?.response?.data?.message ||
+              __("Settings not saved.", "brutefort"),
+            { type: "error" }
+          );
+
+          setErrors(response?.response?.data || errors);
+        }
+      })
+      .finally(() => setIsSaving(false));
+  };
+
+  const handleDeleteRow = async() => {
+    const deleteUrl = `${endpoint}${deleteRoute}`;
+    setIsDeleting(true);
+
+    if(selectedRows.length < 1) {
+      showToast(
+          __("No row selected.", "brutefort"),
+        { type: "error" }
+      );
+    }
+    selectedRows.forEach((i)=>{
+      
+    });
+   
+    await api
+      .delete(deleteUrl)
+      .then((response) => {
+        if (response.status == 200) {
+          showToast(
+            response?.message ||
+              __("Settings saved successfully.", "brutefort"),
+            { type: "success" }
+          );
+          setErrors({});
+          queryClient.invalidateQueries(["ip-settings"]);
+        }
+      })
+      .catch((response) => {
+        if (response.status > 200) {
+          showToast(
+            response?.response?.data?.message ||
+              __("Settings not saved.", "brutefort"),
+            { type: "error" }
+          );
+
+          setErrors(response?.response?.data || errors);
+        }
+      })
+      .finally(() => setIsSaving(false));
+  }
 
   return (
     <div className="flex gap-4 justify-around flex-col">
@@ -135,20 +283,23 @@ const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
         <div className="w-[25%]">
           <Select
             label="Choose Option"
+            id="bf-list-type"
             isSearchable={false}
+            name="bf_list_type"
             defaultValue={{ label: "WhiteList", value: "whitelist" }}
             options={[
               { label: "WhiteList", value: "whitelist" },
               { label: "BlackList", value: "blacklist" },
             ]}
+            onChange={(option) => setType(option?.value)}
           />
         </div>
 
         <div className="flex-1 flex gap-2 items-end justify-between">
           <Input
             ref={ipAddressRef}
-            id="bf-whitelist-ip-address"
-            name="bf_whitelist_ip_address"
+            id="bf-ip-address"
+            name="bf_ip_address"
             defaultValue=""
             type="text"
             label={__("IP Address", "brutefort")}
@@ -158,14 +309,27 @@ const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
               "brutefort"
             )}
             className={`${
-              errors?.bf_lockout_duration ? "input-error" : ""
+              errors?.field === "bf_ip_address" ? "input-error" : ""
             }`}
-            
           />
-          <button className="gap-2 items-center button button-primary" style={{display: "flex", alignItems: "center"}}>
-            {__("Add", "brutefort")}
-            <PlusCircle size={16} weight="fill" />
-          </button>
+          <div className="save-btn flex gap-2 items-center">
+            <button
+              className="gap-2 items-center button button-primary"
+              style={{ display: "flex", alignItems: "center" }}
+              onClick={handleSave}
+              disabled={isSaving}
+            >
+              {__("Add", "brutefort")}
+              <PlusCircle size={16} weight="fill" />
+            </button>
+            {isSaving && (
+              <Spinner
+                size={18}
+                className="rounded-lg"
+                color="border-primary-light"
+              />
+            )}
+          </div>
         </div>
       </div>
       <hr />
@@ -180,8 +344,84 @@ const IpSettings = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
       ) : (
         <>
           <div className="log-body mt-5">
-            <DataTable data={data} columns={columns} isLoading={isLoading} />
+            <DataTable
+              data={data}
+              columns={columns}
+              isLoading={isLoading}
+              onSelectionChange={handleSelectionChange}
+            />
           </div>
+          <AnimatePresence>
+            {selectedRows.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{
+                  duration: 0.2,
+                  scale: { type: "spring", visualDuration: 0.3, bounce: 0.3 },
+                }}
+                className="fixed bottom-6 left-[60%] bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg px-4 py-2"
+              >
+                <div className="flex gap-2 justify-between">
+                  <Trash
+                    className="text-gray-400 hover:text-red-400 transition-colors duration-100 cursor-pointer"
+                    size={22}
+                    weight="fill"
+                    onClick={() => {
+                      setShowConfirmModal(true);
+                    }}
+                  />
+                  <PencilSimple
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-100 cursor-pointer"
+                    size={22}
+                    weight="fill"
+                    onClick={() => {}}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {showConfirmModal && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0}}
+                transition={{
+                  duration: 0.2,
+                  scale: { type: "spring", visualDuration: 0.2, bounce: 0.2 },
+                }}
+                className="fixed left-[160px] inset-0 flex items-center justify-center z-50 bg-black/40"
+              >
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
+                  <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+                    Confirm Delete
+                  </h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+                    {__(
+                      "Are you sure you want to delete the selected IP(s)?",
+                      "brutefort"
+                    )}
+                  </p>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="px-4 py-1 text-sm rounded border cursor-pointer border-gray-300 hover:bg-white-400 dark:border-gray-600"
+                      onClick={() => setShowConfirmModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="px-4 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded "
+                      onClick={handleDeleteRow}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </div>

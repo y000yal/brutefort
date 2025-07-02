@@ -35,23 +35,30 @@ class IpSettingsController extends BaseController {
 	 */
 	public function store( WP_Rest_Request $request ): WP_HTTP_Response|WP_REST_Response|WP_Error {
 		$params = $request->get_json_params();
+		
+		$result = $this->ip_settings_service->validate_and_sanitize_ip_settings( $params );
 
-		$result = $this->rate_limit_service->validate_and_sanitize_settings( $params );
-		$result = apply_filters( "bf_after_rate_limit_validation", $result );
-
+		$result = apply_filters( "bf_after_ip_settings_validation", $result );
+		
 		if ( ! empty( $result['errors'] ) ) {
+		
+			$message  = $result['errors']['message'] ?? apply_filters( "bf_settings_failed_validation_message", __( "Form not submitted, please fill all necessary fields.", "brutefort" ) );
+			
 			return $this->response( array(
 				'status'  => false,
-				'message' => apply_filters( "bf_settings_failed_validation_message", __( "Form not submitted, please fill all necessary fields.", "brutefort" ) ),
-				'errors'  => $result['errors']
+				'message' => $message,
+				'field' => $result['errors']['field'] ,
 			),
 				422 );
 		}
 
-
-		$sanitized_values = apply_filters( "bf_before_rate_limit_settings_save", $result['sanitized'] );
-
-		update_option( "bf_rate_limit_settings", json_encode( $sanitized_values ) );
+		$sanitized_values = apply_filters( "bf_before_ip_settings_save", $result['sanitized'] );
+		$type = $sanitized_values['bf_list_type'];
+		$get_all_option = $this->ip_settings_service->get_all_ips( $type );
+	
+		$get_all_option[] = $sanitized_values;
+		
+		update_option( "bf_{$type}ed_ips", json_encode( $get_all_option) );
 
 		return $this->response( array(
 			'status'  => true,

@@ -57,7 +57,7 @@ const GeneralTab = () => {
   // @ts-ignore
   return (
     <div className="p-4 rounded-lg w-full items-center justify-center transition-colors flex duration-300 gap-4">
-      <div className="min-w-xl max-w-80">
+      <div className="min-w-3xl max-w-80">
         <div className="header flex items-center justify-between mb-5 rounded-md">
           <div>
             <span className="text-2xl font-bold">

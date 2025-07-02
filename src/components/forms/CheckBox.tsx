@@ -1,7 +1,7 @@
 import React , {forwardRef} from "react";
 import {CheckBoxProps} from "../../types";
 import {Info} from "@phosphor-icons/react";
-import {Tooltip} from "./index";
+import { Tooltip } from "react-tooltip";
 
 const Checkbox: forwardRef<CheckBoxProps> = (({label, tooltip, className = "", ...props}, ref) => {
     return (
@@ -14,11 +14,10 @@ const Checkbox: forwardRef<CheckBoxProps> = (({label, tooltip, className = "", .
             />
             {label && <span>{label}</span>}
             {tooltip && (
-                <div className="flex items-center gap-1">
-                    <Tooltip content={tooltip}>
-                        <Info/>
-                    </Tooltip>
-                </div>
+                <>
+                <Tooltip id={props.id} place="bottom" content={tooltip} />
+                <Info data-tooltip-id={props.id} size={14} />
+              </>
             )}
         </label>
     );

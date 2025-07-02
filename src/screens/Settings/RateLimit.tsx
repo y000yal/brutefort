@@ -1,5 +1,5 @@
 import React, {useState, forwardRef, useImperativeHandle, useEffect, useRef} from "react";
-import {Input, CheckBox, Tooltip} from "../../components/forms";
+import {Input, CheckBox} from "../../components/forms";
 import {Info} from "@phosphor-icons/react";
 import {RateLimitProps} from "../../types";
 import api from "../../axios/api";

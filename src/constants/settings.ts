@@ -38,6 +38,10 @@ const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementT
             Index: {
                 value: '/',
                 type: 'GET'
+            },
+            Delete: {
+                value: '/delete',
+                type: 'DELETE'
             }
         }
     },

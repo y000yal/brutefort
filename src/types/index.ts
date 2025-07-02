@@ -50,7 +50,18 @@ export interface RateLimitProps {
         Routes: Record<string, any>
     };
 }
-
+export interface IpSettingsProps {
+    errors?: Record<string, string>;
+    settings?: {
+        id: string,
+        label: string;
+        icon: React.ElementType;
+        component: SettingComponentType,
+        description: string,
+        globalSave: boolean,
+        Routes: Record<string, any>
+    };
+}
 export type SettingComponentType = React.ForwardRefExoticComponent<RateLimitProps & React.RefAttributes<RateLimitRef>>;
 
 export interface SlidePanelProps {

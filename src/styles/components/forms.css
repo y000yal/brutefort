@@ -1,102 +1,117 @@
-input[type="checkbox"], input[type="radio"] {
-    margin: unset;
+input[type="checkbox"],
+input[type="radio"] {
+  margin: unset;
 }
 
-input.input-error, input.input-error:hover, input.input-error:focus {
-    @apply border-1 border-red-700 shadow-[0_0_0_1px_red] outline outline-2 outline-transparent ring-red-700
+input.input-error,
+input.input-error:hover,
+input.input-error:focus {
+  @apply border-1 border-red-700 shadow-[0_0_0_1px_red] outline outline-2 outline-transparent ring-red-700;
 }
 
 .search-box {
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 }
 
 .search-box input {
-    border-radius: 15px;
-    padding: 0 0 0 40px;
-    height: 35px;
-    width: 100%;
-    font-size: small;
-    background: #f0f0f1;
-    color: #c2353c;
-    border: none;
+  border-radius: 15px;
+  padding: 0 0 0 40px;
+  height: 35px;
+  width: 100%;
+  font-size: small;
+  background: #f0f0f1;
+  color: #c2353c;
+  border: none;
 }
 
 .right-search-bar {
-    top: 10px;
-    position: absolute;
-    right: 0;
+  top: 10px;
+  position: absolute;
+  right: 0;
 }
 
 .search-box input:focus {
-    background: #e7e7e8;
-    box-shadow: 0 0 0 0 transparent;
+  background: #e7e7e8;
+  box-shadow: 0 0 0 0 transparent;
 }
 
 .search-box .search-bar-btn {
-    font-weight: bold;
-    padding: 3px 16px;
-    border-radius: 11px;
-    cursor: pointer;
-
+  font-weight: bold;
+  padding: 3px 16px;
+  border-radius: 11px;
+  cursor: pointer;
 }
 
 .search-box .search-bar-btn.search {
-    color: white;
-    background: #e76a70;
-
+  color: white;
+  background: #e76a70;
 }
 
 .search-box .search-bar-btn.clear {
-    color: #746e6f;
+  color: #746e6f;
 }
 
 .settings-label {
-    @apply font-medium text-sm text-gray-700 dark:text-white
+  @apply font-medium text-sm text-gray-700 dark:text-white;
 }
 
 .settings-title {
-    @apply text-lg font-bold dark:text-white
+  @apply text-lg font-bold dark:text-white;
 }
 
 .log-status {
-    @apply px-4 py-1 rounded-xl text-white
+  @apply px-4 py-1 rounded-xl text-white;
 }
 
 .status-locked {
-    background: #131313;
-    color: white;
+  background: #131313;
+  color: white;
 }
 
 .status-success {
-    background: #3ebe80;
+  background: #3ebe80;
 }
 
 .status-fail {
-    background: #e76a70;
+  background: #e76a70;
 }
 .log-id {
-    background: #dad8d8;
-    color: #7d797c;
+  background: #dad8d8;
+  color: #7d797c;
 }
 
 .button.button-primary {
-    @apply bg-primary-light text-white border-none
+  @apply bg-primary-light text-white border-none;
 }
 
 .button.button-primary:hover {
-    @apply bg-primary-dark text-white border-none
+  @apply bg-primary-dark text-white border-none;
 }
 
 .button.button-primary:disabled {
-    @apply bg-primary-light text-white border-none
+  @apply bg-primary-light text-white border-none;
 }
 
-input[type="text"], input[type="password"], input[type="color"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="email"], input[type="month"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="week"], select, textarea
- {
-    box-shadow: 0 0 0 transparent;
-    border-radius: 4px;
-    border: 1px solid #cccccc;
-    background-color: #fff;
-    color: #2c3338;
+input[type="text"]:not(',input-error'),
+input[type="password"]:not(',input-error'),
+input[type="color"]:not(',input-error'),
+input[type="date"]:not(',input-error'),
+input[type="datetime"]:not(',input-error'),
+input[type="datetime-local"]:not(',input-error'),
+input[type="email"]:not(',input-error'),
+input[type="month"]:not(',input-error'),
+input[type="number"]:not(',input-error'),
+input[type="search"]:not(',input-error'),
+input[type="tel"]:not(',input-error'),
+input[type="time"]:not(',input-error'),
+input[type="url"]:not(',input-error'),
+input[type="week"]:not(',input-error'),
+select:not(',input-error'),
+textarea:not(',input-error'){
+  box-shadow: 0 0 0 transparent;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  background-color: #fff;
+  color: #2c3338;
 }

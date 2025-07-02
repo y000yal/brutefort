@@ -1,11 +1,11 @@
 import React, { forwardRef } from "react";
 import { Info } from "@phosphor-icons/react";
-import { Tooltip } from "./index";
 import { __ } from "@wordpress/i18n";
 import ReactSelect, {
   Props as ReactSelectProps,
   GroupBase,
 } from "react-select";
+import { Tooltip } from "react-tooltip";
 
 interface Option {
   label: string;
@@ -42,9 +42,10 @@ const Select = forwardRef<any, SelectProps>(
         <div className="flex items-center gap-1">
           {label && <span>{__(label, "brutefort")}</span>}
           {tooltip && (
-            <Tooltip content={__(tooltip, "brutefort")}>
-              <Info size={14} />
-            </Tooltip>
+             <>
+             <Tooltip id={rest.id} place="bottom" content={tooltip} />
+             <Info data-tooltip-id={rest.id} size={14} />
+           </>
           )}
         </div>
         <ReactSelect

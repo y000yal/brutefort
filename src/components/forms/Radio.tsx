@@ -2,6 +2,7 @@
 import React from "react";
 import {RadioProps} from "../../types";
 import {Info} from "@phosphor-icons/react";
+import { Tooltip } from "react-tooltip";
 
 
 const Radio: React.FC<RadioProps> = ({ label, tooltip , className = "", ...props }) => {
@@ -11,12 +12,10 @@ const Radio: React.FC<RadioProps> = ({ label, tooltip , className = "", ...props
             <div className="flex items-center gap-1">
                 {label && <span>{label}</span>}
                 {tooltip && (
-                    <div className="group relative cursor-help">
-                        <Info size={16} className="text-gray-400" />
-                        <div className="absolute left-1/2 top-full z-10 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 group-hover:block transition-opacity">
-                            {tooltip}
-                        </div>
-                    </div>
+                      <>
+                      <Tooltip id={props.id} place="bottom" content={tooltip} />
+                      <Info data-tooltip-id={props.id} size={14} />
+                    </>
                 )}
             </div>
             <input
