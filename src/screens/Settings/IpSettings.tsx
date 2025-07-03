@@ -364,11 +364,11 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                   duration: 0.2,
                   scale: { type: "spring", visualDuration: 0.3, bounce: 0.3 },
                 }}
-                className="fixed bottom-6 left-[60%] bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg px-4 py-2"
+                className="fixed bottom-6 left-[60%] bg-black backdrop-blur-md border border-white/20 rounded-xl shadow-lg px-4 py-2"
               >
                 <div className="flex gap-2 justify-between">
                   <Trash
-                    className="text-gray-400 hover:text-red-400 transition-colors duration-100 cursor-pointer"
+                    className="text-white hover:text-red-400 transition-colors duration-100 cursor-pointer"
                     size={22}
                     weight="fill"
                     onClick={() => {
@@ -376,7 +376,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                     }}
                   />
                   <PencilSimple
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-100 cursor-pointer"
+                    className="text-white hover:text-blue-400 transition-colors duration-100 cursor-pointer"
                     size={22}
                     weight="fill"
                     onClick={() => {}}
