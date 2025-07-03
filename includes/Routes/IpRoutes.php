@@ -49,7 +49,17 @@ class IpRoutes extends AbstractRoutes {
 				],
 			]
 		);
-
+		register_rest_route(
+			$this->namespace . '/' . $this->version . '/',
+			'/' . $this->rest_base .'/delete',
+			[
+				[
+					'methods'             => 'DELETE',
+					'permission_callback' => [ $this->middleware, 'authorize' ],
+					'callback'            => [ new IpSettingsController(), 'delete' ],
+				],
+			]
+		);
 	}
 
 }

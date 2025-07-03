@@ -242,35 +242,38 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         { type: "error" }
       );
     }
+    var ips = [];
     selectedRows.forEach((i)=>{
-      
+      ips.push(i?.bf_ip_address);
     });
-   
+
     await api
-      .delete(deleteUrl)
+      .delete(`${deleteUrl}/?ids=${JSON.stringify(ips)}`)
       .then((response) => {
         if (response.status == 200) {
           showToast(
             response?.message ||
-              __("Settings saved successfully.", "brutefort"),
+              __("Records deleted successfully.", "brutefort"),
             { type: "success" }
           );
           setErrors({});
+          setShowConfirmModal(false);
           queryClient.invalidateQueries(["ip-settings"]);
+          setSelectedRows({});
         }
       })
       .catch((response) => {
         if (response.status > 200) {
           showToast(
             response?.response?.data?.message ||
-              __("Settings not saved.", "brutefort"),
+              __("Something went wrong while deleting records.", "brutefort"),
             { type: "error" }
           );
 
           setErrors(response?.response?.data || errors);
         }
       })
-      .finally(() => setIsSaving(false));
+      .finally(() => setIsDeleting(false));
   }
 
   return (
@@ -409,14 +412,21 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                       className="px-4 py-1 text-sm rounded border cursor-pointer border-gray-300 hover:bg-white-400 dark:border-gray-600"
                       onClick={() => setShowConfirmModal(false)}
                     >
-                      Cancel
+                      {__("Cancel", "brutefort")}
                     </button>
                     <button
-                      className="px-4 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded "
+                      className="px-4 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded cursor-pointer"
                       onClick={handleDeleteRow}
                     >
-                      Delete
+                      {__("Delete", "brutefort")}
                     </button>
+                    {isDeleting && (
+                        <Spinner
+                            size={18}
+                            className="rounded-lg"
+                            color="border-primary-light"
+                        />
+                    )}
                   </div>
                 </div>
               </motion.div>
