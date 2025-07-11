@@ -41,11 +41,16 @@ class IpSettingsService extends BaseService
 		return [];
 	}
 
-	public function check_ip_exists($ip)
+	public function check_ip_exists($ip, $type = null)
 	{
 		$all_ips = $this->get_all_ips();
 		foreach ($all_ips as $entry) {
 			if (is_array($entry) && isset($entry['bf_ip_address']) && $ip === $entry['bf_ip_address']) {
+				if(null !== $type) {
+					if($type !== $entry['bf_list_type']) {
+						return false;
+					}
+				}
 				return true;
 			}
 		}

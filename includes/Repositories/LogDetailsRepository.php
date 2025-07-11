@@ -17,16 +17,15 @@ class LogDetailsRepository extends \BruteFort\Repositories\BaseRepository implem
 	 * get_logs_by_status
 	 *
 	 * @param $id
-	 * @param $status
 	 *
 	 * @return array
 	 */
-	public function get_logs_by_status( $id, $status ): array {
+	public function get_latest_locked_detail( $id ): array {
 		return (array) $this->wpdb()->get_row( $this->wpdb()->prepare(
 			"SELECT * FROM " . $this->table . " 
-                    WHERE ip_address = %s AND status='%s'
-                    ORDER BY ID DESC LIMIT 1",
-			sanitize_text_field( $id ), sanitize_text_field( $status )
+                    WHERE log_id = %s AND status='locked'
+                    ORDER BY attempt_time DESC LIMIT 1",
+			sanitize_text_field( $id )
 		) );
 	}
 

@@ -118,64 +118,63 @@ class LogsService {
 		$now = current_time( 'mysql' );
 		$log = $this->logs_repository->get_log_by_ip( $ip );
 
-		$lockout_record = $this->log_details_repository->index( [
-			[
-				'log_id' => $log['ID'],
-				'status' => 'locked'
-			]
-		], 'ID', 'DESC', 1 );
-
-		if ( $lockout_record && $now && $lockout_record->lockout_until > $now ) {
+		if ( $this->is_temporarily_locked( $log['ID'], $now ) ) {
 			return true;
 		}
 
-		$fail_window  = (int) $this->settings['bf_time_window'];
-		$max_attempts = (int) $this->settings['bf_max_attempts'];
-
-		$recent_fails = self::get_failed_attempts( $ip, $fail_window );
-		if ( $recent_fails >= $max_attempts ) {
+		if ( $this->has_exceeded_failed_attempts( $ip ) ) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public function log_fail_attempt( $username ): void {
-		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-		$failed = self::get_failed_attempts( $ip, $this->settings['bf_time_window'] );
+	public function log_fail_attempt( $ip, $username ): void {
+		$log            = $this->logs_repository->get_log_by_ip( $ip );
+		$isLocked       = $log['last_status'] === 'locked';
+		$lockoutEnabled = $this->settings['bf_enable_lockout'];
 
-
-		$failed ++;
-
-		$is_locking     = $failed > $this->settings['bf_max_attempts']; //if the attempt exceeds then the is_locking variable will be true;
-		$enable_lockout = $this->settings['bf_enable_lockout'];
-		$lockout_until  = null;
-		$is_extended    = 0;
-		if ( $is_locking ) {
-			$lockout_detail = $this->get_lockout_detail( $enable_lockout );
-			$lockout_until  = $lockout_detail['lockout_timestamp'];
-			$is_extended    = $lockout_detail['is_extended'];
+		// Skip logging if currently locked but lockout is disabled
+		if ( $isLocked && ! $lockoutEnabled ) {
+			return;
 		}
+
+		$failedAttempts = self::get_failed_attempts( $ip, $this->settings['bf_time_window'] );
+		$isLocking      = $failedAttempts >= $this->settings['bf_max_attempts'] && !$isExtended;
+
+		$lockoutUntil = null;
+		$isExtended   = 0;
+
+		if ( $isLocking && $lockoutEnabled) {
+			$latest_locked_log = $this->getLockedData($log['ID']);
+
+			$lockoutDetail = $this->get_lockout_detail( $lockoutEnabled, $log );
+			$lockoutUntil  = $lockoutDetail['lockout_timestamp'];
+			$isExtended    = $lockoutDetail['is_extended'];
+		}
+
+		// Increment failed attempts for logging
+		$failedAttempts ++;
 
 		self::log_attempt( [
 			'log_data'    => [
 				'ip_address'  => $ip,
-				'last_status' => $is_locking ? 'locked' : 'fail',
-				'attempts'    => $failed,
-
+				'last_status' => $isLocking ? 'locked' : 'fail',
+				'attempts'    => $failedAttempts,
 			],
 			'log_details' => [
 				'username'      => $username,
-				'is_extended'   => $is_extended,
-				'lockout_until' => $is_locking ? $lockout_until : null,
-				'status'        => $is_locking ? 'locked' : 'fail',
-			]
+				'is_extended'   => $isExtended,
+				'lockout_until' => $isLocking ? $lockoutUntil : null,
+				'status'        => $isLocking ? 'locked' : 'fail',
+			],
 		] );
 	}
 
-	public function get_lockout_detail( $enable_lockout ): array {
 
+	public function get_lockout_detail( $enable_lockout, array $log = null ): array {
+		$log_details    = $this->log_details_repository->index( [ '' ] );
 		$total_duration = (int) ( $enable_lockout ? $this->settings['bf_lockout_duration'] : $this->settings['bf_time_window'] ) * 60; //this is the initial lockout duration converted to seconds
 		$is_extended    = 0;
 		if ( $this->settings['bf_enable_lockout_extension'] && $this->settings['bf_extend_lockout_duration'] > 0 ) {
@@ -277,6 +276,55 @@ class LogsService {
 		], 'ID', 'DESC', 10, '', false );
 
 
+	}
+
+	/**
+	 * getArr
+	 *
+	 * @param int $log_id
+	 *
+	 * @return array|object|string|null
+	 */
+	public function getLockedData( int $log_id ): string|array|null|object {
+		$data =  $this->log_details_repository->index( [
+			[
+				'log_id' => $log_id,
+				'status' => 'locked',
+			]
+		], 'ID', 'DESC', 1 );
+		 return (empty($data)) ? $data : $data[0];
+	}
+
+	private function was_last_login_successful( array $log ): bool {
+		return isset( $log['last_status'] ) && ! in_array( $log['last_status'], array( 'locked', 'fail' ) );
+	}
+
+	private function is_temporarily_locked( int $log_id, string $now ): bool {
+		$lockout = $this->getLockedData( $log_id);
+		if ( empty( $lockout ) ) {
+			return false;
+		}
+	
+		$is_locked = $lockout->lockout_until > $now;
+
+		if ( ! $is_locked ) {
+			$is_updated = $this->logs_repository->update( $log_id,
+				[
+					'last_status' => 'unlocked',
+				] );
+
+		}
+
+		return $is_locked;
+	}
+
+	private function has_exceeded_failed_attempts( string $ip ): bool {
+		$fail_window  = (int) ( $this->settings['bf_time_window'] ?? 0 );
+		$max_attempts = (int) ( $this->settings['bf_max_attempts'] ?? 0 );
+
+		$recent_fails = self::get_failed_attempts( $ip, $fail_window );
+
+		return $recent_fails >= $max_attempts;
 	}
 
 }
