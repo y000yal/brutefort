@@ -4,9 +4,7 @@ namespace BruteFort\Services;
 
 class IpSettingsService extends BaseService
 {
-
-	public function validate_and_sanitize_ip_settings($params)
-	{
+	public function validate_and_sanitize_ip_settings($params): array {
 		$normal_validation = $this->validate_and_sanitize_settings($params);
 		if (!empty($normal_validation['errors'])) {
 			return $normal_validation;
@@ -40,9 +38,7 @@ class IpSettingsService extends BaseService
 
 		return [];
 	}
-
-	public function check_ip_exists($ip, $type = null)
-	{
+	public function check_ip_exists($ip, $type = null): bool {
 		$all_ips = $this->get_all_ips();
 		foreach ($all_ips as $entry) {
 			if (is_array($entry) && isset($entry['bf_ip_address']) && $ip === $entry['bf_ip_address']) {

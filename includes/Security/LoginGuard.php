@@ -45,43 +45,43 @@ class LoginGuard {
 	}
 
 	public function check_before_login( $user, $username, $password ) {
+
 		if ( $this->logs_service->is_ip_locked( $this->current_ip, $username ) ) {
 			return $this->show_locked_error();
 		}
+
 		return $user;
 	}
 
 	public function show_locked_error(): \WP_Error {
-		$enable_lockout = $this->settings['bf_enable_lockout'];
-		$logs           = $this->logs_service->get_logs( [
-			'status' => 'locked',
-			'limit'  => 1,
-			'offset' => 0
-		] );
-		$lockout_until  = $logs[0]['lockout_until'];
+		$lockout_until = $this->logs_service->get_effective_lockout_until( $this->current_ip );
 
-		if ( ( $lockout_until ) == null ) {
-			$lockout_detail = $this->logs_service->get_lockout_detail($enable_lockout );
-			$lockout_until  = $lockout_detail['lockout_timestamp'];
+		if ( ! $lockout_until ) {
+			$lockout_until = date_i18n( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 		}
-		$lockout_until = date_i18n( 'F j, Y g:i a', strtotime( $lockout_until ) );
+		// Convert GMT datetime string to timestamp in WP timezone
+		$timestamp = get_date_from_gmt( $lockout_until, 'U' );
+		$lockout_formatted = date_i18n( 'F j, Y g:i a', $timestamp );
 
-		$message = empty($this->settings['bf_custom_error_message'])  ?  __( "Too many attempts, Please try again in a while!!", "brutefort" )  :str_replace( '{{locked_out_until}}', $lockout_until, $this->settings['bf_custom_error_message'] );
+		$message = $this->settings['bf_custom_error_message'] ?? __( "Too many attempts, Please try again in a while!!", "brutefort" );
+		$message = str_replace( '{{locked_out_until}}', $lockout_formatted, $message );
 
 		return new \WP_Error( 'brutefort_locked', $message );
 	}
+
 
 	public function log_failed_attempt( $username ): void {
 		$this->logs_service->log_fail_attempt( $this->current_ip, $username );
 	}
 
 	public function log_success( $user_login, $user ): void {
-		$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-
+		$log            = $this->logs_service->get_log_by_ip( $this->current_ip );
+		$total_attempts = (int) $log['attempts'] ?? 0;
 		$this->logs_service->log_attempt( [
 			'log_data'    => [
-				'ip_address'  => $ip,
-				'last_status' => 'success'
+				'ip_address'  => $this->current_ip,
+				'last_status' => 'success',
+				'attempts'    => ++ $total_attempts,
 			],
 			'log_details' => [
 				'username' => $user_login,

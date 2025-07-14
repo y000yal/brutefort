@@ -41,11 +41,13 @@ class Database {
 					    ID BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 					    ip_address VARCHAR(45) NOT NULL,
 					    last_status ENUM('success', 'fail', 'locked', 'unlocked') DEFAULT 'fail',
+					    enable_email_notificaiton INT UNSIGNED DEFAULT 0,
 					    attempts INT DEFAULT 1,
 					    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 					    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 					    
 					    INDEX idx_ip_address (ip_address),
+					    INDEX idx_enable_email_notificaiton (enable_email_notificaiton),
 					    INDEX idx_last_status (last_status),
 					    INDEX idx_created_at (created_at)
 					) $collate

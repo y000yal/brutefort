@@ -150,6 +150,17 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                         <span className="italic self-end">{__("minute(s)", "brutefort")}</span>
                     </div>
 
+                    <Input
+                        ref={customErrorMessageRef}
+                        className={errors?.bf_custom_error_message ? 'input-error' : ''}
+                        id="bf-custom-error-message"
+                        name="bf_custom_error_message"
+                        defaultValue={initialFormData?.bf_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
+                        type="text"
+                        label="Custom Error Message"
+                        placeholder="Too many attempts!! Try again after {{locked_out_until}}."
+                        tooltip="Use {{locked_out_until}} tag to show locked out until period."
+                    />
 
                     <span className="settings-title">{__("Lockout Settings", "brutefort")}</span>
                     <>
@@ -164,6 +175,7 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                             className={errors?.bf_enable_lockout ? 'input-error' : ''}
                         />
                     </>
+
                     {enableLockout && (
                         <>
                             <div className="flex gap-1 items-center content-center">
@@ -216,17 +228,6 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                                     </div>
                                 )}
                             </>
-                            <Input
-                                ref={customErrorMessageRef}
-                                className={errors?.bf_custom_error_message ? 'input-error' : ''}
-                                id="bf-custom-error-message"
-                                name="bf_custom_error_message"
-                                defaultValue={initialFormData?.bf_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
-                                type="text"
-                                label="Custom Error Message"
-                                placeholder="Too many attempts!! Try again after {{locked_out_until}}."
-                                tooltip="Use {{locked_out_until}} tag to show locked out until period."
-                            />
                         </>
                     )}
                 </>
