@@ -26,16 +26,17 @@ class LogsService {
 	protected string|LogDetailsRepository $log_details_repository = '';
 	protected string|RateLimitService $rate_limit_service;
 	private array $settings;
+	protected string|IpSettingsService $ip_settings_service;
 
 	public function __construct() {
 		global $wpdb;
 		$this->db                     = $wpdb;
 		$this->logs_repository        = new LogsRepository();
+		$this->ip_settings_service     = new IpSettingsService();
 		$this->rate_limit_service     = new RateLimitService();
 		$this->log_details_repository = new LogDetailsRepository();
 		$this->settings               = $this->rate_limit_service->get_rate_limit_settings();
 	}
-
 
 	public function log_attempt( array $data ): void {
 		$ip = $data['log_data']['ip_address'] ?? $_SERVER['REMOTE_ADDR'];
@@ -76,7 +77,6 @@ class LogsService {
 		return $this->logs_repository->get_log_by_ip( $ip );
 	}
 
-
 	public function is_ip_locked( string $ip, string $username = '' ): bool {
 		$now = current_time( 'mysql' );
 		$log = $this->logs_repository->get_log_by_ip( $ip );
@@ -95,6 +95,22 @@ class LogsService {
 	public function log_fail_attempt( $ip, $username ): void {
 		$log               = $this->logs_repository->get_log_by_ip( $ip );
 		$total_attempts    = (int) $log['attempts'] ?? 0;
+
+		if ( $this->ip_settings_service->check_ip_exists( $ip, 'whitelist' ) ) {
+			$this->log_attempt( [
+				'log_data'    => [
+					'ip_address'  => $ip,
+					'last_status' => 'fail',
+					'attempts' => ++$total_attempts,
+				],
+				'log_details' => [
+					'username' => $username,
+					'status'   => 'fail',
+				],
+			] );
+			return;
+		}
+
 		$log_id            = $log['ID'];
 		$isLocked          = $log['last_status'] === 'locked';
 		$lockoutEnabled    = $this->settings['bf_enable_lockout'];
@@ -258,7 +274,7 @@ class LogsService {
 		$result = $this->logs_repository->index( [
 			[
 			]
-		], 'ID', 'DESC', 10, '', false );
+		], 'ID', 'DESC', 50, '', false );
 
 		return $this->restructure_log_data( $result );
 
@@ -279,6 +295,7 @@ class LogsService {
 					'attempts'    => $log->attempts,
 					'created_at'  => $log->created_at,
 					'updated_at'  => $log->updated_at,
+					'is_whitelisted' => $this->ip_settings_service->check_ip_exists( $log->ip_address, 'whitelist' ),
 					'log_details' => [],
 				];
 			}
@@ -295,9 +312,8 @@ class LogsService {
 				'attempt_time'  => $log->attempt_time,
 			];
 
-			$grouped[ $log_id ]->log_details[] = $details;
+			array_unshift( $grouped[ $log_id ]->log_details, $details );
 		}
-
 		// Re-index the array
 		return array_values( $grouped );
 	}
@@ -308,7 +324,7 @@ class LogsService {
 			[
 				'log_id' => $id
 			]
-		], 'ID', 'DESC', 10, '', false );
+		], 'ID', 'DESC', 50, '', false );
 	}
 
 	/**
@@ -421,10 +437,5 @@ class LogsService {
 
 		return date_i18n( 'Y-m-d H:i:s', $base_lockout_ts );
 	}
-
-
-
-
-
 
 }

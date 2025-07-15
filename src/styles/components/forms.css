@@ -63,7 +63,9 @@ input.input-error:focus {
 .log-status {
   @apply px-4 py-1 rounded-xl text-white;
 }
-
+.log-type-whitelist {
+  @apply px-4 py-1 rounded-xl bg-transparent border-2 text-[#3ebe80];
+}
 .status-locked {
   background: #131313;
   color: white;
@@ -92,26 +94,50 @@ input.input-error:focus {
 .button.button-primary:disabled {
   @apply bg-primary-light text-white border-none;
 }
-
-input[type="text"]:not(',input-error'),
-input[type="password"]:not(',input-error'),
-input[type="color"]:not(',input-error'),
-input[type="date"]:not(',input-error'),
-input[type="datetime"]:not(',input-error'),
-input[type="datetime-local"]:not(',input-error'),
-input[type="email"]:not(',input-error'),
-input[type="month"]:not(',input-error'),
-input[type="number"]:not(',input-error'),
-input[type="search"]:not(',input-error'),
-input[type="tel"]:not(',input-error'),
-input[type="time"]:not(',input-error'),
-input[type="url"]:not(',input-error'),
-input[type="week"]:not(',input-error'),
-select:not(',input-error'),
-textarea:not(',input-error'){
+input[type="text"]:not(.input-error),
+input[type="password"]:not(.input-error),
+input[type="color"]:not(.input-error),
+input[type="date"]:not(.input-error),
+input[type="datetime"]:not(.input-error),
+input[type="datetime-local"]:not(.input-error),
+input[type="email"]:not(.input-error),
+input[type="month"]:not(.input-error),
+input[type="number"]:not(.input-error),
+input[type="search"]:not(.input-error),
+input[type="tel"]:not(.input-error),
+input[type="time"]:not(.input-error),
+input[type="url"]:not(.input-error),
+input[type="week"]:not(.input-error),
+select:not(.input-error),
+textarea:not(.input-error) {
   box-shadow: 0 0 0 transparent;
   border-radius: 4px;
   border: 1px solid #cccccc;
   background-color: #fff;
   color: #2c3338;
+  font-size: 12px;
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+input[type="color"]::placeholder,
+input[type="date"]::placeholder,
+input[type="datetime"]::placeholder,
+input[type="datetime-local"]::placeholder,
+input[type="email"]::placeholder,
+input[type="month"]::placeholder,
+input[type="number"]::placeholder,
+input[type="search"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="time"]::placeholder,
+input[type="url"]::placeholder,
+input[type="week"]::placeholder,
+select::placeholder,
+textarea::placeholder {
+  color: #2c3338;
+  font-size: 12px;
+}
+
+.react-select__control , .react-select__menu{
+  font-size: 12px;
 }

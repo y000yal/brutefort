@@ -10,6 +10,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-100: oklch(93.6% 0.032 17.717);
     --color-red-400: oklch(70.4% 0.191 22.216);
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
@@ -305,6 +306,9 @@
   .mt-5 {
     margin-top: calc(var(--spacing) * 5);
   }
+  .mt-6 {
+    margin-top: calc(var(--spacing) * 6);
+  }
   .mr-2 {
     margin-right: calc(var(--spacing) * 2);
   }
@@ -514,6 +518,9 @@
   .rounded {
     border-radius: 0.25rem;
   }
+  .rounded-\[8px\] {
+    border-radius: 8px;
+  }
   .rounded-\[15px\] {
     border-radius: 15px;
   }
@@ -689,8 +696,14 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
-  .text-\[15px\] {
-    font-size: 15px;
+  .text-\[12px\] {
+    font-size: 12px;
+  }
+  .text-\[14px\] {
+    font-size: 14px;
+  }
+  .text-\[20px\] {
+    font-size: 20px;
   }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
@@ -704,8 +717,14 @@
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
   }
+  .text-\[\#e76a70\] {
+    color: #e76a70;
+  }
   .text-blue-500 {
     color: var(--color-blue-500);
+  }
+  .text-gray-300 {
+    color: var(--color-gray-300);
   }
   .text-gray-400 {
     color: var(--color-gray-400);
@@ -817,6 +836,34 @@
       }
     }
   }
+  .hover\:bg-gray-400 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-400);
+      }
+    }
+  }
+  .hover\:bg-gray-500 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-500);
+      }
+    }
+  }
+  .hover\:bg-gray-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-700);
+      }
+    }
+  }
+  .hover\:bg-gray-900 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-900);
+      }
+    }
+  }
   .hover\:bg-primary-light {
     &:hover {
       @media (hover: hover) {
@@ -845,6 +892,13 @@
       }
     }
   }
+  .hover\:text-red-100 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-red-100);
+      }
+    }
+  }
   .hover\:text-red-400 {
     &:hover {
       @media (hover: hover) {
@@ -856,6 +910,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-red-500);
+      }
+    }
+  }
+  .hover\:text-red-700 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-red-700);
       }
     }
   }
@@ -883,6 +944,16 @@
       outline-style: none;
     }
   }
+  .disabled\:cursor-none {
+    &:disabled {
+      cursor: none;
+    }
+  }
+  .disabled\:cursor-not-allowed {
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
   .disabled\:opacity-50 {
     &:disabled {
       opacity: 50%;
@@ -891,6 +962,11 @@
   .dark\:border-gray-600 {
     &:is(.dark *) {
       border-color: var(--color-gray-600);
+    }
+  }
+  .dark\:bg-gray-700 {
+    &:is(.dark *) {
+      background-color: var(--color-gray-700);
     }
   }
   .dark\:bg-gray-800 {
@@ -908,9 +984,32 @@
       color: var(--color-gray-700);
     }
   }
+  .dark\:text-gray-800 {
+    &:is(.dark *) {
+      color: var(--color-gray-800);
+    }
+  }
   .dark\:text-white {
     &:is(.dark *) {
       color: var(--color-white);
+    }
+  }
+  .dark\:hover\:bg-gray-50 {
+    &:is(.dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--color-gray-50);
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-gray-900 {
+    &:is(.dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--color-gray-900);
+        }
+      }
     }
   }
 }
@@ -1220,6 +1319,15 @@ input.input-error, input.input-error:hover, input.input-error:focus {
   padding-block: calc(var(--spacing) * 1);
   color: var(--color-white);
 }
+.log-type-whitelist {
+  border-radius: var(--radius-xl);
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+  background-color: transparent;
+  padding-inline: calc(var(--spacing) * 4);
+  padding-block: calc(var(--spacing) * 1);
+  color: #3ebe80;
+}
 .status-locked {
   background: #131313;
   color: white;
@@ -1252,12 +1360,20 @@ input.input-error, input.input-error:hover, input.input-error:focus {
   background-color: var(--color-primary-light);
   color: var(--color-white);
 }
-input[type="text"]:not(',input-error'), input[type="password"]:not(',input-error'), input[type="color"]:not(',input-error'), input[type="date"]:not(',input-error'), input[type="datetime"]:not(',input-error'), input[type="datetime-local"]:not(',input-error'), input[type="email"]:not(',input-error'), input[type="month"]:not(',input-error'), input[type="number"]:not(',input-error'), input[type="search"]:not(',input-error'), input[type="tel"]:not(',input-error'), input[type="time"]:not(',input-error'), input[type="url"]:not(',input-error'), input[type="week"]:not(',input-error'), select:not(',input-error'), textarea:not(',input-error') {
+input[type="text"]:not(.input-error), input[type="password"]:not(.input-error), input[type="color"]:not(.input-error), input[type="date"]:not(.input-error), input[type="datetime"]:not(.input-error), input[type="datetime-local"]:not(.input-error), input[type="email"]:not(.input-error), input[type="month"]:not(.input-error), input[type="number"]:not(.input-error), input[type="search"]:not(.input-error), input[type="tel"]:not(.input-error), input[type="time"]:not(.input-error), input[type="url"]:not(.input-error), input[type="week"]:not(.input-error), select:not(.input-error), textarea:not(.input-error) {
   box-shadow: 0 0 0 transparent;
   border-radius: 4px;
   border: 1px solid #cccccc;
   background-color: #fff;
   color: #2c3338;
+  font-size: 12px;
+}
+input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="color"]::placeholder, input[type="date"]::placeholder, input[type="datetime"]::placeholder, input[type="datetime-local"]::placeholder, input[type="email"]::placeholder, input[type="month"]::placeholder, input[type="number"]::placeholder, input[type="search"]::placeholder, input[type="tel"]::placeholder, input[type="time"]::placeholder, input[type="url"]::placeholder, input[type="week"]::placeholder, select::placeholder, textarea::placeholder {
+  color: #2c3338;
+  font-size: 12px;
+}
+.react-select__control , .react-select__menu {
+  font-size: 12px;
 }
 @property --tw-translate-x {
   syntax: "*";

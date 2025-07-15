@@ -33,11 +33,10 @@ class LoginGuard {
 		$this->ips        = $this->ip_settings_service->get_all_ips();
 		$this->current_ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-		if ( ! $this->isWhitelisted( $this->current_ip ) ) {
-			add_filter( 'authenticate', [ $this, 'check_before_login' ], 30, 3 );
-			add_action( 'wp_login_failed', [ $this, 'log_failed_attempt' ] );
-			add_action( 'wp_login', [ $this, 'log_success' ], 10, 2 );
-		}
+		add_filter( 'authenticate', [ $this, 'check_before_login' ], 30, 3 );
+		add_action( 'wp_login_failed', [ $this, 'log_failed_attempt' ] );
+		add_action( 'wp_login', [ $this, 'log_success' ], 10, 2 );
+
 	}
 
 	private function isWhitelisted( string $ip ): bool {
@@ -45,7 +44,9 @@ class LoginGuard {
 	}
 
 	public function check_before_login( $user, $username, $password ) {
-
+		if ( $this->isWhitelisted( $this->current_ip ) ) {
+			return $user;
+		}
 		if ( $this->logs_service->is_ip_locked( $this->current_ip, $username ) ) {
 			return $this->show_locked_error();
 		}

@@ -62,17 +62,17 @@ const DataTable = <T,>({
     );
 
   return (
-    <div className="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-      <table className="w-full table-auto text-gray-500 border border-gray-200">
-        <thead className="bg-gray-100">
+    <div className="rounded-lg overflow-hidden dark:bg-gray-800 border border-gray-200 shadow-sm">
+      <table className="w-full table-auto dark:bg-gray-800 text-gray-500 border border-gray-200">
+        <thead className="bg-gray-100 dark:bg-gray-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="text-left p-2">
+                <th key={header.id} className="text-left p-2 ">
                   {!header.isPlaceholder && (
                     <div className="flex flex-col gap-1">
                       <span
-                        className="text-sm font-semibold text-gray-700 flex gap-1 items-center cursor-pointer select-none"
+                        className="text-sm font-semibold text-gray-700 dark:text-white flex gap-1 items-center cursor-pointer select-none"
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {flexRender(
@@ -102,7 +102,7 @@ const DataTable = <T,>({
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className="hover:bg-gray-50 font-medium cursor-pointer h-[70px]"
+              className="hover:bg-gray-50 dark:hover:bg-gray-900 font-medium cursor-pointer h-[70px]"
               onClick={() => onRowClick?.(row)}
             >
               {row.getVisibleCells().map((cell) => (
@@ -114,21 +114,21 @@ const DataTable = <T,>({
           ))}
         </tbody>
       </table>
-      <div className="p-2 flex items-center justify-between border-t border-gray-200 bg-gray-50">
-        <div className="flex items-center gap-2">
+      <div className="p-2 flex items-center justify-between border-t border-gray-200 dark:bg-gray-800 dark:text-white bg-gray-50">
+        <div className="flex items-center dark:text-white gap-2">
           <button
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:text-white rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             Prev
           </button>
-          <span className="text-sm text-gray-700">
+          <span className="dark:text-white text-sm text-gray-700">
             Page <strong>{table.getState().pagination.pageIndex + 1}</strong> of{" "}
             <strong>{table.getPageCount()}</strong>
           </span>
           <button
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="dark:text-white px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
