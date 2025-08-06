@@ -302,7 +302,8 @@ class LogsService {
 
 			// Prepare the details object
 			$details = (object) [
-				'log_id'        => $log->log_id,
+				'log_id'       	 => $log->log_id,
+				'log_details_id'        => $log->ID,
 				'username'      => $log->username,
 				'user_id'       => $log->user_id,
 				'status'        => $log->status,

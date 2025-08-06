@@ -69,6 +69,7 @@ class Routes {
 		return [
 			'rate-limit'  => RateLimitRoutes::class,
 			'logs'        => LogRoutes::class,
+			'log-details' => LogDetailRoutes::class,
 			'ip-settings' => IpRoutes::class
 		];
 	}

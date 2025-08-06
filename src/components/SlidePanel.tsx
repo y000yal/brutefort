@@ -54,7 +54,7 @@
                                     duration: .3
                                 }
                             }}
-                            className="fixed top-0 right-0 h-full w-[40%] bg-white shadow-lg z-50"
+                            className="fixed top-0 right-0 h-full w-[60%] bg-white shadow-lg z-50"
                         >
                             <IpLogDetails onClose={onClose} isLoadind={isLoading} details={details.length > 1 ? details.length : data} />
                         </motion.div>

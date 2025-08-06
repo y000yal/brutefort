@@ -37,22 +37,35 @@ class Settings {
 			return;
 		}
 
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$is_dev = defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
 
-		wp_enqueue_script(
-			'brutefort-admin',
-			BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
-			[ 'wp-element', 'wp-api-fetch' ],
-			BF_VERSION,
-			true
-		);
+		if ( $is_dev ) {
+			// Load from dev server in development
+			wp_enqueue_script(
+				'brutefort-admin',
+				'http://localhost:8080/admin.js',
+				[ 'wp-element', 'wp-api-fetch' ],
+				BF_VERSION,
+				true
+			);
+		} else {
+			// Load from built assets in production
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			wp_enqueue_script(
+				'brutefort-admin',
+				BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
+				[ 'wp-element', 'wp-api-fetch' ],
+				BF_VERSION,
+				true
+			);
 
-		wp_enqueue_style(
-			'brutefort-admin',
-			BF()->plugin_url() . '/assets/css/admin.css',
-			[],
-			BF_VERSION
-		);
+			wp_enqueue_style(
+				'brutefort-admin',
+				BF()->plugin_url() . '/assets/css/admin.css',
+				[],
+				BF_VERSION
+			);
+		}
 
 		wp_localize_script( 'brutefort-admin', 'BruteFortData', [
 			'restUrl' => esc_url_raw( rest_url( 'brutefort/v1/' ) ),

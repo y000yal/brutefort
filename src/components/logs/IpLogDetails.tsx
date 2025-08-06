@@ -2,8 +2,10 @@ import React from "react";
 import Spinner from "../Spinner";
 import {LogDetailsInterface} from "../../types";
 import {ClockClockwise, Pencil, PencilLine, ShieldWarning, Trash} from "@phosphor-icons/react";
-import {formatDate} from "../../utils";
+import {formatDate, showToast} from "../../utils";
 import {__} from "@wordpress/i18n";
+import api from "../../axios/api";
+import { CONSTANTS } from "../../constants";
 
 export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, isLoading = false, details}) => {
     if (isLoading) {
@@ -27,6 +29,18 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, isLoading 
             default:
                 return 'status-fail';
         }
+    };
+    const logRoute = CONSTANTS.LOG_ROUTES.log_details;
+    const handleDeleteLog =  (log_details_id: number) => {
+        console.log(`${logRoute}/${log_details_id}/delete`)
+        api.delete(`${logRoute}/${log_details_id}/delete`).then((res) => {
+            console.log(res)
+            if(res.status == 200){
+                showToast(res?.data?.data?.message || __("Log deleted successfully.", "brutefort"), { type: "success" });
+                 queryClient.invalidateQueries(["ip-settings"]);
+            }
+        })
+       
     };
 
     return (
@@ -86,6 +100,7 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, isLoading 
                                         {log.status === 'fail' ? 'Failed' : log.status === 'locked' ? 'Locked' : 'Success'}
                                     </span>
                                     <Trash
+                                    onClick={() => handleDeleteLog(log.log_details_id)}
                                         className="text-gray-500 hover:text-red-700 transition-colors duration-100 cursor-pointer"/>
                                 </div>
                             </div>

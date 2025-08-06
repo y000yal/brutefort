@@ -291,8 +291,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
             name="bf_list_type"
             defaultValue={{ label: "WhiteList", value: "whitelist" }}
             options={[
-              { label: "WhiteList", value: "whitelist" },
-              { label: "BlackList", value: "blacklist" },
+              { label: "WhiteList", value: "whitelist" }
             ]}
             onChange={(option) => setType(option?.value)}
           />

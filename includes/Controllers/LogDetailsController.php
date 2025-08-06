@@ -23,6 +23,12 @@ class LogDetailsController extends BaseController {
 		$this->log_details_repository = new LogDetailsRepository();
 	}
 
+	public function delete_log_details( WP_Rest_Request $request ): WP_REST_Response {
+		$id = (int) absint( $request->get_param( 'id' ) );
+		$this->log_details_repository->delete( $id );
+		return $this->response( array( 'message' => __( 'Log details deleted successfully.', 'brutefort' ) ), 200 );
+	}
+
 
 
 }
