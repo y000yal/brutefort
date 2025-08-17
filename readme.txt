@@ -2,7 +2,7 @@
 Contributors: y0000el
 Tags: brute force, login protection, ip restriction, whitelist, blacklist, security, wordpress security, login limiter
 Requires at least: 5.0
-Tested up to: 6.5
+Tested up to: 6.8.2
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -56,10 +56,10 @@ Yes. BruteFort is designed to work alongside most other WordPress security plugi
 
 == Changelog ==
 
-= 1.0.0 =
+= 0.0.1 =
 * Initial release – login protection, IP whitelist/blacklist, brute force detection.
 
 == Upgrade Notice ==
 
-= 1.0.0 =
+= 0.0.1 =
 Initial release.

@@ -7,11 +7,11 @@ import { __ } from "@wordpress/i18n";
 import { Copyright } from "@phosphor-icons/react";
 export const MainLayout: React.FC = () => {
   return (
-    <div className="pr-6 pl-0 max-w-8xl force-tailwind dark:text-gray-700">
+    <div className="pr-6 pl-0 max-w-8xl force-tailwind dark:text-gray-700 mt-4">
       <div className="flex justify-between mb-4">
-        <div className="flex items-center gap-2 dark:text-white">
-          <ShieldSlash size={32} />
-          <span className="text-3xl font-bold ">BruteFort</span>
+        <div className="flex flex-row items-center gap-2 dark:text-white">
+         
+          <span className="flex text-3xl font-bold items-end">Br<ShieldSlash size={30} weight="fill" color="#e66a6f"/>teFort</span>
         </div>
         <ThemeToggle />
       </div>

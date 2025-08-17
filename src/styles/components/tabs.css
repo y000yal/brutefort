@@ -11,4 +11,5 @@
     .pill-background {
         @apply absolute top-1 bottom-1 bg-white dark:bg-gray-700 shadow-md rounded-lg transition-all duration-200;
     }
+    
 }

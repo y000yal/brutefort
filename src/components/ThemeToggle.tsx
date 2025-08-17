@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Switch from './Switch'; // Import the Switch component
+import { Moon, Sun } from '@phosphor-icons/react';
 
 const ThemeToggle: React.FC = () => {
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
     useEffect(() => {
-        // Load saved theme preference from localStorage
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             setIsDarkMode(true);
@@ -23,9 +22,20 @@ const ThemeToggle: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center justify-center p-4">
-            <Switch isChecked={isDarkMode} onChange={toggleTheme} />
-        </div>
+        <button
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className={`relative cursor-pointer flex items-center justify-center w-12 h-12 rounded-full shadow-lg border border-gray-200 dark:border-gray-700
+                bg-white dark:bg-gray-900 transition-all duration-300 hover:scale-105 focus:outline-none`}
+        >
+            <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-300">
+                {isDarkMode ? (
+                    <Moon size={26} weight="fill" className="text-blue-400" />
+                ) : (
+                    <Sun size={26} weight="fill" className="text-yellow-400" />
+                )}
+            </span>
+        </button>
     );
 };
 

@@ -98,17 +98,32 @@ class IpSettingsController extends BaseController {
 			$type = $entry['bf_list_type'];
 			$grouped[$type][] = $entry;
 		}
+		
+		 // Prevent deleting the user's own IP from whitelist if it's the only one
+		$current_ip = $_SERVER['REMOTE_ADDR'] ?? gethostbyname(gethostname());
+		error_log("Current IP: $current_ip");
+		$whitelist_ips = array_column($grouped['whitelist'], 'bf_ip_address');
+		$is_current_ip_selected = in_array($current_ip, $ips);
 
-
+		if ($is_current_ip_selected && count($whitelist_ips) === 1) {
+			return $this->response(array(
+				'status' => false,
+				'message' => __("You cannot remove your own IP from the whitelist. At least one IP must remain.", "brutefort")
+			), 403);
+		}
 
 		$grouped['blacklist'] = array_filter($grouped['blacklist'], function($entry) use ($ips) {
 			return !in_array($entry['bf_ip_address'], $ips);
 		});
 
-		$grouped['whitelist'] = array_filter($grouped['whitelist'], function($entry) use ($ips) {
+		$grouped['whitelist'] = array_filter($grouped['whitelist'], function($entry) use ($ips, $current_ip) {
+			 // Do not remove the user's own IP
+			if ($entry['bf_ip_address'] == $current_ip) {
+				return true;
+			}
 			return !in_array($entry['bf_ip_address'], $ips);
 		});
-
+		
 		foreach($grouped as $type => $group) {
 			update_option( "bf_{$type}ed_ips", json_encode( $group ) );
 		}

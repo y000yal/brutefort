@@ -8,7 +8,7 @@ const TabsNav: React.FC = () => {
     const location = useLocation();
     // Detect active tab key based on path
     const activeTabKey = Object.entries(TABS).find(
-        ([, {path}]) => '/' + path === (location.pathname.length > 1 ? location.pathname : '/general')
+        ([, {path}]) => '/' + path === (location.pathname.length > 1 ? location.pathname : '/settings')
     )?.[0];
 
     useEffect(() => {

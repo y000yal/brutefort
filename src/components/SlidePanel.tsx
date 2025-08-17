@@ -7,7 +7,7 @@
     import {SlidePanelProps} from "../types";
 
 
-    const SlidePanel: React.FC<SlidePanelProps> = ({data, onClose, fetchDetailRoute}) => {
+    const SlidePanel: React.FC<SlidePanelProps> = ({data, onClose, onDeleteLogDetail, fetchDetailRoute}) => {
         const { data: details = [], isLoading } = useQuery({
             queryKey: ['details', fetchDetailRoute],
             queryFn: async () => {
@@ -56,7 +56,7 @@
                             }}
                             className="fixed top-0 right-0 h-full w-[60%] bg-white shadow-lg z-50"
                         >
-                            <IpLogDetails onClose={onClose} isLoadind={isLoading} details={details.length > 1 ? details.length : data} />
+                            <IpLogDetails onDeleteLogDetail={onDeleteLogDetail}  onClose={onClose} isLoading={isLoading} details={details.length > 1 ? details.length : data} />
                         </motion.div>
                     </>
                 )}

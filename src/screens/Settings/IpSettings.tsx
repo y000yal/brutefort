@@ -47,7 +47,22 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
   const queryClient = useQueryClient();
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [ipAddress, setIpAddress] = useState("");
 
+  useEffect(() => {
+    // Fetch the IP address when the component mounts
+    const fetchIpAddress = async () => {
+      try {
+        const response = await fetch("");
+        const data = await response.json();
+        setIpAddress(data.ip);
+      } catch (error) {
+        console.error("Error fetching IP address:", error);
+      }
+    };
+
+    fetchIpAddress();
+  }, []);
   const handleSelectionChange = (rows: any[]) => {
     setSelectedRows(rows);
   };
@@ -70,7 +85,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
 
     return () => clearInterval(interval); // Cleanup on component unmount
   }, []);
-  
+
   const columns = useMemo(() => {
     return [
       columnHelper.display({
@@ -232,18 +247,15 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
       .finally(() => setIsSaving(false));
   };
 
-  const handleDeleteRow = async() => {
+  const handleDeleteRow = async () => {
     const deleteUrl = `${endpoint}${deleteRoute}`;
     setIsDeleting(true);
 
-    if(selectedRows.length < 1) {
-      showToast(
-          __("No row selected.", "brutefort"),
-        { type: "error" }
-      );
+    if (selectedRows.length < 1) {
+      showToast(__("No row selected.", "brutefort"), { type: "error" });
     }
     var ips = [];
-    selectedRows.forEach((i)=>{
+    selectedRows.forEach((i) => {
       ips.push(i?.bf_ip_address);
     });
 
@@ -274,13 +286,15 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         }
       })
       .finally(() => setIsDeleting(false));
-  }
+  };
 
   return (
     <div className="flex gap-4 justify-around flex-col">
-      <span className="settings-title">
-        {__("Whitelist/Blacklist Settings", "brutefort")}
-      </span>
+      <div className="settings-title flex align-center justify-between mb-4">
+        <span className="text-2xl font-semibold">
+          {__("Whitelist/Blacklist Settings", "brutefort")}
+        </span>
+      </div>
 
       <div className="flex gap-4 items-start">
         <div className="w-[25%]">
@@ -290,9 +304,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
             isSearchable={false}
             name="bf_list_type"
             defaultValue={{ label: "WhiteList", value: "whitelist" }}
-            options={[
-              { label: "WhiteList", value: "whitelist" }
-            ]}
+            options={[{ label: "WhiteList", value: "whitelist" }]}
             onChange={(option) => setType(option?.value)}
           />
         </div>
@@ -353,6 +365,11 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
               onSelectionChange={handleSelectionChange}
             />
           </div>
+          {/* <span className="italic text-sm text-gray-300 dark:text-gray-200">
+            <MapPin size={16} weight="fill" className="inline mr-1" />
+            {__("Your IP: ", "brutefort")}
+            <span className="font-semibold">{ipAddress}</span>
+          </span> */}
           <AnimatePresence>
             {selectedRows.length > 0 && (
               <motion.div
@@ -389,7 +406,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0}}
+                exit={{ opacity: 0 }}
                 transition={{
                   duration: 0.2,
                   scale: { type: "spring", visualDuration: 0.2, bounce: 0.2 },
@@ -420,11 +437,11 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                       {__("Delete", "brutefort")}
                     </button>
                     {isDeleting && (
-                        <Spinner
-                            size={18}
-                            className="rounded-lg"
-                            color="border-primary-light"
-                        />
+                      <Spinner
+                        size={18}
+                        className="rounded-lg"
+                        color="border-primary-light"
+                      />
                     )}
                   </div>
                 </div>

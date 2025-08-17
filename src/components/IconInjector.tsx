@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Shield  } from '@phosphor-icons/react';
+import { Shield, ShieldSlash  } from '@phosphor-icons/react';
 
 export const IconInjector: React.FC = () => {
     useEffect(() => {
@@ -18,11 +18,9 @@ export const IconInjector: React.FC = () => {
         container.style.alignItems = 'center';
         container.style.justifyContent = 'center';
         container.style.height = '20px'; // match icon size
-
         menuIconWrapper.appendChild(container);
-
         const icon = (
-            <Shield
+            <ShieldSlash
                 size={20}
                 color="currentColor"
                 weight="fill"

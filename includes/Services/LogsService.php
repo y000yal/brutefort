@@ -80,7 +80,9 @@ class LogsService {
 	public function is_ip_locked( string $ip, string $username = '' ): bool {
 		$now = current_time( 'mysql' );
 		$log = $this->logs_repository->get_log_by_ip( $ip );
-
+		if ( empty( $log ) ) {
+			return false;
+		}
 		if ( $this->is_temporarily_locked( $log['ID'], $now ) ) {
 			return true;
 		}
@@ -92,29 +94,36 @@ class LogsService {
 		return false;
 	}
 
+	/**
+	 * Logs a failed login attempt and handles lockout if conditions are met.
+	 *
+	 * @param string $ip The IP address of the user.
+	 * @param string $username The username of the user.
+	 */
 	public function log_fail_attempt( $ip, $username ): void {
-		$log               = $this->logs_repository->get_log_by_ip( $ip );
-		$total_attempts    = (int) $log['attempts'] ?? 0;
+    	$log = $this->logs_repository->get_log_by_ip( $ip );
+    	$total_attempts = isset($log['attempts']) ? (int)$log['attempts'] : 0;
 
-		if ( $this->ip_settings_service->check_ip_exists( $ip, 'whitelist' ) ) {
-			$this->log_attempt( [
-				'log_data'    => [
-					'ip_address'  => $ip,
-					'last_status' => 'fail',
-					'attempts' => ++$total_attempts,
-				],
-				'log_details' => [
-					'username' => $username,
-					'status'   => 'fail',
-				],
-			] );
-			return;
-		}
+	   if ( $this->ip_settings_service->check_ip_exists( $ip, 'whitelist' ) ) {
+        $this->log_attempt( [
+            'log_data'    => [
+                'ip_address'  => $ip,
+                'last_status' => 'fail',
+                'attempts'    => $total_attempts + 1,
+            ],
+            'log_details' => [
+                'username' => $username,
+                'status'   => 'fail',
+            ],
+        ] );
+        return;
+    }
+  	$log_id      = isset($log['ID']) ? $log['ID'] : null;
+    $last_status = isset($log['last_status']) ? $log['last_status'] : null;
+    $isLocked    = ($last_status === 'locked');
+    $lockoutEnabled = isset($this->settings['bf_enable_lockout']) ? $this->settings['bf_enable_lockout'] : false;
+    $latest_locked_log = (!empty($log_id) && is_numeric($log_id)) ? $this->getLockedData((int)$log_id) : null;
 
-		$log_id            = $log['ID'];
-		$isLocked          = $log['last_status'] === 'locked';
-		$lockoutEnabled    = $this->settings['bf_enable_lockout'];
-		$latest_locked_log = $this->getLockedData( $log_id );
 
 		// Skip if lockout is off and currently locked
 		if ( $isLocked && ! $lockoutEnabled ) {
@@ -137,8 +146,8 @@ class LogsService {
 		}
 
 		// If not currently locked, check if lockout should now happen
-		$failedAttempts = $this->get_failed_attempts( $ip, $this->settings['bf_time_window'] );
-		$isLocking      = $failedAttempts >= $this->settings['bf_max_attempts'];
+    	$failedAttempts = $this->get_failed_attempts( $ip, isset($this->settings['bf_time_window']) ? $this->settings['bf_time_window'] : 60 );
+    	$isLocking      = $failedAttempts >= (isset($this->settings['bf_max_attempts']) ? $this->settings['bf_max_attempts'] : 5);
 
 		if ( $isLocking && $lockoutEnabled ) {
 			$this->handle_new_lockout( $ip, $username, $total_attempts, $log );

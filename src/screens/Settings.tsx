@@ -7,7 +7,7 @@ import { showToast } from "../utils";
 import api from "../axios/api";
 import { Plus, PlusCircle } from "@phosphor-icons/react";
 
-const GeneralTab = () => {
+const Settings = () => {
   const [activeSetting, setActiveSetting] = useState("rateLimitSettings");
   const [isSaving, setIsSaving] = useState(false);
   const formRef = useRef(null);
@@ -115,4 +115,4 @@ const GeneralTab = () => {
   );
 };
 
-export default GeneralTab;
+export default Settings;

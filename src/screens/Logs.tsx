@@ -130,12 +130,22 @@ const Logs = () => {
         setHasSearchInput(value.length > 0);
     };
 
+    const handleDeleteLogDetail = (logDetailId) => {
+        setSelectedLog((prev: any) => {
+            if (!prev) return prev;
+            const updatedLogs = prev.log_details.filter(l => l.log_details_id !== logDetailId);
+            if (updatedLogs.length === 0) {
+                setSelectedLog(null); // close panel
+            }
+            return { ...prev, log_details: updatedLogs };
+        });
+    };
     return (
         <>
             <div className="p-4 rounded-lg w-full transition-colors duration-300 gap-4">
                 <div className="header flex flex-col gap-4 mb-5">
                     <span className="text-2xl font-bold">Logs</span>
-                    <div className="search-box relative">
+                    {/* <div className="search-box relative">
                         <label htmlFor="search-bar">
                             <MagnifyingGlass size={24} className="absolute top-3 left-3 z-10 text-gray-400"/>
                         </label>
@@ -156,7 +166,7 @@ const Logs = () => {
                                 }}>Clear</span>
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="log-body mt-5">
@@ -164,7 +174,7 @@ const Logs = () => {
             </div>
 
             {selectedLog && (
-                <SlidePanel data={selectedLog} onClose={() => setSelectedLog(null)}  />
+                <SlidePanel data={selectedLog} onClose={() => setSelectedLog(null)}  onDeleteLogDetail={handleDeleteLogDetail} />
             )}
 
         </>
