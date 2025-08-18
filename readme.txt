@@ -1,10 +1,10 @@
 === BruteFort ===
 Contributors: y0000el
-Tags: brute force, login protection, ip restriction, whitelist, blacklist, security, wordpress security, login limiter
+Tags: brute force, login protection, ip restriction, security, wordpress security
 Requires at least: 5.0
-Tested up to: 6.8.2
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 0.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

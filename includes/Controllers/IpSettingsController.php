@@ -82,7 +82,7 @@ class IpSettingsController extends BaseController {
 		if ( empty( $ips ) ) {
 			return $this->response( array(
 				'status'  => false,
-				'message' => __( "No row selected." )
+				'message' => __( "No row selected.", "brutefort" )
 			),
 				422 );
 		}
@@ -100,8 +100,15 @@ class IpSettingsController extends BaseController {
 		}
 		
 		 // Prevent deleting the user's own IP from whitelist if it's the only one
-		$current_ip = $_SERVER['REMOTE_ADDR'] ?? gethostbyname(gethostname());
-		error_log("Current IP: $current_ip");
+		$current_ip = '';
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$current_ip = wp_unslash($_SERVER['REMOTE_ADDR']);
+		} else {
+			$current_ip = gethostbyname(gethostname());
+		}
+		$current_ip = sanitize_text_field($current_ip);
+		// Remove error_log in production
+		// error_log("Current IP: $current_ip");
 		$whitelist_ips = array_column($grouped['whitelist'], 'bf_ip_address');
 		$is_current_ip_selected = in_array($current_ip, $ips);
 

@@ -1,0 +1,100 @@
+# Copyright (C) 2025 Y0000el
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: BruteFort 0.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/brutefort\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-08-18T11:15:04+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: brutefort\n"
+
+#. Plugin Name of the plugin
+#: brutefort.php
+#: includes/Settings.php:24
+#: includes/Settings.php:25
+msgid "BruteFort"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: brutefort.php
+msgid "https://brutefort.com/"
+msgstr ""
+
+#. Description of the plugin
+#: brutefort.php
+msgid "BruteForce Protection for WordPress with IP Restriction, Whitelist & Blacklist Management."
+msgstr ""
+
+#. Author of the plugin
+#: brutefort.php
+msgid "Y0000el"
+msgstr ""
+
+#. Author URI of the plugin
+#: brutefort.php
+msgid "https://yoyallimbu.com.np"
+msgstr ""
+
+#: brutefort.php:57
+#: brutefort.php:62
+msgid "Cheating; huh?"
+msgstr ""
+
+#: brutefort.php:156
+msgid "Settings"
+msgstr ""
+
+#: brutefort.php:166
+msgid "Docs"
+msgstr ""
+
+#: brutefort.php:167
+msgid "Free support"
+msgstr ""
+
+#. translators: %s: Current IP address
+#: brutefort.php:212
+#, php-format
+msgid "Your current IP (%s) is not whitelisted. For security, please add it to the whitelist in BruteFort settings."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:45
+#: includes/Controllers/RateLimitController.php:44
+msgid "Form not submitted, please fill all necessary fields."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:65
+#: includes/Controllers/RateLimitController.php:57
+msgid "Settings saved successfully."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:85
+msgid "No row selected."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:118
+msgid "You cannot remove your own IP from the whitelist. At least one IP must remain."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:139
+msgid "Records deleted successfully."
+msgstr ""
+
+#: includes/Controllers/LogDetailsController.php:29
+msgid "Log details deleted successfully."
+msgstr ""
+
+#: includes/Middlewares/PermissionMiddleware.php:33
+msgid "You are not allowed to perform this action."
+msgstr ""
+
+#: includes/Security/LoginGuard.php:73
+#: includes/Services/RateLimitService.php:16
+msgid "Too many attempts, Please try again in a while!!"
+msgstr ""

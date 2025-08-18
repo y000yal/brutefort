@@ -15,6 +15,7 @@ module.exports = {
         filename: 'admin.js',
         chunkFilename: '[name].[contenthash].js',
         publicPath: isProduction ? '' : 'http://localhost:8080/',
+        clean: true, // Clean the output directory before each build
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? false : 'source-map',

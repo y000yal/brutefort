@@ -87,7 +87,7 @@ class BaseRepository implements BaseInterface {
 			}
 		}
 
-		$prepared_sql = $wpdb->prepare( $sql, ...$args );
+		$prepared_sql = $wpdb->prepare( query: $sql, ...$args );
 		if ( $get_count ) {
 			return $wpdb->get_var( $prepared_sql );
 		}
@@ -104,12 +104,13 @@ class BaseRepository implements BaseInterface {
 	 * @return array|false|mixed|object|stdClass|void
 	 */
 	public function create( $data ): mixed {
+		global $wpdb;
 
-		$result    = $this->wpdb()->insert(
+		$result    = $wpdb->insert(
 			$this->table,
 			$data
 		);
-		$insert_id = $this->wpdb()->insert_id;
+		$insert_id = $wpdb->insert_id;
 
 		return $this->retrieve( $insert_id );
 	}
@@ -122,8 +123,10 @@ class BaseRepository implements BaseInterface {
 	 * @return array
 	 */
 	public function retrieve( $id ): array {
-		$result = $this->wpdb()->get_row(
-			$this->wpdb()->prepare(
+		global $wpdb;
+		
+		$result = $wpdb->get_row(
+			$wpdb->prepare(
 				"SELECT * FROM $this->table WHERE ID = %d",
 				$id
 			),
@@ -142,7 +145,9 @@ class BaseRepository implements BaseInterface {
 	 * @return int|bool|mysqli_result|null
 	 */
 	public function update( $id, $data ): int|bool|null|mysqli_result {
-		return $this->wpdb()->update(
+		global $wpdb;
+		
+		return $wpdb->update(
 			$this->table,
 			$data,
 			array( 'ID' => $id )
@@ -157,8 +162,13 @@ class BaseRepository implements BaseInterface {
 	 * @return int|bool|mysqli_result|null
 	 */
 	public function delete_multiple( $ids ): int|bool|null|mysqli_result {
-
-		return $this->wpdb()->query( "DELETE FROM $this->table WHERE ID IN (" . $ids . ')' );
+		global $wpdb;
+		
+		// Convert array to comma-separated placeholders
+		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+		$prepared_sql = $wpdb->prepare( "DELETE FROM $this->table WHERE ID IN ($placeholders)", $ids );
+		
+		return $wpdb->query( $prepared_sql );
 	}
 
 	/**
@@ -169,6 +179,8 @@ class BaseRepository implements BaseInterface {
 	 * @return int|bool|mysqli_result|null
 	 */
 	public function delete( $id ): int|bool|null|mysqli_result {
-		return $this->wpdb()->delete( $this->table, array( 'ID' => $id ) );
+		global $wpdb;
+		
+		return $wpdb->delete( $this->table, array( 'ID' => $id ) );
 	}
 }

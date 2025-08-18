@@ -9,6 +9,8 @@
  * Author URI: https://yoyallimbu.com.np
  * Text Domain: brutefort
  * Domain Path: /languages/
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package BruteFort
  */
@@ -52,12 +54,12 @@ final class BruteFort
 
 	public function __clone()
 	{
-		_doing_it_wrong(__FUNCTION__, __('Cheating; huh?', 'brutefort'), '1.0');
+		_doing_it_wrong(__FUNCTION__, esc_html__('Cheating; huh?', 'brutefort'), '1.0');
 	}
 
 	public function __wakeup()
 	{
-		_doing_it_wrong(__FUNCTION__, __('Cheating; huh?', 'brutefort'), '1.0');
+		_doing_it_wrong(__FUNCTION__, esc_html__('Cheating; huh?', 'brutefort'), '1.0');
 	}
 
 	private function define_constants(): void
@@ -117,14 +119,9 @@ final class BruteFort
 
 	private function init_hooks(): void
 	{
-		// Use if you have setup logic on init
-	}
-
-	public function init(): void
-	{
-		do_action('before_brutefort_init');
-		$this->load_plugin_textdomain();
-		do_action('brutefort_init');
+		add_action('init', [$this, 'load_plugin_textdomain']);
+		add_filter('plugin_action_links_' . BF_PLUGIN_BASENAME, [__CLASS__, 'plugin_action_links']);
+		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
 	}
 
 	public function load_plugin_textdomain(): void
@@ -134,7 +131,8 @@ final class BruteFort
 
 		unload_textdomain('brutefort');
 		load_textdomain('brutefort', WP_LANG_DIR . '/brutefort/brutefort-' . $locale . '.mo');
-		load_plugin_textdomain('brutefort', false, plugin_basename(__DIR__) . '/languages');
+		// WordPress automatically loads translations for plugins hosted on WordPress.org
+		// load_plugin_textdomain('brutefort', false, plugin_basename(__DIR__) . '/languages');
 	}
 
 	public function ajax_url(): string
@@ -190,7 +188,13 @@ final class BruteFort
 			return;
 		}
 
-		$current_ip = $_SERVER['REMOTE_ADDR'] ?? gethostbyname(gethostname());
+		$current_ip = '';
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$current_ip = wp_unslash($_SERVER['REMOTE_ADDR']);
+		} else {
+			$current_ip = gethostbyname(gethostname());
+		}
+		$current_ip = sanitize_text_field($current_ip);
 		$whitelist = get_option('bf_whitelisted_ips');
 		$whitelist = $whitelist ? json_decode($whitelist, true) : [];
 
@@ -203,9 +207,12 @@ final class BruteFort
 		}
 
 		if (!$is_whitelisted) {
-			echo '<div class="notice notice-warning"><p>';
-			echo __('Your current IP (' . esc_html($current_ip) . ') is not whitelisted. For security, please add it to the whitelist in BruteFort settings.', 'brutefort');
-			echo '</p></div>';
+			$message = sprintf(
+				/* translators: %s: Current IP address */
+				esc_html__('Your current IP (%s) is not whitelisted. For security, please add it to the whitelist in BruteFort settings.', 'brutefort'),
+				esc_html($current_ip)
+			);
+			echo '<div class="notice notice-warning"><p>' . wp_kses_post($message) . '</p></div>';
 		}
 	}
 }

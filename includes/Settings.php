@@ -95,8 +95,16 @@ class Settings
 
 	public static function add_admin_ip(): void
 	{
-		// Get current server IP
-		$server_ip = $_SERVER['SERVER_ADDR'] ?? $_SERVER['LOCAL_ADDR'] ?? gethostbyname(gethostname());
+		// Get current server IP with proper sanitization
+		$server_ip = '';
+		if (isset($_SERVER['SERVER_ADDR'])) {
+			$server_ip = wp_unslash($_SERVER['SERVER_ADDR']);
+		} elseif (isset($_SERVER['LOCAL_ADDR'])) {
+			$server_ip = wp_unslash($_SERVER['LOCAL_ADDR']);
+		} else {
+			$server_ip = gethostbyname(gethostname());
+		}
+		$server_ip = sanitize_text_field($server_ip);
 
 		// Prepare whitelist entry in the same format as IpSettingsController expects
 		$entry = [

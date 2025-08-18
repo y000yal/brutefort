@@ -39,15 +39,17 @@ class LogsService {
 	}
 
 	public function log_attempt( array $data ): void {
-		$ip = $data['log_data']['ip_address'] ?? $_SERVER['REMOTE_ADDR'];
+		$ip = $data['log_data']['ip_address'] ?? (isset($_SERVER['REMOTE_ADDR']) ? wp_unslash($_SERVER['REMOTE_ADDR']) : 'unknown');
+		$ip = sanitize_text_field($ip);
 
 		$log_exists = $this->logs_repository->get_log_by_ip( $ip );
 
 		$log_data_defaults = [
-			'ip_address'  => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+			'ip_address'  => isset($_SERVER['REMOTE_ADDR']) ? wp_unslash($_SERVER['REMOTE_ADDR']) : 'unknown',
 			'last_status' => 'fail', // fail, success, locked
 			'attempts'    => 1,
 		];
+		$log_data_defaults['ip_address'] = sanitize_text_field($log_data_defaults['ip_address']);
 
 		$logs_entry = wp_parse_args( $data['log_data'], $log_data_defaults );
 		if ( ! empty( $log_exists ) ) {
@@ -65,8 +67,9 @@ class LogsService {
 			'status'        => 'fail',
 			'lockout_until' => null,
 			'is_extended'   => false,
-			'user_agent'    => $_SERVER['HTTP_USER_AGENT'] ?? '',
+			'user_agent'    => isset($_SERVER['HTTP_USER_AGENT']) ? wp_unslash($_SERVER['HTTP_USER_AGENT']) : '',
 		];
+		$log_details_data_defaults['user_agent'] = sanitize_text_field($log_details_data_defaults['user_agent']);
 		$log_details_entry         = wp_parse_args( $data['log_details'], $log_details_data_defaults );
 
 		$this->log_details_repository->create( $log_details_entry );
@@ -261,7 +264,7 @@ class LogsService {
 	public function get_failed_attempts( string $ip, int $window_minutes ): int {
 		$now              = current_time( 'timestamp' );
 		$cutoff_timestamp = $now - ( $window_minutes * 60 );
-		$since            = date( 'Y-m-d H:i:s', $cutoff_timestamp );
+		$since            = gmdate( 'Y-m-d H:i:s', $cutoff_timestamp );
 		$log              = $this->logs_repository->get_log_by_ip( $ip );
 		if ( ! empty( $log ) ) {
 			return (int) $this->log_details_repository->index( [

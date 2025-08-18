@@ -31,7 +31,13 @@ class LoginGuard {
 	public function init(): void {
 		$this->settings   = $this->rate_limit_service->get_rate_limit_settings();
 		$this->ips        = $this->ip_settings_service->get_all_ips();
-		$this->current_ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+		$ip = '';
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$ip = wp_unslash($_SERVER['REMOTE_ADDR']);
+		} else {
+			$ip = gethostbyname(gethostname());
+		}
+		$this->current_ip = sanitize_text_field($ip);
 
 		add_filter( 'authenticate', [ $this, 'check_before_login' ], 30, 3 );
 		add_action( 'wp_login_failed', [ $this, 'log_failed_attempt' ] );

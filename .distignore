@@ -1,16 +1,39 @@
-.*
-.*/
-*.zip
-*.lock
-bin/
-build/
-composer.*
-Gruntfile.js
-webpack.config.js
+# Hidden files
+.babelrc
+.distignore
+.gitignore
+.eslintrc.js
+.prettierrc
+
+# Build artifacts
 node_modules/
-none
-package-lock.json
-package.json
-phpcs.xml
+dist/
+release/
+*.zip
+
+# Development files
 src/
+scripts/
 tests/
+webpack.config.js
+package.json
+package-lock.json
+composer.json
+composer.lock
+tsconfig.json
+tailwind.config.js
+postcss.config.js
+README.md
+CHANGELOG.md
+deploy.sh
+test-deploy.sh
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -102,6 +102,9 @@ module.exports = function (grunt) {
       },
       build: {
         command: "cross-env NODE_ENV=production webpack"
+      },
+      makepot: {
+        command: "vendor\\bin\\wp i18n make-pot . languages\\brutefort.pot --domain=brutefort"
       }
     },
   });
@@ -114,21 +117,25 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-sass");
   grunt.loadNpmTasks("grunt-contrib-cssmin");
   grunt.loadNpmTasks("grunt-shell");
+  
   // Default task(s).
   grunt.registerTask("default", [
-    "clean",
+    "clean:build",
+    "shell:build",
     "uglify",
     "sass",
     "cssmin",
     "copy",
     "compress",
   ]);
+  
   grunt.registerTask("release", [
-    "clean",
+    "clean:build",
     "shell:build",
     "uglify",
     "sass",
     "cssmin",
+    "shell:makepot",
     "copy",
     "compress",
   ]);
