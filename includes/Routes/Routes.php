@@ -1,6 +1,6 @@
 <?php
 /**
- * Routes class.
+ * Main Routes class for BruteFort plugin.
  *
  * @since 1.0.0
  * @package BruteFort\Routes
@@ -11,6 +11,11 @@ namespace BruteFort\Routes;
 use BruteFort\Routes\RateLimitRoutes;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * Main Routes class for managing all REST API endpoints.
+ *
+ * @package BruteFort
+ */
 class Routes {
 
 	/**
@@ -19,7 +24,7 @@ class Routes {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 	}
 
 	/**
@@ -46,14 +51,13 @@ class Routes {
 	 *
 	 * @return array
 	 * @since 1.0.0
-	 *
 	 */
 	protected function get_rest_classes(): array {
 		return apply_filters(
 			'brutefort_api_get_rest_namespaces',
-			[
+			array(
 				'brutefort/v1' => $this->get_routes_classes(),
-			]
+			)
 		);
 	}
 
@@ -62,15 +66,20 @@ class Routes {
 	 *
 	 * @return array
 	 * @since 1.0.0
-	 *
 	 */
-	#[ArrayShape( [ 'rate-limit' => "string", "logs" => "string", "ip-settings" => "string" ] )]
+	#[ArrayShape(
+		array(
+			'rate-limit' => 'string',
+			'logs' => 'string',
+			'ip-settings' => 'string',
+		)
+	)]
 	public function get_routes_classes(): array {
-		return [
+		return array(
 			'rate-limit'  => RateLimitRoutes::class,
 			'logs'        => LogRoutes::class,
 			'log-details' => LogDetailRoutes::class,
-			'ip-settings' => IpRoutes::class
-		];
+			'ip-settings' => IpRoutes::class,
+		);
 	}
 }

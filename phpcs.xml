@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Plugin Standards">
+    <description>WordPress Coding Standards for BruteFort Plugin</description>
+    
+    <!-- Include WordPress Coding Standards but exclude file naming rules -->
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
+    
+    <!-- Include WordPress-Extra but exclude file naming rules -->
+    <rule ref="WordPress-Extra">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
+    
+    <!-- Include WordPress-Docs but exclude file naming rules -->
+    <rule ref="WordPress-Docs">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
+    
+    <!-- Include WordPress-Core but exclude file naming rules -->
+    <rule ref="WordPress-Core">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
+    
+    <!-- Exclude some rules that might be too strict for development -->
+    <rule ref="WordPress.WP.I18n.MissingArgDomain">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    
+    <!-- Exclude false positive file naming convention errors -->
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+    <exclude name="WordPress.Files.FileName.InvalidFileName"/>
+    <exclude name="WordPress.Files.FileName"/>
+    
+    <!-- File paths to check -->
+    <file>.</file>
+    
+    <!-- Exclude vendor and node_modules -->
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+    <exclude-pattern>dist/*</exclude-pattern>
+    <exclude-pattern>release/*</exclude-pattern>
+    
+    <!-- Exclude build assets -->
+    <exclude-pattern>assets/build/*</exclude-pattern>
+    
+    <!-- Show progress -->
+    <arg value="p"/>
+    
+    <!-- Show colors -->
+    <arg value="s"/>
+    
+    <!-- Show source codes -->
+    <arg value="n"/>
+</ruleset>

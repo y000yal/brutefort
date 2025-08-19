@@ -1,10 +1,9 @@
 <?php
-
 /**
  * Abstract Routes.
  *
  * @since 1.0.0
- * @package SmartSMTP\Routes
+ * @package BruteFort\Routes
  */
 
 namespace BruteFort\Routes;
@@ -28,6 +27,10 @@ abstract class AbstractRoutes {
 	protected string $namespace = 'brutefort';
 
 	/**
+	 * The version of the API.
+	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	protected string $version = 'v1';
@@ -51,6 +54,10 @@ abstract class AbstractRoutes {
 	abstract public function register_routes(): void;
 
 	/**
+	 * The middleware class for permission checking.
+	 *
+	 * @since 1.0.0
+	 *
 	 * @var string|PermissionMiddleware
 	 */
 	public string|PermissionMiddleware $middleware = PermissionMiddleware::class;

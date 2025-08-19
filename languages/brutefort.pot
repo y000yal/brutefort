@@ -9,15 +9,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-18T11:15:04+00:00\n"
+"POT-Creation-Date: 2025-08-19T08:54:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: brutefort\n"
 
 #. Plugin Name of the plugin
 #: brutefort.php
-#: includes/Settings.php:24
-#: includes/Settings.php:25
+#: includes/Settings.php:36
+#: includes/Settings.php:37
 msgid "BruteFort"
 msgstr ""
 
@@ -41,52 +41,52 @@ msgstr ""
 msgid "https://yoyallimbu.com.np"
 msgstr ""
 
-#: brutefort.php:57
-#: brutefort.php:62
+#: brutefort.php:78
+#: brutefort.php:85
 msgid "Cheating; huh?"
 msgstr ""
 
-#: brutefort.php:156
+#: brutefort.php:220
 msgid "Settings"
 msgstr ""
 
-#: brutefort.php:166
+#: brutefort.php:236
 msgid "Docs"
 msgstr ""
 
-#: brutefort.php:167
+#: brutefort.php:237
 msgid "Free support"
 msgstr ""
 
 #. translators: %s: Current IP address
-#: brutefort.php:212
+#: brutefort.php:297
 #, php-format
 msgid "Your current IP (%s) is not whitelisted. For security, please add it to the whitelist in BruteFort settings."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:45
-#: includes/Controllers/RateLimitController.php:44
+#: includes/Controllers/IpSettingsController.php:66
+#: includes/Controllers/RateLimitController.php:63
 msgid "Form not submitted, please fill all necessary fields."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:65
-#: includes/Controllers/RateLimitController.php:57
+#: includes/Controllers/IpSettingsController.php:89
+#: includes/Controllers/RateLimitController.php:77
 msgid "Settings saved successfully."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:85
+#: includes/Controllers/IpSettingsController.php:110
 msgid "No row selected."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:118
+#: includes/Controllers/IpSettingsController.php:144
 msgid "You cannot remove your own IP from the whitelist. At least one IP must remain."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:139
+#: includes/Controllers/IpSettingsController.php:174
 msgid "Records deleted successfully."
 msgstr ""
 
-#: includes/Controllers/LogDetailsController.php:29
+#: includes/Controllers/LogDetailsController.php:57
 msgid "Log details deleted successfully."
 msgstr ""
 
@@ -94,7 +94,7 @@ msgstr ""
 msgid "You are not allowed to perform this action."
 msgstr ""
 
-#: includes/Security/LoginGuard.php:73
-#: includes/Services/RateLimitService.php:16
+#: includes/Security/LoginGuard.php:146
+#: includes/Services/RateLimitService.php:32
 msgid "Too many attempts, Please try again in a while!!"
 msgstr ""

@@ -7,7 +7,13 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack --watch",
-    "start": "cross-env NODE_ENV=development webpack serve --mode development"
+    "start": "cross-env NODE_ENV=development webpack serve --mode development",
+    "phpcs": "vendor\\bin\\phpcs --standard=phpcs.xml",
+    "phpcs:fix": "vendor\\bin\\phpcbf --standard=phpcs.xml",
+    "lint": "npm run phpcs",
+    "quality": "grunt quality",
+    "precommit": "grunt precommit",
+    "release": "grunt release"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",

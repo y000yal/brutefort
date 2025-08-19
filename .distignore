@@ -27,6 +27,10 @@ README.md
 CHANGELOG.md
 deploy.sh
 test-deploy.sh
+Gruntfile.js
+
+# Vendor dependencies (exclude from release)
+vendor/
 
 # IDE files
 .vscode/

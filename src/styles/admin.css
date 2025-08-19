@@ -7,13 +7,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --color-primary: #fd000b;
-    --color-primary-light: #e66a6f;
-    --color-primary-dark: #600e0e;
+	--color-primary: #fd000b;
+	--color-primary-light: #e66a6f;
+	--color-primary-dark: #600e0e;
 
-    --color-secondary: #df636b;
-    --color-secondary-light: #fffffa;
-    --color-secondary-dark: #333138;
+	--color-secondary: #df636b;
+	--color-secondary-light: #fffffa;
+	--color-secondary-dark: #333138;
 }
-
-

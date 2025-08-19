@@ -1,16 +1,32 @@
 <?php
 /**
- * BaseInterface
- * BruteFort\Interfaces
- * @author   Yoyal Limbu
- * @date     18-05-2025 : 10:00 PM
+ * Base Interface for BruteFort plugin.
+ *
+ * @package BruteFort
  */
+
 namespace BruteFort\Interfaces;
 
-
+/**
+ * Base Interface for database operations.
+ *
+ * @package BruteFort
+ */
 interface BaseInterface {
 
-	public function index( array $conditions = [], string $order_by = "ID", string $order = "DESC" , $limit = null, $offset = null, bool $get_count = false );
+	/**
+	 * Get entries with optional filtering and pagination.
+	 *
+	 * @param array  $conditions The conditions to filter by.
+	 * @param string $order_by   The column to order by.
+	 * @param string $order      The order direction (ASC/DESC).
+	 * @param mixed  $limit      The limit for results.
+	 * @param mixed  $offset     The offset for pagination.
+	 * @param bool   $get_count  Whether to return count only.
+	 *
+	 * @return mixed The query results or count.
+	 */
+	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false );
 	/**
 	 * Create a new entry in the database.
 	 *

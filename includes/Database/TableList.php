@@ -1,10 +1,16 @@
 <?php
+/**
+ * Table List for BruteFort plugin.
+ *
+ * @package BruteFort
+ */
 
 namespace BruteFort\Database;
 
-
 /**
  * Class consisting all tables used throughout the plugin.
+ *
+ * @package BruteFort
  */
 class TableList {
 

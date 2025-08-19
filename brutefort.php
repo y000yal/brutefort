@@ -19,235 +19,291 @@ use BruteFort\Routes\Routes;
 use BruteFort\Settings;
 use BruteFort\Security\LoginGuard;
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 // Autoload composer.
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-// Plugin main class.
-final class BruteFort
-{
+/**
+ * Plugin main class.
+ *
+ * @package BruteFort
+ */
+final class BruteFort {
 
+	/**
+	 * Plugin version.
+	 *
+	 * @var string
+	 */
 	public string $version = '0.0.1';
 
+	/**
+	 * Singleton instance.
+	 *
+	 * @var BruteFort|null
+	 */
 	protected static ?BruteFort $_instance = null;
 
-	public static function instance(): BruteFort
-	{
-		if (is_null(self::$_instance)) {
+	/**
+	 * Get singleton instance.
+	 *
+	 * @return BruteFort
+	 */
+	public static function instance(): BruteFort {
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 
 		return self::$_instance;
 	}
 
-	private function __construct()
-	{
-		add_filter('doing_it_wrong_trigger_error', [$this, 'filter_doing_it_wrong'], 10, 4);
+	/**
+	 * Constructor for BruteFort.
+	 */
+	private function __construct() {
+		add_filter( 'doing_it_wrong_trigger_error', array( $this, 'filter_doing_it_wrong' ), 10, 4 );
 		$this->define_constants();
 		$this->includes();
 		$this->init_hooks();
 		$this->show_notices();
 	}
 
-	public function __clone()
-	{
-		_doing_it_wrong(__FUNCTION__, esc_html__('Cheating; huh?', 'brutefort'), '1.0');
+	/**
+	 * Prevent cloning.
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheating; huh?', 'brutefort' ), '1.0' );
 	}
 
-	public function __wakeup()
-	{
-		_doing_it_wrong(__FUNCTION__, esc_html__('Cheating; huh?', 'brutefort'), '1.0');
+	/**
+	 * Prevent unserialization.
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheating; huh?', 'brutefort' ), '1.0' );
 	}
 
-	private function define_constants(): void
-	{
-		$upload_dir = apply_filters('bf_upload_dir', wp_upload_dir());
+	/**
+	 * Define plugin constants.
+	 */
+	private function define_constants(): void {
+		$upload_dir = apply_filters( 'bf_upload_dir', wp_upload_dir() );
 
-		$this->define('BF_LOG_DIR', $upload_dir['basedir'] . '/ur-logs/');
-		$this->define('BF_UPLOAD_PATH', $upload_dir['basedir'] . '/brutefort_uploads/');
-		$this->define('BF_UPLOAD_URL', $upload_dir['baseurl'] . '/brutefort_uploads/');
-		$this->define('BF_DS', DIRECTORY_SEPARATOR);
-		$this->define('BF_PLUGIN_FILE', __FILE__);
-		$this->define('BF_PLUGIN_URL', plugin_dir_url(__FILE__));
-		$this->define('BF_ASSETS_URL', BF_PLUGIN_URL . 'assets');
-		$this->define('BF_ABSPATH', __DIR__ . BF_DS);
-		$this->define('BF_PLUGIN_BASENAME', plugin_basename(__FILE__));
-		$this->define('BF_VERSION', $this->version);
-		$this->define('BF_FORM_PATH', BF_ABSPATH . 'includes' . BF_DS . 'form' . BF_DS);
-		$this->define('BF_SESSION_CACHE_GROUP', 'ur_session_id');
-		$this->define('BF_PRO_ACTIVE', false);
+		$this->define( 'BF_LOG_DIR', $upload_dir['basedir'] . '/ur-logs/' );
+		$this->define( 'BF_UPLOAD_PATH', $upload_dir['basedir'] . '/brutefort_uploads/' );
+		$this->define( 'BF_UPLOAD_URL', $upload_dir['baseurl'] . '/brutefort_uploads/' );
+		$this->define( 'BF_DS', DIRECTORY_SEPARATOR );
+		$this->define( 'BF_PLUGIN_FILE', __FILE__ );
+		$this->define( 'BF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+		$this->define( 'BF_ASSETS_URL', BF_PLUGIN_URL . 'assets' );
+		$this->define( 'BF_ABSPATH', __DIR__ . BF_DS );
+		$this->define( 'BF_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+		$this->define( 'BF_VERSION', $this->version );
+		$this->define( 'BF_FORM_PATH', BF_ABSPATH . 'includes' . BF_DS . 'form' . BF_DS );
+		$this->define( 'BF_SESSION_CACHE_GROUP', 'ur_session_id' );
+		$this->define( 'BF_PRO_ACTIVE', false );
 	}
 
-	private function define(string $name, bool|string $value): void
-	{
-		if (! defined($name)) {
-			define($name, $value);
+	/**
+	 * Define a constant if not already defined.
+	 *
+	 * @param string      $name  Constant name.
+	 * @param bool|string $value Constant value.
+	 */
+	private function define( string $name, bool|string $value ): void {
+		if ( ! defined( $name ) ) {
+			define( $name, $value );
 		}
 	}
 
-	private function includes(): void
-	{
-		//load admin routes
+	/**
+	 * Include required files and initialize classes.
+	 *
+	 * @return void
+	 */
+	private function includes(): void {
+		// Load admin routes.
 		new Routes();
 
-		if ($this->is_request('admin')) {
+		if ( $this->is_request( 'admin' ) ) {
 			new Settings();
 		}
-		if ($this->is_request('frontend')) {
+		if ( $this->is_request( 'frontend' ) ) {
 			new LoginGuard();
 		}
 	}
 
-	private function is_request(string $type): bool
-	{
-		switch ($type) {
+	/**
+	 * Check if the current request is of a specific type.
+	 *
+	 * @param string $type The type of request to check.
+	 * @return bool True if the request matches the type, false otherwise.
+	 */
+	private function is_request( string $type ): bool {
+		switch ( $type ) {
 			case 'admin':
 				return is_admin();
 			case 'ajax':
-				return defined('DOING_AJAX');
+				return defined( 'DOING_AJAX' );
 			case 'cron':
-				return defined('DOING_CRON');
+				return defined( 'DOING_CRON' );
 			case 'frontend':
-				return ! is_admin() && ! defined('DOING_CRON');
+				return ! is_admin() && ! defined( 'DOING_CRON' );
 			default:
 				return false;
 		}
 	}
 
-	private function init_hooks(): void
-	{
-		add_action('init', [$this, 'load_plugin_textdomain']);
-		add_filter('plugin_action_links_' . BF_PLUGIN_BASENAME, [__CLASS__, 'plugin_action_links']);
-		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
+	/**
+	 * Initialize WordPress hooks and filters.
+	 *
+	 * @return void
+	 */
+	private function init_hooks(): void {
+		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+		add_filter( 'plugin_action_links_' . BF_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ) );
+		add_filter( 'plugin_row_meta', array( __CLASS__, 'plugin_row_meta' ), 10, 2 );
 	}
 
-	public function load_plugin_textdomain(): void
-	{
-		$locale = is_admin() && function_exists('get_user_locale') ? get_user_locale() : get_locale();
-		$locale = apply_filters('plugin_locale', $locale, 'brutefort');
+	/**
+	 * Load plugin text domain for internationalization.
+	 *
+	 * @return void
+	 */
+	public function load_plugin_textdomain(): void {
+		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
+		$locale = apply_filters( 'plugin_locale', $locale, 'brutefort' );
 
-		unload_textdomain('brutefort');
-		load_textdomain('brutefort', WP_LANG_DIR . '/brutefort/brutefort-' . $locale . '.mo');
-		// WordPress automatically loads translations for plugins hosted on WordPress.org
-		// load_plugin_textdomain('brutefort', false, plugin_basename(__DIR__) . '/languages');
+		unload_textdomain( 'brutefort' );
+		load_textdomain( 'brutefort', WP_LANG_DIR . '/brutefort/brutefort-' . $locale . '.mo' );
+		// WordPress automatically loads translations for plugins hosted on WordPress.org.
+		// load_plugin_textdomain('brutefort', false, plugin_basename(__DIR__) . '/languages');.
 	}
 
-	public function ajax_url(): string
-	{
-		return admin_url('admin-ajax.php', 'relative');
+	/**
+	 * Get the AJAX URL for the plugin.
+	 *
+	 * @return string The AJAX URL.
+	 */
+	public function ajax_url(): string {
+		return admin_url( 'admin-ajax.php', 'relative' );
 	}
 
-	public function plugin_url(): string
-	{
-		return untrailingslashit(plugins_url('/', __FILE__));
+	/**
+	 * Get the plugin URL.
+	 *
+	 * @return string The plugin URL.
+	 */
+	public function plugin_url(): string {
+		return untrailingslashit( plugins_url( '/', __FILE__ ) );
 	}
 
-	public function plugin_path(): string
-	{
-		return untrailingslashit(plugin_dir_path(__FILE__));
+	/**
+	 * Get the plugin path.
+	 *
+	 * @return string The plugin path.
+	 */
+	public function plugin_path(): string {
+		return untrailingslashit( plugin_dir_path( __FILE__ ) );
 	}
 
-	public static function plugin_action_links(array $actions): array
-	{
-		$new_actions = [
-			'settings' => '<a href="' . admin_url('admin.php?page=brute-fort-settings') . '">' . esc_html__('Settings', 'brutefort') . '</a>',
-		];
+	/**
+	 * Add action links to the plugin row.
+	 *
+	 * @param array $actions The existing action links.
+	 * @return array The modified action links.
+	 */
+	public static function plugin_action_links( array $actions ): array {
+		$new_actions = array(
+			'settings' => '<a href="' . admin_url( 'admin.php?page=brute-fort-settings' ) . '">' . esc_html__( 'Settings', 'brutefort' ) . '</a>',
+		);
 
-		return array_merge($new_actions, $actions);
+		return array_merge( $new_actions, $actions );
 	}
 
-	public static function plugin_row_meta(array $plugin_meta, string $plugin_file): array
-	{
-		if (BF_PLUGIN_BASENAME === $plugin_file) {
-			$new_plugin_meta = [
-				'docs'    => '<a href="' . esc_url('https://docs.wpuserregistration.com/') . '">' . esc_html__('Docs', 'brutefort') . '</a>',
-				'support' => '<a href="' . esc_url('https://wpuserregistration.com/support/') . '">' . esc_html__('Free support', 'brutefort') . '</a>',
-			];
+	/**
+	 * Add meta links to the plugin row.
+	 *
+	 * @param array  $plugin_meta The existing plugin meta.
+	 * @param string $plugin_file The plugin file name.
+	 * @return array The modified plugin meta.
+	 */
+	public static function plugin_row_meta( array $plugin_meta, string $plugin_file ): array {
+		if ( BF_PLUGIN_BASENAME === $plugin_file ) {
+			$new_plugin_meta = array(
+				'docs'    => '<a href="' . esc_url( 'https://docs.wpuserregistration.com/' ) . '">' . esc_html__( 'Docs', 'brutefort' ) . '</a>',
+				'support' => '<a href="' . esc_url( 'https://wpuserregistration.com/support/' ) . '">' . esc_html__( 'Free support', 'brutefort' ) . '</a>',
+			);
 
-			return array_merge($plugin_meta, $new_plugin_meta);
+			return array_merge( $plugin_meta, $new_plugin_meta );
 		}
 
 		return $plugin_meta;
 	}
 
-	public function filter_doing_it_wrong(mixed $trigger, string $function, string $message, string $version): bool
-	{
-		return ($function === '_load_textdomain_just_in_time' && str_contains($message, '<code>brute-fort')) ? false : $trigger;
+	/**
+	 * Filter doing_it_wrong notices for specific functions.
+	 *
+	 * @param mixed  $trigger   Whether to trigger the error.
+	 * @param string $function  The function name.
+	 * @param string $message   The error message.
+	 * @param string $version   The version.
+	 * @return bool Whether to trigger the error.
+	 */
+	public function filter_doing_it_wrong( mixed $trigger, string $function, string $message, string $version ): bool {
+		return ( '_load_textdomain_just_in_time' === $function && str_contains( $message, '<code>brute-fort' ) ) ? false : $trigger;
 	}
-	public function show_notices(): void
-	{
-		add_action('admin_notices', array($this, 'show_admin_notices'));
+	/**
+	 * Set up admin notices.
+	 *
+	 * @return void
+	 */
+	public function show_notices(): void {
+		add_action( 'admin_notices', array( $this, 'show_admin_notices' ) );
 	}
-	public function show_admin_notices(): void
-	{
+	/**
+	 * Display admin notices for IP whitelist warnings.
+	 *
+	 * @return void
+	 */
+	public function show_admin_notices(): void {
 
-		if (!current_user_can('manage_options')) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
 		$current_ip = '';
-		if (isset($_SERVER['REMOTE_ADDR'])) {
-			$current_ip = wp_unslash($_SERVER['REMOTE_ADDR']);
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$current_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		} else {
-			$current_ip = gethostbyname(gethostname());
+			$current_ip = gethostbyname( gethostname() );
 		}
-		$current_ip = sanitize_text_field($current_ip);
-		$whitelist = get_option('bf_whitelisted_ips');
-		$whitelist = $whitelist ? json_decode($whitelist, true) : [];
+		$whitelist = get_option( 'bf_whitelisted_ips' );
+		$whitelist = $whitelist ? json_decode( $whitelist, true ) : array();
 
 		$is_whitelisted = false;
-		foreach ($whitelist as $entry) {
-			if (isset($entry['bf_ip_address']) && $entry['bf_ip_address'] === $current_ip) {
+		foreach ( $whitelist as $entry ) {
+			if ( isset( $entry['bf_ip_address'] ) && $entry['bf_ip_address'] === $current_ip ) {
 				$is_whitelisted = true;
 				break;
 			}
 		}
 
-		if (!$is_whitelisted) {
+		if ( ! $is_whitelisted ) {
 			$message = sprintf(
 				/* translators: %s: Current IP address */
-				esc_html__('Your current IP (%s) is not whitelisted. For security, please add it to the whitelist in BruteFort settings.', 'brutefort'),
-				esc_html($current_ip)
+				esc_html__( 'Your current IP (%s) is not whitelisted. For security, please add it to the whitelist in BruteFort settings.', 'brutefort' ),
+				esc_html( $current_ip )
 			);
-			echo '<div class="notice notice-warning"><p>' . wp_kses_post($message) . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . wp_kses_post( $message ) . '</p></div>';
 		}
 	}
 }
 
-// Initialize plugin.
-if (! function_exists('BF')) {
-	function BF(): BruteFort
-	{
-		return BruteFort::instance();
-	}
-}
-
-// Activation/Deactivation handling for Free vs Pro conflict.
-function brutefort_free_activated(): void
-{
-	set_transient('brutefort_free_activated', true);
-}
-
-function brutefort_free_deactivated(): void
-{
-	delete_transient('brutefort_free_activated');
-}
-
-function brutefort_free_deactivate(): void
-{
-	if (get_transient('brutefort_pro_activated')) {
-		deactivate_plugins('brutefort/brutefort.php');
-		do_action('brutefort_free_deactivate', 'brutefort/brutefort.php');
-		delete_transient('brutefort_pro_activated');
-	}
-}
-
-add_action('activate_brutefort/brutefort.php', 'brutefort_free_activated');
-add_action('deactivate_brutefort/brutefort.php', 'brutefort_free_deactivated');
-add_action('admin_init', 'brutefort_free_deactivate');
+// Include helper functions.
+require_once plugin_dir_path( __FILE__ ) . 'includes/helpers.php';
 
 // Set global.
 $GLOBALS['brutefort'] = BF();

@@ -1,10 +1,10 @@
 <?php
 /**
- * @namespace BruteFort\Middleware
- * @class    PermissionMiddleware
- * @author   Yoyal Limbu
- * @date     13-05-2025 : 10:09 PM
+ * Permission Middleware for BruteFort plugin.
+ *
+ * @package BruteFort
  */
+
 namespace BruteFort\Middlewares;
 
 use WP_Error;
@@ -12,15 +12,15 @@ use WP_REST_Request;
 
 /**
  * Handles REST API permission checks.
+ *
+ * @package BruteFort
  */
-
-
 class PermissionMiddleware {
 
 	/**
 	 * Authorizes the incoming REST request.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request $request The REST request object to authorize.
 	 * @return true|WP_Error
 	 */
 	public static function authorize( WP_REST_Request $request ): WP_Error|bool {
@@ -31,7 +31,7 @@ class PermissionMiddleware {
 			return new WP_Error(
 				'rest_forbidden',
 				__( 'You are not allowed to perform this action.', 'brutefort' ),
-				[ 'status' => 403 ]
+				array( 'status' => 403 )
 			);
 		}
 

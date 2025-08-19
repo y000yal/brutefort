@@ -1,12 +1,21 @@
 <?php
+/**
+ * Database management for BruteFort plugin.
+ *
+ * @package BruteFort
+ */
 
 namespace BruteFort\Database;
 
-
+/**
+ * Database class for managing plugin tables.
+ *
+ * @package BruteFort
+ */
 class Database {
 
 	/**
-	 * Retrieves an array of tables used in the URMembership plugin.
+	 * Retrieves an array of tables used in the BruteFort plugin.
 	 *
 	 * @return array An associative array with table names as keys and their corresponding table names as values.
 	 */
@@ -18,9 +27,9 @@ class Database {
 	}
 
 	/**
-	 * Creates the necessary tables for the URMembership plugin.
+	 * Creates the necessary tables for the BruteFort plugin.
 	 *
-	 * This function creates all tables
+	 * This function creates all tables.
 	 * It also handles the creation of foreign key constraints and indexes.
 	 *
 	 * @return void
@@ -32,7 +41,7 @@ class Database {
 		$posts_meta_table              = TableList::posts_meta_table();
 		$users_table                   = TableList::users_table();
 		global $wpdb;
-		$collate = "";
+		$collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
 			$collate = $wpdb->get_charset_collate();
 		}
@@ -81,7 +90,7 @@ class Database {
 	}
 
 	/**
-	 * Drops all tables used in the URMembership plugin.
+	 * Drops all tables used in the BruteFort plugin.
 	 *
 	 * This function iterates over the tables obtained from the `get_tables` method
 	 * and drops each table using the WordPress `$wpdb` global object. The `DROP TABLE IF EXISTS`

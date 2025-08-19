@@ -1,5 +1,5 @@
 @layer components {
-    .card-box {
-        @apply bg-white text-gray-900 p-4 rounded-md shadow-md dark:bg-gray-800 dark:text-gray-100;
-    }
+	.card-box {
+		@apply bg-white text-gray-900 p-4 rounded-md shadow-md dark:bg-gray-800 dark:text-gray-100;
+	}
 }

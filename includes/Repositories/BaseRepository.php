@@ -1,4 +1,9 @@
 <?php
+/**
+ * Base Repository for BruteFort plugin.
+ *
+ * @package BruteFort
+ */
 
 namespace BruteFort\Repositories;
 
@@ -7,13 +12,23 @@ use mysqli_result;
 use stdClass;
 use wpdb;
 
+/**
+ * Base Repository class for database operations.
+ *
+ * @package BruteFort
+ */
 class BaseRepository implements BaseInterface {
+	/**
+	 * Database table name.
+	 *
+	 * @var string
+	 */
 	protected string $table;
 
 	/**
-	 * Return global wpdb.
+	 * Return global wpdb instance.
 	 *
-	 * @return wpdb
+	 * @return wpdb WordPress database instance.
 	 */
 	public function wpdb(): wpdb {
 		global $wpdb;
@@ -22,28 +37,29 @@ class BaseRepository implements BaseInterface {
 	}
 
 	/**
-	 * index
+	 * Get records from the database with optional filtering and pagination.
 	 *
-	 * @param array $conditions
-	 * @param string $order_by
-	 * @param string $order
-	 * @param $limit
-	 * @param $offset
-	 * @param bool $get_count
+	 * @param array  $conditions Array of conditions for filtering.
+	 * @param string $order_by   Column to order by.
+	 * @param string $order      Order direction (ASC/DESC).
+	 * @param int    $limit      Maximum number of records to return.
+	 * @param int    $offset     Number of records to skip.
+	 * @param bool   $get_count  Whether to return count instead of records.
 	 *
-	 * @return array|object|string|null
+	 * @return array|object|string|null Records or count.
 	 */
-	public function index( array $conditions = [], string $order_by = 'ID', string $order = "DESC", $limit = null, $offset = null, bool $get_count = false ): array|object|string|null {
+	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false ): array|object|string|null {
 		global $wpdb;
 
-		$sql           = "SELECT " . ( $get_count ? "COUNT(*)" : "*" ) . " FROM {$this->table}";
-		$args          = [];
-		$where_clauses = [];
+		$table_name = esc_sql( $this->table );
+		$sql        = 'SELECT ' . ( $get_count ? 'COUNT(*)' : '*' ) . " FROM {$table_name}";
+		$args          = array();
+		$where_clauses = array();
 
 		foreach ( $conditions as $key => $group ) {
-			// OR group
+			// OR group.
 			if ( is_array( $group ) && isset( $group['or'] ) && is_array( $group['or'] ) ) {
-				$or_clauses = [];
+				$or_clauses = array();
 				foreach ( $group['or'] as $cond ) {
 					$column       = esc_sql( $cond['column'] );
 					$operator     = $cond['operator'] ?? '=';
@@ -52,8 +68,7 @@ class BaseRepository implements BaseInterface {
 					$args[]       = $value;
 				}
 				$where_clauses[] = '(' . implode( ' OR ', $or_clauses ) . ')';
-			} // AND group
-			else {
+			} else { // AND group.
 				foreach ( $group as $column => $value ) {
 					$column = esc_sql( $column );
 					if ( is_array( $value ) && isset( $value['operator'], $value['value'] ) ) {
@@ -68,40 +83,44 @@ class BaseRepository implements BaseInterface {
 		}
 
 		if ( ! empty( $where_clauses ) ) {
-			$sql .= " WHERE " . implode( ' AND ', $where_clauses );
+			$sql .= ' WHERE ' . implode( ' AND ', $where_clauses );
 		}
 
-		// ORDER BY
+		// ORDER BY - validate and escape order direction.
+		$order_direction = strtoupper( $order ) === 'ASC' ? 'ASC' : 'DESC';
+		$sql .= ' ORDER BY ' . esc_sql( $order_by ) . ' ' . $order_direction;
 
-		$sql .= " ORDER BY " . esc_sql( $order_by ) . " " . $order;
-
-
-		// LIMIT / OFFSET
+		// LIMIT / OFFSET.
 		if ( is_numeric( $limit ) ) {
-			$sql    .= " LIMIT %d";
+			$sql    .= ' LIMIT %d';
 			$args[] = $limit;
 
 			if ( is_numeric( $offset ) ) {
-				$sql    .= " OFFSET %d";
+				$sql    .= ' OFFSET %d';
 				$args[] = $offset;
 			}
 		}
 
-		$prepared_sql = $wpdb->prepare( query: $sql, ...$args );
+		// Always use prepare for consistency with WordPress standards.
+		// Ensure $args is always an array, even if empty.
+		$args = empty( $args ) ? array() : $args;
+
 		if ( $get_count ) {
-			return $wpdb->get_var( $prepared_sql );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- SQL is built safely and always prepared.
+			$response = $wpdb->get_var( $wpdb->prepare( $sql, ...$args ) );
+			return $response;
 		}
-
-		return $wpdb->get_results( $prepared_sql );
-
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- SQL is built safely and always prepared.
+		$response = $wpdb->get_results( $wpdb->prepare( $sql, ...$args ) );
+		return $response;
 	}
 
 	/**
-	 * create
+	 * Create a new record in the database.
 	 *
-	 * @param $data
+	 * @param array $data Data to insert.
 	 *
-	 * @return array|false|mixed|object|stdClass|void
+	 * @return array|false|mixed|object|stdClass|void Created record or false on failure.
 	 */
 	public function create( $data ): mixed {
 		global $wpdb;
@@ -116,37 +135,31 @@ class BaseRepository implements BaseInterface {
 	}
 
 	/**
-	 * Retrieve specific record by id.
+	 * Retrieve specific record by ID.
 	 *
-	 * @param $id
+	 * @param int $id Record ID.
 	 *
-	 * @return array
+	 * @return array Record data or empty array if not found.
 	 */
 	public function retrieve( $id ): array {
 		global $wpdb;
-		
-		$result = $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT * FROM $this->table WHERE ID = %d",
-				$id
-			),
-			ARRAY_A
-		);
 
-		return ! $result ? [] : $result;
+		$result = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . esc_sql( $this->table ) . ' WHERE ID = %d', $id ), ARRAY_A );
+
+		return ! $result ? array() : $result;
 	}
 
 	/**
-	 * Update specific record by ID
+	 * Update specific record by ID.
 	 *
-	 * @param $id
-	 * @param $data
+	 * @param int   $id   Record ID.
+	 * @param array $data Data to update.
 	 *
-	 * @return int|bool|mysqli_result|null
+	 * @return int|bool|mysqli_result|null Number of affected rows or false on failure.
 	 */
 	public function update( $id, $data ): int|bool|null|mysqli_result {
 		global $wpdb;
-		
+
 		return $wpdb->update(
 			$this->table,
 			$data,
@@ -155,32 +168,33 @@ class BaseRepository implements BaseInterface {
 	}
 
 	/**
-	 * delete_multiple
+	 * Delete multiple records by IDs.
 	 *
-	 * @param $ids
+	 * @param array $ids Array of record IDs to delete.
 	 *
-	 * @return int|bool|mysqli_result|null
+	 * @return int|bool|mysqli_result|null Number of affected rows or false on failure.
 	 */
 	public function delete_multiple( $ids ): int|bool|null|mysqli_result {
 		global $wpdb;
-		
-		// Convert array to comma-separated placeholders
-		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
-		$prepared_sql = $wpdb->prepare( "DELETE FROM $this->table WHERE ID IN ($placeholders)", $ids );
-		
-		return $wpdb->query( $prepared_sql );
+
+		// Use individual delete operations to avoid interpolation issues.
+		$deleted_count = 0;
+		foreach ( $ids as $id ) {
+			$deleted_count += $wpdb->delete( $this->table, array( 'ID' => $id ) );
+		}
+		return $deleted_count;
 	}
 
 	/**
-	 * Delete single record by ID
+	 * Delete single record by ID.
 	 *
-	 * @param $id
+	 * @param int $id Record ID to delete.
 	 *
-	 * @return int|bool|mysqli_result|null
+	 * @return int|bool|mysqli_result|null Number of affected rows or false on failure.
 	 */
 	public function delete( $id ): int|bool|null|mysqli_result {
 		global $wpdb;
-		
+
 		return $wpdb->delete( $this->table, array( 'ID' => $id ) );
 	}
 }

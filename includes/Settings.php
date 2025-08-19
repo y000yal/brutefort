@@ -1,83 +1,97 @@
 <?php
+/**
+ * Settings management for BruteFort plugin.
+ *
+ * @package BruteFort
+ */
 
 namespace BruteFort;
-
 
 use BruteFort\Routes\Routes;
 use BruteFort\Database\Database;
 
-class Settings
-{
+/**
+ * Settings class for managing BruteFort plugin settings.
+ *
+ * @package BruteFort
+ */
+class Settings {
 
-	public function __construct()
-	{
-		add_action('admin_menu', [$this, 'register_menu']);
-		add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
-		add_action('plugins_loaded', [$this, 'include_classes']);
-		register_deactivation_hook(BF_PLUGIN_FILE, [$this, 'on_deactivation']);
-		register_activation_hook(BF_PLUGIN_FILE, [$this, 'on_activation']);
+	/**
+	 * Constructor for Settings class.
+	 */
+	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'register_menu' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'plugins_loaded', array( $this, 'include_classes' ) );
+		register_deactivation_hook( BF_PLUGIN_FILE, array( $this, 'on_deactivation' ) );
+		register_activation_hook( BF_PLUGIN_FILE, array( $this, 'on_activation' ) );
 	}
 
-	public function register_menu(): void
-	{
+	/**
+	 * Register the admin menu for BruteFort.
+	 */
+	public function register_menu(): void {
 		add_menu_page(
-			__('BruteFort', 'brutefort'),
-			__('BruteFort', 'brutefort'),
+			__( 'BruteFort', 'brutefort' ),
+			__( 'BruteFort', 'brutefort' ),
 			'manage_options',
 			'brutefort',
-			[$this, 'render_page'],
+			array( $this, 'render_page' ),
 			'dashicons-shield',
 			60
 		);
 	}
 
-	public function render_page(): void
-	{
+	/**
+	 * Render the admin page content.
+	 */
+	public function render_page(): void {
 		echo '<div id="brutefort-admin-app"></div>';
 	}
 
-	public function enqueue_assets($hook): void
-	{
-		if ($hook !== 'toplevel_page_brutefort') {
+	/**
+	 * Enqueue admin assets for BruteFort.
+	 *
+	 * @param string $hook The current admin page hook.
+	 */
+	public function enqueue_assets( $hook ): void {
+
+		if ( 'toplevel_page_brutefort' !== $hook ) {
+
 			return;
 		}
 
-		$is_dev = defined('WP_DEBUG') && WP_DEBUG && defined('SCRIPT_DEBUG') && SCRIPT_DEBUG;
+		// Always load from built assets - simpler and more reliable.
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		wp_enqueue_script(
+			'brutefort-admin',
+			BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
+			array( 'wp-element', 'wp-api-fetch' ),
+			BF_VERSION,
+			true
+		);
 
-		if ($is_dev) {
-			// Load from dev server in development
-			wp_enqueue_script(
-				'brutefort-admin',
-				'http://localhost:8080/admin.js',
-				['wp-element', 'wp-api-fetch'],
-				BF_VERSION,
-				true
-			);
-		} else {
-			// Load from built assets in production
-			$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-			wp_enqueue_script(
-				'brutefort-admin',
-				BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
-				['wp-element', 'wp-api-fetch'],
-				BF_VERSION,
-				true
-			);
+		wp_enqueue_style(
+			'brutefort-admin',
+			BF()->plugin_url() . '/assets/css/admin.css',
+			array(),
+			BF_VERSION
+		);
 
-			wp_enqueue_style(
-				'brutefort-admin',
-				BF()->plugin_url() . '/assets/css/admin.css',
-				[],
-				BF_VERSION
-			);
-		}
-
-		wp_localize_script('brutefort-admin', 'BruteFortData', [
-			'restUrl' => esc_url_raw(rest_url('brutefort/v1/')),
-			'nonce'   => wp_create_nonce('wp_rest'),
-		]);
+		wp_localize_script(
+			'brutefort-admin',
+			'BruteFortData',
+			array(
+				'restUrl' => esc_url_raw( rest_url( 'brutefort/v1/' ) ),
+				'nonce'   => wp_create_nonce( 'wp_rest' ),
+			)
+		);
 	}
 
+	/**
+	 * Include required classes.
+	 */
 	public function include_classes(): void {}
 
 	/**
@@ -87,48 +101,48 @@ class Settings
 	 *
 	 * @return void
 	 */
-	public static function on_activation(): void
-	{
+	public static function on_activation(): void {
 		Database::create_tables();
 		self::add_admin_ip();
 	}
 
-	public static function add_admin_ip(): void
-	{
-		// Get current server IP with proper sanitization
+	/**
+	 * Add the current admin IP to the whitelist.
+	 */
+	public static function add_admin_ip(): void {
+		// Get current server IP with proper sanitization.
 		$server_ip = '';
-		if (isset($_SERVER['SERVER_ADDR'])) {
-			$server_ip = wp_unslash($_SERVER['SERVER_ADDR']);
-		} elseif (isset($_SERVER['LOCAL_ADDR'])) {
-			$server_ip = wp_unslash($_SERVER['LOCAL_ADDR']);
+		if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
+			$server_ip = sanitize_text_field( wp_unslash( $_SERVER['SERVER_ADDR'] ) );
+		} elseif ( isset( $_SERVER['LOCAL_ADDR'] ) ) {
+			$server_ip = sanitize_text_field( wp_unslash( $_SERVER['LOCAL_ADDR'] ) );
 		} else {
-			$server_ip = gethostbyname(gethostname());
+			$server_ip = gethostbyname( gethostname() );
 		}
-		$server_ip = sanitize_text_field($server_ip);
 
-		// Prepare whitelist entry in the same format as IpSettingsController expects
-		$entry = [
+		// Prepare whitelist entry in the same format as IpSettingsController expects.
+		$entry = array(
 			'bf_ip_address' => $server_ip,
 			'bf_list_type'  => 'whitelist',
-			'created_at'	=> strtotime('now')
-		];
+			'created_at'    => strtotime( 'now' ),
+		);
 
-		// Get existing whitelist
-		$whitelist = get_option('bf_whitelisted_ips');
-		$whitelist = $whitelist ? json_decode($whitelist, true) : [];
+		// Get existing whitelist.
+		$whitelist = get_option( 'bf_whitelisted_ips' );
+		$whitelist = $whitelist ? json_decode( $whitelist, true ) : array();
 
-		// Prevent duplicates
+		// Prevent duplicates.
 		$exists = false;
-		foreach ($whitelist as $item) {
-			if (isset($item['bf_ip_address']) && $item['bf_ip_address'] === $server_ip) {
+		foreach ( $whitelist as $item ) {
+			if ( isset( $item['bf_ip_address'] ) && $item['bf_ip_address'] === $server_ip ) {
 				$exists = true;
 				break;
 			}
 		}
 
-		if (!$exists) {
+		if ( ! $exists ) {
 			$whitelist[] = $entry;
-			update_option('bf_whitelisted_ips', json_encode($whitelist));
+			update_option( 'bf_whitelisted_ips', json_encode( $whitelist ) );
 		}
 	}
 	/**
@@ -136,10 +150,8 @@ class Settings
 	 *
 	 * @return void
 	 */
-	public static function on_deactivation(): void
-	{
-		//		if ( get_option( 'bf_general_setting_enable_complete_uninstallation' ) ) {
+	public static function on_deactivation(): void {
+		// Check if complete uninstallation is enabled.
 		Database::drop_tables();
-		//		}
 	}
 }
