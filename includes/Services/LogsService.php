@@ -416,11 +416,13 @@ class LogsService {
 
 		foreach ( $logs as $log ) {
 			$log_id = $log->log_id;
+			// Use log_main_id if available (from the explicit SELECT), otherwise fall back to log_id
+			$main_log_id = isset( $log->log_main_id ) ? $log->log_main_id : $log_id;
 
 			if ( ! isset( $grouped[ $log_id ] ) ) {
 				// Initialize the base object.
 				$grouped[ $log_id ] = (object) array(
-					'ID'          => $log->ID,
+					'ID'          => $main_log_id,
 					'ip_address'  => $log->ip_address,
 					'last_status' => $log->last_status,
 					'attempts'    => $log->attempts,
@@ -434,7 +436,7 @@ class LogsService {
 			// Prepare the details object.
 			$details = (object) array(
 				'log_id'         => $log->log_id,
-				'log_details_id'        => $log->ID,
+				'log_details_id' => $log->ID, // This is the log_details.ID
 				'username'      => $log->username,
 				'user_id'       => $log->user_id,
 				'status'        => $log->status,
@@ -458,7 +460,7 @@ class LogsService {
 	 * @return array Array of log details.
 	 */
 	public function get_log_details( $id ): array {
-		return $this->log_details_repository->index(
+		$results = $this->log_details_repository->index(
 			array(
 				array(
 					'log_id' => $id,
@@ -467,9 +469,26 @@ class LogsService {
 			'ID',
 			'DESC',
 			50,
-			'',
+			null,
 			false
 		);
+
+		// Ensure we return an array and convert objects to arrays
+		if ( is_null( $results ) ) {
+			return array();
+		}
+
+		// Convert objects to arrays if needed
+		if ( is_array( $results ) ) {
+			return array_map(
+				function( $item ) {
+					return (array) $item;
+				},
+				$results
+			);
+		}
+
+		return array();
 	}
 
 	/**

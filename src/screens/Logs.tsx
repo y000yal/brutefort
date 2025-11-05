@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react";
-import {useQuery} from '@tanstack/react-query';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
 import api from "../axios/api";
 import {CONSTANTS} from "../constants";
 import {
@@ -27,6 +27,7 @@ const Logs = () => {
     const [searchInput, setSearchInput] = useState('');
     const [hasSearchInput, setHasSearchInput] = useState(false);
     const [selectedLog, setSelectedLog] = useState(null); // Selected row for details panel
+    const queryClient = useQueryClient();
 
     const {data = [], isLoading} = useQuery({
         queryKey: ['logs'],
@@ -133,12 +134,17 @@ const Logs = () => {
     const handleDeleteLogDetail = (logDetailId) => {
         setSelectedLog((prev: any) => {
             if (!prev) return prev;
-            const updatedLogs = prev.log_details.filter(l => l.log_details_id !== logDetailId);
+            const updatedLogs = prev.log_details.filter(l => (l.log_details_id || l.ID) !== logDetailId);
+            // Decrement attempts count when a log detail is deleted
+            const updatedAttempts = Math.max(0, (prev.attempts || 0) - 1);
             if (updatedLogs.length === 0) {
                 setSelectedLog(null); // close panel
             }
-            return { ...prev, log_details: updatedLogs };
+            return { ...prev, log_details: updatedLogs, attempts: updatedAttempts };
         });
+        
+        // Invalidate and refetch the logs query to update the table
+        queryClient.invalidateQueries({ queryKey: ['logs'] });
     };
     return (
         <>
@@ -174,7 +180,12 @@ const Logs = () => {
             </div>
 
             {selectedLog && (
-                <SlidePanel data={selectedLog} onClose={() => setSelectedLog(null)}  onDeleteLogDetail={handleDeleteLogDetail} />
+                <SlidePanel 
+                    data={selectedLog} 
+                    onClose={() => setSelectedLog(null)}  
+                    onDeleteLogDetail={handleDeleteLogDetail}
+                    fetchDetailRoute={selectedLog?.ID ? `${CONSTANTS.LOG_ROUTES.logs}/${selectedLog.ID}/details` : null}
+                />
             )}
 
         </>

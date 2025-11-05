@@ -8,7 +8,7 @@
 
 
     const SlidePanel: React.FC<SlidePanelProps> = ({data, onClose, onDeleteLogDetail, fetchDetailRoute}) => {
-        const { data: details = [], isLoading } = useQuery({
+        const { data: details = [], isLoading, isFetching, refetch } = useQuery({
             queryKey: ['details', fetchDetailRoute],
             queryFn: async () => {
                 if (fetchDetailRoute) {
@@ -20,6 +20,11 @@
             enabled: !!fetchDetailRoute, // this disables the query if fetchDetailRoute is null/undefined
             staleTime: Infinity
         });
+
+        // Merge fetched details with the log data if details are available
+        const logData = details && Array.isArray(details) && details.length > 0
+            ? { ...data, log_details: details }
+            : data;
 
         return (
             <AnimatePresence>
@@ -56,7 +61,7 @@
                             }}
                             className="fixed top-0 right-0 h-full w-[60%] bg-white shadow-lg z-50"
                         >
-                            <IpLogDetails onDeleteLogDetail={onDeleteLogDetail}  onClose={onClose} isLoading={isLoading} details={details.length > 1 ? details.length : data} />
+                            <IpLogDetails onDeleteLogDetail={onDeleteLogDetail}  onClose={onClose} isLoading={isLoading} isFetching={isFetching} details={logData} refetch={refetch} />
                         </motion.div>
                     </>
                 )}

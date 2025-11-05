@@ -11,16 +11,12 @@ const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const webpack = require( 'webpack' );
 
 module.exports = {
-	entry: isProduction ? './src/index.tsx' : [
-		'webpack-dev-server/client/index.js?http://localhost:8080/&sockHost=localhost&sockPort=8080&sockPath=/ws&sockProtocol=ws&sockSecure=false',
-		'webpack/hot/dev-server.js',
-		'./src/index.tsx'
-	],
+	entry: './src/index.tsx',
 	output: {
 		path: path.resolve( __dirname, 'assets/build' ),
 		filename: 'admin.js',
 		chunkFilename: '[name].[contenthash].js',
-		publicPath: isProduction ? '' : 'http://localhost:8080/',
+		publicPath: '',
 		clean: true, // Clean the output directory before each build.
 	},
 	mode: isProduction ? 'production' : 'development',
@@ -51,38 +47,6 @@ module.exports = {
 				filename: '../css/admin.css', // Will generate in /assets/css/.
 			}
 		)] : []),
-		...( ! isProduction && WebpackBar ? [new WebpackBar()] : []),
-		...( ! isProduction ? [new webpack.HotModuleReplacementPlugin()] : [])
+		...( ! isProduction && WebpackBar ? [new WebpackBar()] : [])
 	],
-	...(isProduction ? {} : {
-		devServer: {
-			static: {
-				directory: path.join( __dirname, 'assets/build' ),
-			},
-			port: 8080,
-			hot: 'only',
-			liveReload: false,
-			open: false,
-			compress: true,
-			allowedHosts: 'all',
-			headers: {
-				"Access-Control-Allow-Origin": "*", // Allow all origins.
-				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS", // Allow these HTTP methods.
-				"Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization" // Allow these headers.
-			},
-			host: '0.0.0.0',
-			client: {
-				webSocketURL: 'ws://localhost:8080/ws',
-				overlay: {
-					errors: true,
-					warnings: false,
-				}
-			},
-			webSocketServer: {
-				options: {
-					path: '/ws'
-				}
-			}
-		}
-	})
 };

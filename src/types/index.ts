@@ -67,10 +67,14 @@ export type SettingComponentType = React.ForwardRefExoticComponent<RateLimitProp
 export interface SlidePanelProps {
     data: any | null;
     onClose: () => void;
+    onDeleteLogDetail?: (logDetailId: number) => void;
     fetchDetailRoute?: string | null
 }
 export interface LogDetailsInterface {
     onClose: () => void;
+    onDeleteLogDetail?: (logDetailId: number) => void;
     isLoading?: boolean;
+    isFetching?: boolean;
     details: object | null;
+    refetch?: () => void;
 }

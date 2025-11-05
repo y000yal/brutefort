@@ -50,7 +50,15 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 	 * @return array|object|string|null The query results or count.
 	 */
 	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false ): array|object|string|null {
-		$sql           = 'SELECT ' . ( $get_count ? ' COUNT(*) ' : ' * ' ) . " FROM {$this->table}";
+		if ( $get_count ) {
+			$sql = 'SELECT COUNT(*) FROM ' . esc_sql( $this->table ) . ' AS logs';
+		} else {
+			// Explicitly select columns to avoid ID conflict between tables
+			$sql = 'SELECT logs.ID AS log_main_id, logs.ip_address, logs.last_status, logs.attempts, logs.created_at, logs.updated_at, 
+					details.ID, details.log_id, details.username, details.user_id, details.status, details.is_extended, 
+					details.lockout_until, details.user_agent, details.attempt_time 
+					FROM ' . esc_sql( $this->table ) . ' AS logs';
+		}
 		$args          = array();
 		$where_clauses = array();
 
@@ -62,7 +70,8 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 					$column       = esc_sql( $cond['column'] );
 					$operator     = $cond['operator'] ?? '=';
 					$value        = $cond['value'];
-					$or_clauses[] = "$column $operator %s";
+					$placeholder  = is_numeric( $value ) ? '%d' : '%s';
+					$or_clauses[] = "logs.$column $operator $placeholder";
 					$args[]       = $value;
 				}
 				$where_clauses[] = '(' . implode( ' OR ', $or_clauses ) . ')';
@@ -70,10 +79,12 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 				foreach ( $group as $column => $value ) {
 					$column = esc_sql( $column );
 					if ( is_array( $value ) && isset( $value['operator'], $value['value'] ) ) {
-						$where_clauses[] = "$column {$value['operator']} %s";
+						$placeholder = is_numeric( $value['value'] ) ? '%d' : '%s';
+						$where_clauses[] = "logs.$column {$value['operator']} $placeholder";
 						$args[]          = $value['value'];
 					} else {
-						$where_clauses[] = "$column = %s";
+						$placeholder = is_numeric( $value ) ? '%d' : '%s';
+						$where_clauses[] = "logs.$column = $placeholder";
 						$args[]          = $value;
 					}
 				}
@@ -84,10 +95,12 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 			$sql .= ' WHERE ' . implode( ' AND ', $where_clauses );
 		}
 
-		$sql .= ' JOIN wp_brute_fort_log_details ON wp_brute_fort_logs.ID = wp_brute_fort_log_details.log_id ';
+		if ( ! $get_count ) {
+			$sql .= ' JOIN ' . esc_sql( $this->log_details_table ) . ' AS details ON logs.ID = details.log_id ';
+		}
 		// ORDER BY.
 
-		$sql .= ' ORDER BY wp_brute_fort_logs.' . esc_sql( $order_by ) . ' ' . $order;
+		$sql .= ' ORDER BY logs.' . esc_sql( $order_by ) . ' ' . $order;
 
 		// LIMIT / OFFSET.
 		if ( is_numeric( $limit ) ) {

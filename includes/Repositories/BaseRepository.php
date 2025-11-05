@@ -64,7 +64,8 @@ class BaseRepository implements BaseInterface {
 					$column       = esc_sql( $cond['column'] );
 					$operator     = $cond['operator'] ?? '=';
 					$value        = $cond['value'];
-					$or_clauses[] = "$column $operator %s";
+					$placeholder  = is_numeric( $value ) ? '%d' : '%s';
+					$or_clauses[] = "$column $operator $placeholder";
 					$args[]       = $value;
 				}
 				$where_clauses[] = '(' . implode( ' OR ', $or_clauses ) . ')';
@@ -72,10 +73,12 @@ class BaseRepository implements BaseInterface {
 				foreach ( $group as $column => $value ) {
 					$column = esc_sql( $column );
 					if ( is_array( $value ) && isset( $value['operator'], $value['value'] ) ) {
-						$where_clauses[] = "$column {$value['operator']} %s";
+						$placeholder = is_numeric( $value['value'] ) ? '%d' : '%s';
+						$where_clauses[] = "$column {$value['operator']} $placeholder";
 						$args[]          = $value['value'];
 					} else {
-						$where_clauses[] = "$column = %s";
+						$placeholder = is_numeric( $value ) ? '%d' : '%s';
+						$where_clauses[] = "$column = $placeholder";
 						$args[]          = $value;
 					}
 				}
@@ -110,8 +113,10 @@ class BaseRepository implements BaseInterface {
 			$response = $wpdb->get_var( $wpdb->prepare( $sql, ...$args ) );
 			return $response;
 		}
+		
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- SQL is built safely and always prepared.
 		$response = $wpdb->get_results( $wpdb->prepare( $sql, ...$args ) );
+
 		return $response;
 	}
 
