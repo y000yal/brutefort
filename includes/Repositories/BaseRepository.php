@@ -113,7 +113,7 @@ class BaseRepository implements BaseInterface {
 			$response = $wpdb->get_var( $wpdb->prepare( $sql, ...$args ) );
 			return $response;
 		}
-		
+
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- SQL is built safely and always prepared.
 		$response = $wpdb->get_results( $wpdb->prepare( $sql, ...$args ) );
 

@@ -101,7 +101,6 @@ module.exports = function (grunt) {
 							"!*.swo",
 							"!.DS_Store",
 							"!Thumbs.db",
-							"!composer.json",
 							"!package.json",
 							"!package-lock.json",
 							"!tsconfig.json",

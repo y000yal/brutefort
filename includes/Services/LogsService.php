@@ -334,7 +334,7 @@ class LogsService {
 	 * @param array|null $log            The log entry.
 	 * @return array Lockout detail information.
 	 */
-	public function get_lockout_detail( $enable_lockout, array $log = null ): array {
+	public function get_lockout_detail( $enable_lockout, ?array $log = null ): array {
 		$total_duration = (int) ( $enable_lockout ? $this->settings['bf_lockout_duration'] : $this->settings['bf_time_window'] ) * 60; // This is the initial lockout duration converted to seconds.
 		$is_extended    = 0;
 		if ( $this->settings['bf_enable_lockout_extension'] && $this->settings['bf_extend_lockout_duration'] > 0 ) {
@@ -376,8 +376,8 @@ class LogsService {
 				),
 				'ID',
 				'DESC',
-				'',
-				'',
+				null,
+				null,
 				true
 			);
 		}
@@ -398,7 +398,7 @@ class LogsService {
 			'ID',
 			'DESC',
 			50,
-			'',
+			null,
 			false
 		);
 
@@ -481,7 +481,7 @@ class LogsService {
 		// Convert objects to arrays if needed
 		if ( is_array( $results ) ) {
 			return array_map(
-				function( $item ) {
+				function ( $item ) {
 					return (array) $item;
 				},
 				$results
@@ -591,7 +591,7 @@ class LogsService {
 			'ID',
 			'DESC',
 			1,
-			'',
+			null,
 			false
 		);
 
