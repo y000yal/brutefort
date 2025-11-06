@@ -7,7 +7,7 @@ import {SettingComponentType} from "../types";
 const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementType; component: SettingComponentType, description: string, globalSave : boolean; Routes: Record<string, any> }> = {
     rateLimitSettings: {
         id: "rate-limit-settings",
-        label: "Rate Limit Settings",
+        label: "Rate Limit Settingss",
         icon: Gauge,
         component: RateLimit,
         description: "All settings related with rate limiting, intervals , limit extensions can be found here.",

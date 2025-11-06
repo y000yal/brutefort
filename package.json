@@ -7,6 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack --watch",
+    "hot": "cross-env NODE_ENV=development webpack serve --mode development",
     "start": "cross-env NODE_ENV=development webpack serve --mode development",
     "phpcs": "vendor\\bin\\phpcs --standard=phpcs.xml",
     "phpcs:fix": "vendor\\bin\\phpcbf --standard=phpcs.xml",

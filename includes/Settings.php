@@ -62,22 +62,40 @@ class Settings {
 			return;
 		}
 
-		// Always load from built assets - simpler and more reliable.
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_script(
-			'brutefort-admin',
-			BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
-			array( 'wp-element', 'wp-api-fetch' ),
-			BF_VERSION,
-			true
-		);
+		// Check if webpack dev server is running (hot reload mode).
+		// Set BRUTEFORT_HOT_RELOAD constant to true in wp-config.php when running 'npm run hot'.
+		$is_hot = defined( 'BRUTEFORT_HOT_RELOAD' ) && BRUTEFORT_HOT_RELOAD && defined( 'WP_DEBUG' ) && WP_DEBUG;
 
-		wp_enqueue_style(
-			'brutefort-admin',
-			BF()->plugin_url() . '/assets/css/admin.css',
-			array(),
-			BF_VERSION
-		);
+		if ( $is_hot ) {
+			// Load from webpack dev server for hot reload.
+			$dev_server_url = 'http://localhost:5432';
+			
+			wp_enqueue_script(
+				'brutefort-admin',
+				$dev_server_url . '/admin.js',
+				array( 'wp-element', 'wp-api-fetch' ),
+				time(), // Use timestamp for cache busting in dev mode.
+				true
+			);
+			// Styles are injected by webpack dev server via style-loader.
+		} else {
+			// Load from built assets - production mode.
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			wp_enqueue_script(
+				'brutefort-admin',
+				BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
+				array( 'wp-element', 'wp-api-fetch' ),
+				BF_VERSION,
+				true
+			);
+
+			wp_enqueue_style(
+				'brutefort-admin',
+				BF()->plugin_url() . '/assets/css/admin.css',
+				array(),
+				BF_VERSION
+			);
+		}
 
 		wp_localize_script(
 			'brutefort-admin',
@@ -88,6 +106,7 @@ class Settings {
 			)
 		);
 	}
+
 
 	/**
 	 * Include required classes.
