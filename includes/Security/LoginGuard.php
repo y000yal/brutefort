@@ -143,10 +143,10 @@ class LoginGuard {
 		$timestamp = get_date_from_gmt( $lockout_until, 'U' );
 		$lockout_formatted = date_i18n( 'F j, Y g:i a', $timestamp );
 
-		$message = $this->settings['bf_custom_error_message'] ?? __( 'Too many attempts, Please try again in a while!!', 'brutefort' );
+		$message = $this->settings['brutef_custom_error_message'] ?? __( 'Too many attempts, Please try again in a while!!', 'brutefort' );
 		$message = str_replace( '{{locked_out_until}}', $lockout_formatted, $message );
 
-		return new \WP_Error( 'brutefort_locked', $message );
+		return new \WP_Error( 'brutef_locked', $message );
 	}
 
 

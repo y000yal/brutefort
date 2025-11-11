@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {MainLayout} from "./MainLayout";
-import {Settings, Logs , About} from "../../screens";
-
+import {Settings, Logs, About} from "../../screens";
 
 export const Router: React.FC = () => {
     return (

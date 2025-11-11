@@ -33,11 +33,15 @@ if ( ! class_exists( 'BruteFort' ) ) {
 /**
  * Clean up plugin data
  */
-function brutefort_cleanup_data() {
+function brutef_cleanup_data() {
 	global $wpdb;
 
-	// Plugin options to remove.
+	// Plugin options to remove (using brutef_ prefix).
 	$options_to_remove = array(
+		'brutef_whitelisted_ips',
+		'brutef_blacklisted_ips',
+		'brutef_rate_limit_settings',
+		// Legacy options (for backward compatibility cleanup).
 		'brutefort_license_key',
 		'brutefort_license_status',
 		'brutefort_license_type',
@@ -64,6 +68,9 @@ function brutefort_cleanup_data() {
 
 	// Remove transients.
 	$transients_to_remove = array(
+		'brutef_free_activated',
+		'brutef_pro_activated',
+		// Legacy transients (for backward compatibility cleanup).
 		'brutefort_free_activated',
 		'brutefort_pro_activated',
 		'brutefort_license_check',
@@ -78,7 +85,8 @@ function brutefort_cleanup_data() {
 	// Remove user meta.
 	$wpdb->query(
 		$wpdb->prepare(
-			"DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s",
+			"DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
+			'brutef_%',
 			'brutefort_%'
 		)
 	);
@@ -86,7 +94,8 @@ function brutefort_cleanup_data() {
 	// Remove post meta.
 	$wpdb->query(
 		$wpdb->prepare(
-			"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
+			"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
+			'brutef_%',
 			'brutefort_%'
 		)
 	);
@@ -94,7 +103,8 @@ function brutefort_cleanup_data() {
 	// Remove comment meta.
 	$wpdb->query(
 		$wpdb->prepare(
-			"DELETE FROM {$wpdb->commentmeta} WHERE meta_key LIKE %s",
+			"DELETE FROM {$wpdb->commentmeta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
+			'brutef_%',
 			'brutefort_%'
 		)
 	);
@@ -114,6 +124,10 @@ function brutefort_cleanup_data() {
 	}
 
 	// Remove scheduled events.
+	wp_clear_scheduled_hook( 'brutef_cleanup_logs' );
+	wp_clear_scheduled_hook( 'brutef_license_check' );
+	wp_clear_scheduled_hook( 'brutef_update_check' );
+	// Legacy scheduled hooks (for backward compatibility cleanup).
 	wp_clear_scheduled_hook( 'brutefort_cleanup_logs' );
 	wp_clear_scheduled_hook( 'brutefort_license_check' );
 	wp_clear_scheduled_hook( 'brutefort_update_check' );
@@ -121,6 +135,12 @@ function brutefort_cleanup_data() {
 	// Remove capabilities from roles.
 	$roles = wp_roles();
 	$capabilities_to_remove = array(
+		'manage_brutef',
+		'view_brutef_logs',
+		'manage_brutef_settings',
+		'export_brutef_data',
+		'import_brutef_data',
+		// Legacy capabilities (for backward compatibility cleanup).
 		'manage_brutefort',
 		'view_brutefort_logs',
 		'manage_brutefort_settings',
@@ -138,7 +158,7 @@ function brutefort_cleanup_data() {
 	}
 
 	// Remove custom post types.
-	$post_types = array( 'brutefort_log', 'brutefort_ip_rule' );
+	$post_types = array( 'brutef_log', 'brutef_ip_rule', 'brutefort_log', 'brutefort_ip_rule' );
 	foreach ( $post_types as $post_type ) {
 		$posts = get_posts(
 			array(
@@ -154,7 +174,7 @@ function brutefort_cleanup_data() {
 	}
 
 	// Remove custom taxonomies.
-	$taxonomies = array( 'brutefort_ip_category', 'brutefort_log_category' );
+	$taxonomies = array( 'brutef_ip_category', 'brutef_log_category', 'brutefort_ip_category', 'brutefort_log_category' );
 	foreach ( $taxonomies as $taxonomy ) {
 		$terms = get_terms(
 			array(
@@ -170,15 +190,9 @@ function brutefort_cleanup_data() {
 
 	// Clean up uploads directory.
 	$upload_dir = wp_upload_dir();
-	$brutefort_upload_dir = $upload_dir['basedir'] . '/brutefort_uploads/';
+	$brutefort_upload_dir = $upload_dir['basedir'] . '/brutefort/';
 	if ( is_dir( $brutefort_upload_dir ) ) {
-		brutefort_remove_directory( $brutefort_upload_dir );
-	}
-
-	// Clean up logs directory.
-	$brutefort_log_dir = $upload_dir['basedir'] . '/ur-logs/';
-	if ( is_dir( $brutefort_log_dir ) ) {
-		brutefort_remove_directory( $brutefort_log_dir );
+		brutef_remove_directory( $brutefort_upload_dir );
 	}
 
 	// Remove any remaining files in plugin directory (except this file).
@@ -209,7 +223,7 @@ function brutefort_cleanup_data() {
 
 	foreach ( $files_to_remove as $file ) {
 		if ( is_dir( $file ) ) {
-			brutefort_remove_directory( $file );
+			brutef_remove_directory( $file );
 		} elseif ( file_exists( $file ) ) {
 			wp_delete_file( $file );
 		}
@@ -221,7 +235,7 @@ function brutefort_cleanup_data() {
  *
  * @param string $dir Directory path to remove.
  */
-function brutefort_remove_directory( $dir ) {
+function brutef_remove_directory( $dir ) {
 	if ( ! is_dir( $dir ) ) {
 		return;
 	}
@@ -230,7 +244,7 @@ function brutefort_remove_directory( $dir ) {
 	foreach ( $files as $file ) {
 		$path = $dir . DIRECTORY_SEPARATOR . $file;
 		if ( is_dir( $path ) ) {
-			brutefort_remove_directory( $path );
+			brutef_remove_directory( $path );
 		} else {
 			wp_delete_file( $path );
 		}
@@ -248,22 +262,22 @@ function brutefort_remove_directory( $dir ) {
 /**
  * Clean up multisite data if applicable.
  */
-function brutefort_cleanup_multisite() {
+function brutef_cleanup_multisite() {
 	if ( is_multisite() ) {
 		$sites = get_sites();
 		foreach ( $sites as $site ) {
 			switch_to_blog( $site->blog_id );
-			brutefort_cleanup_data();
+			brutef_cleanup_data();
 			restore_current_blog();
 		}
 	}
 }
 
 // Execute cleanup.
-brutefort_cleanup_data();
+brutef_cleanup_data();
 
 // Clean up multisite if applicable.
-brutefort_cleanup_multisite();
+brutef_cleanup_multisite();
 
 // Clear any remaining caches.
 if ( function_exists( 'wp_cache_flush' ) ) {

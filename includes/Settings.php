@@ -24,8 +24,8 @@ class Settings {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'plugins_loaded', array( $this, 'include_classes' ) );
-		register_deactivation_hook( BF_PLUGIN_FILE, array( $this, 'on_deactivation' ) );
-		register_activation_hook( BF_PLUGIN_FILE, array( $this, 'on_activation' ) );
+		register_deactivation_hook( BRUTEF_PLUGIN_FILE, array( $this, 'on_deactivation' ) );
+		register_activation_hook( BRUTEF_PLUGIN_FILE, array( $this, 'on_activation' ) );
 	}
 
 	/**
@@ -83,17 +83,17 @@ class Settings {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			wp_enqueue_script(
 				'brutefort-admin',
-				BF()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
+				brutef_get_instance()->plugin_url() . '/assets/build/admin' . $suffix . '.js',
 				array( 'wp-element', 'wp-api-fetch' ),
-				BF_VERSION,
+				BRUTEF_VERSION,
 				true
 			);
 
 			wp_enqueue_style(
 				'brutefort-admin',
-				BF()->plugin_url() . '/assets/css/admin.css',
+				brutef_get_instance()->plugin_url() . '/assets/css/admin.css',
 				array(),
-				BF_VERSION
+				BRUTEF_VERSION
 			);
 		}
 
@@ -141,19 +141,19 @@ class Settings {
 
 		// Prepare whitelist entry in the same format as IpSettingsController expects.
 		$entry = array(
-			'bf_ip_address' => $server_ip,
-			'bf_list_type'  => 'whitelist',
+			'brutef_ip_address' => $server_ip,
+			'brutef_list_type'  => 'whitelist',
 			'created_at'    => strtotime( 'now' ),
 		);
 
 		// Get existing whitelist.
-		$whitelist = get_option( 'bf_whitelisted_ips' );
+		$whitelist = get_option( 'brutef_whitelisted_ips' );
 		$whitelist = $whitelist ? json_decode( $whitelist, true ) : array();
 
 		// Prevent duplicates.
 		$exists = false;
 		foreach ( $whitelist as $item ) {
-			if ( isset( $item['bf_ip_address'] ) && $item['bf_ip_address'] === $server_ip ) {
+			if ( isset( $item['brutef_ip_address'] ) && $item['brutef_ip_address'] === $server_ip ) {
 				$exists = true;
 				break;
 			}
@@ -161,7 +161,7 @@ class Settings {
 
 		if ( ! $exists ) {
 			$whitelist[] = $entry;
-			update_option( 'bf_whitelisted_ips', json_encode( $whitelist ) );
+			update_option( 'brutef_whitelisted_ips', json_encode( $whitelist ) );
 		}
 	}
 	/**

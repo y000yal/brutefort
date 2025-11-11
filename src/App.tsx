@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 import './styles/admin.css';
 import {HashRouter, Routes, Route, Navigate} from 'react-router-dom';

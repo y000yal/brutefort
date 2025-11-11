@@ -24,7 +24,8 @@ module.exports = {
 	output: {
 		path: path.resolve( __dirname, 'assets/build' ),
 		filename: 'admin.js',
-		chunkFilename: '[name].[contenthash].js',
+		// Use relative path in production so chunks load from same directory as admin.js.
+		// In development, use dev server URL.
 		publicPath: isProduction ? '' : 'http://localhost:5432/',
 		clean: true, // Clean the output directory before each build.
 	},

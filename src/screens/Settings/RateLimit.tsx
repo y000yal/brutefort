@@ -33,37 +33,37 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
          * rate limiting settings:
          */
         getFormData: () => ({
-            bf_max_attempts: {
+            brutef_max_attempts: {
                 value: maxAttemptsRef.current?.value || '',
                 type: maxAttemptsRef.current?.type || '',
                 required: true,
             },
-            bf_time_window: {
+            brutef_time_window: {
                 value: timeWindowRef.current?.value || '',
                 type: timeWindowRef.current?.type || '',
                 required: true,
             },
-            bf_enable_lockout: {
+            brutef_enable_lockout: {
                 value: enableLockoutRef.current?.checked || false,
                 type: enableLockoutRef.current?.type || '',
                 required: true,
             },
-            bf_lockout_duration: {
+            brutef_lockout_duration: {
                 value: lockoutDurationRef.current?.value || '',
                 type: lockoutDurationRef.current?.type || '',
                 required: true,
             },
-            bf_enable_lockout_extension: {
+            brutef_enable_lockout_extension: {
                 value: enableLockoutExtensionRef.current?.checked || false,
                 type: enableLockoutExtensionRef.current?.type || '',
                 required: false,
             },
-            bf_extend_lockout_duration: {
+            brutef_extend_lockout_duration: {
                 value: extendLockoutDurationRef.current?.value || '',
                 type: extendLockoutDurationRef.current?.type || '',
                 required: true,
             },
-            bf_custom_error_message: {
+            brutef_custom_error_message: {
                 value: customErrorMessageRef.current?.value || '',
                 type: customErrorMessageRef.current?.type || '',
                 required: true,
@@ -108,8 +108,8 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     useEffect(() => {
         if (data) {
             setInitialFormData(data);
-            setEnableLockoutExtension(data?.bf_enable_lockout_extension);
-            setEnableLockout(data?.bf_enable_lockout);
+            setEnableLockoutExtension(data?.brutef_enable_lockout_extension);
+            setEnableLockout(data?.brutef_enable_lockout);
         }
     }, [data]);
     return (
@@ -127,11 +127,11 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                         label="Max Allowed Attempts"
                         ref={maxAttemptsRef}
                         id="bf-max-attempts"
-                        name="bf_max_attempts"
+                        name="brutef_max_attempts"
                         min={1}
-                        defaultValue={initialFormData?.bf_max_attempts || 3}
+                        defaultValue={initialFormData?.brutef_max_attempts || 3}
                         type="number"
-                        className={`${errors?.bf_max_attempts ? 'input-error' : ''}`}
+                        className={`${errors?.brutef_max_attempts ? 'input-error' : ''}`}
                         tooltip="e.g. default 3 attempts per 15 minutes"
                     />
                     <div className="flex gap-1 items-center content-center">
@@ -139,12 +139,12 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                             label="Time Period"
                             ref={timeWindowRef}
                             id="bf-time-window"
-                            name="bf_time_window"
+                            name="brutef_time_window"
                             min={1}
-                            defaultValue={initialFormData?.bf_time_window || 15}
+                            defaultValue={initialFormData?.brutef_time_window || 15}
                             type="number"
                             placeholder="in minutes..."
-                            className={`w-[515px] ${errors?.bf_time_window ? 'input-error' : ''}`}
+                            className={`w-[515px] ${errors?.brutef_time_window ? 'input-error' : ''}`}
                             tooltip="E.g. default 3 attempts per 15 minutes"
                         />
                         <span className="italic self-end">{__("minute(s)", "brutefort")}</span>
@@ -152,10 +152,10 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
 
                     <Input
                         ref={customErrorMessageRef}
-                        className={errors?.bf_custom_error_message ? 'input-error' : ''}
+                        className={errors?.brutef_custom_error_message ? 'input-error' : ''}
                         id="bf-custom-error-message"
-                        name="bf_custom_error_message"
-                        defaultValue={initialFormData?.bf_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
+                        name="brutef_custom_error_message"
+                        defaultValue={initialFormData?.brutef_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
                         type="text"
                         label="Custom Error Message"
                         placeholder="Too many attempts!! Try again after {{locked_out_until}}."
@@ -167,12 +167,12 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                         <CheckBox
                             ref={enableLockoutRef}
                             id="bf-enable-lockout"
-                            name="bf_enable_lockout"
-                            defaultChecked={initialFormData?.bf_enable_lockout || enableLockout}
+                            name="brutef_enable_lockout"
+                            defaultChecked={initialFormData?.brutef_enable_lockout || enableLockout}
                             label="Enable lockout"
                             onChange={handleLockout}
                             tooltip="Enabling this will override requests per set time just above."
-                            className={errors?.bf_enable_lockout ? 'input-error' : ''}
+                            className={errors?.brutef_enable_lockout ? 'input-error' : ''}
                         />
                     </>
 
@@ -182,14 +182,14 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                                 <Input
                                     ref={lockoutDurationRef}
                                     id="bf-lockout-duration"
-                                    name="bf_lockout_duration"
+                                    name="brutef_lockout_duration"
                                     min={1}
-                                    defaultValue={initialFormData?.bf_lockout_duration || 5}
+                                    defaultValue={initialFormData?.brutef_lockout_duration || 5}
                                     type="text"
                                     label="Lockout Duration"
                                     placeholder="in minutes..."
                                     tooltip="How long an IP is blocked after limit (in minutes)."
-                                    className={`w-[515px] ${errors?.bf_lockout_duration ? 'input-error' : ''}`}
+                                    className={`w-[515px] ${errors?.brutef_lockout_duration ? 'input-error' : ''}`}
                                 />
                                 <span className="italic self-end">{__("minute(s)", "brutefort")}</span>
 
@@ -200,8 +200,8 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                                 <CheckBox
                                     ref={enableLockoutExtensionRef}
                                     id="bf-enable-lockout-extension"
-                                    name="bf_enable_lockout_extension"
-                                    defaultChecked={initialFormData?.bf_enable_lockout_extension || enableLockoutExtension}
+                                    name="brutef_enable_lockout_extension"
+                                    defaultChecked={initialFormData?.brutef_enable_lockout_extension || enableLockoutExtension}
                                     label="Enable lockout extension"
                                     onChange={handleLockoutExtension}
                                     tooltip="Tick this if you want to extend the lockout period if the login attempt keeps on failing (in hrs)."
@@ -214,14 +214,14 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
                                         <Input
                                             ref={extendLockoutDurationRef}
                                             id="bf-extend-lockout-duration"
-                                            name="bf_extend_lockout_duration"
+                                            name="brutef_extend_lockout_duration"
                                             min={1}
-                                            defaultValue={initialFormData?.bf_extend_lockout_duration || 1}
+                                            defaultValue={initialFormData?.brutef_extend_lockout_duration || 1}
                                             type="number"
                                             label="Extended Duration"
                                             placeholder="in hours..."
                                             tooltip="How long should the restriction time be extended in hours."
-                                            className={`w-[515px] ${errors?.bf_extend_lockout_duration ? 'input-error' : ''}`}
+                                            className={`w-[515px] ${errors?.brutef_extend_lockout_duration ? 'input-error' : ''}`}
                                         />
                                         <span className="italic self-end">{__("hour(s)", "brutefort")}</span>
 

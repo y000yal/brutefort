@@ -54,7 +54,7 @@ class Routes {
 	 */
 	protected function get_rest_classes(): array {
 		return apply_filters(
-			'brutefort_api_get_rest_namespaces',
+			'brutef_api_get_rest_namespaces',
 			array(
 				'brutefort/v1' => $this->get_routes_classes(),
 			)

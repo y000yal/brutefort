@@ -59,11 +59,11 @@ class IpSettingsController extends BaseController {
 
 		$result = $this->ip_settings_service->validate_and_sanitize_ip_settings( $params );
 
-		$result = apply_filters( 'bf_after_ip_settings_validation', $result );
+		$result = apply_filters( 'brutef_after_ip_settings_validation', $result );
 
 		if ( ! empty( $result['errors'] ) ) {
 
-			$message = $result['errors']['message'] ?? apply_filters( 'bf_settings_failed_validation_message', __( 'Form not submitted, please fill all necessary fields.', 'brutefort' ) );
+			$message = $result['errors']['message'] ?? apply_filters( 'brutef_settings_failed_validation_message', __( 'Form not submitted, please fill all necessary fields.', 'brutefort' ) );
 
 			return $this->response(
 				array(
@@ -75,18 +75,18 @@ class IpSettingsController extends BaseController {
 			);
 		}
 
-		$sanitized_values = apply_filters( 'bf_before_ip_settings_save', $result['sanitized'] );
-		$type             = $sanitized_values['bf_list_type'];
+		$sanitized_values = apply_filters( 'brutef_before_ip_settings_save', $result['sanitized'] );
+		$type             = $sanitized_values['brutef_list_type'];
 		$get_all_option   = $this->ip_settings_service->get_all_ips( $type );
 
 		$get_all_option[] = $sanitized_values;
 
-		update_option( "bf_{$type}ed_ips", json_encode( $get_all_option ) );
+		update_option( "brutef_{$type}ed_ips", json_encode( $get_all_option ) );
 
 		return $this->response(
 			array(
 				'status'  => true,
-				'message' => apply_filters( 'bf_settings_success_save_message', __( 'Settings saved successfully.', 'brutefort' ) ),
+				'message' => apply_filters( 'brutef_settings_success_save_message', __( 'Settings saved successfully.', 'brutefort' ) ),
 			),
 			200
 		);
@@ -121,7 +121,7 @@ class IpSettingsController extends BaseController {
 		);
 
 		foreach ( $all_ips as $entry ) {
-			$type = $entry['bf_list_type'];
+			$type = $entry['brutef_list_type'];
 			$grouped[ $type ][] = $entry;
 		}
 
@@ -134,7 +134,7 @@ class IpSettingsController extends BaseController {
 		}
 		// Remove error_log in production.
 		// error_log("Current IP: $current_ip");.
-		$whitelist_ips = array_column( $grouped['whitelist'], 'bf_ip_address' );
+		$whitelist_ips = array_column( $grouped['whitelist'], 'brutef_ip_address' );
 		$is_current_ip_selected = in_array( $current_ip, $ips );
 
 		if ( $is_current_ip_selected && count( $whitelist_ips ) === 1 ) {
@@ -150,7 +150,7 @@ class IpSettingsController extends BaseController {
 		$grouped['blacklist'] = array_filter(
 			$grouped['blacklist'],
 			function ( $entry ) use ( $ips ) {
-				return ! in_array( $entry['bf_ip_address'], $ips );
+				return ! in_array( $entry['brutef_ip_address'], $ips );
 			}
 		);
 
@@ -158,20 +158,20 @@ class IpSettingsController extends BaseController {
 			$grouped['whitelist'],
 			function ( $entry ) use ( $ips, $current_ip ) {
 				// Do not remove the user's own IP.
-				if ( $entry['bf_ip_address'] == $current_ip ) {
+				if ( $entry['brutef_ip_address'] == $current_ip ) {
 					return true;
 				}
-				return ! in_array( $entry['bf_ip_address'], $ips );
+				return ! in_array( $entry['brutef_ip_address'], $ips );
 			}
 		);
 
 		foreach ( $grouped as $type => $group ) {
-			update_option( "bf_{$type}ed_ips", json_encode( $group ) );
+			update_option( "brutef_{$type}ed_ips", json_encode( $group ) );
 		}
 		return $this->response(
 			array(
 				'status'  => true,
-				'message' => apply_filters( 'bf_ip_deleted_message', __( 'Records deleted successfully.', 'brutefort' ) ),
+				'message' => apply_filters( 'brutef_ip_deleted_message', __( 'Records deleted successfully.', 'brutefort' ) ),
 			),
 			200
 		);

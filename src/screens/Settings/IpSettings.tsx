@@ -117,7 +117,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
           />
         ),
       }),
-      columnHelper.accessor("bf_list_type", {
+      columnHelper.accessor("brutef_list_type", {
         header: () => (
           <>
             <BookmarkSimple size={16} weight="bold" />
@@ -139,7 +139,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         },
         enableSorting: false,
       }),
-      columnHelper.accessor("bf_ip_address", {
+      columnHelper.accessor("brutef_ip_address", {
         header: () => (
           <>
             <List size={16} weight="bold" /> ipAddress
@@ -205,12 +205,12 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
     const res = await api
       .post(ip_url, {
         formData: {
-          bf_ip_address: {
+          brutef_ip_address: {
             value: ipAddressRef.current?.value,
             type: "regex",
             required: true,
           },
-          bf_list_type: {
+          brutef_list_type: {
             value: type,
             type: "text",
             required: true,
@@ -256,7 +256,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
     }
     var ips = [];
     selectedRows.forEach((i) => {
-      ips.push(i?.bf_ip_address);
+      ips.push(i?.brutef_ip_address);
     });
 
     await api
@@ -302,7 +302,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
             label="Choose Option"
             id="bf-list-type"
             isSearchable={false}
-            name="bf_list_type"
+            name="brutef_list_type"
             defaultValue={{ label: "WhiteList", value: "whitelist" }}
             options={[{ label: "WhiteList", value: "whitelist" }]}
             onChange={(option) => setType(option?.value)}
@@ -313,7 +313,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
           <Input
             ref={ipAddressRef}
             id="bf-ip-address"
-            name="bf_ip_address"
+            name="brutef_ip_address"
             defaultValue=""
             type="text"
             label={__("IP Address", "brutefort")}
@@ -323,7 +323,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
               "brutefort"
             )}
             className={`${
-              errors?.field === "bf_ip_address" ? "input-error" : ""
+              errors?.field === "brutef_ip_address" ? "input-error" : ""
             }`}
           />
           <div className="save-btn flex gap-2 items-center">

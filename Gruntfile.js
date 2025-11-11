@@ -26,7 +26,8 @@ module.exports = function (grunt) {
 			},
 			// Clean the dist and release folders.
 			clean: {
-				build: ["dist", "release"],
+				build: ["dist"],
+				release: ["release/*.zip"],
 			},
 
 			// Minify admin.js to admin.min.js.
@@ -69,7 +70,7 @@ module.exports = function (grunt) {
 			compress: {
 				main: {
 					options: {
-						archive: "release/<%= pkg.name %>-<%= pkg.version %>.zip",
+						archive: "release/<%= pkg.name %>.zip",
 					},
 					files: [
 					{
@@ -167,6 +168,7 @@ module.exports = function (grunt) {
 		"release",
 		[
 		"clean:build",
+		"clean:release",
 		"shell:phpcsFix",
 		"shell:phpcs",
 		"shell:build",

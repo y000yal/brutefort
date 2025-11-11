@@ -25,9 +25,9 @@ class IpSettingsService extends BaseService {
 		if ( ! empty( $normal_validation['errors'] ) ) {
 			return $normal_validation;
 		}
-		if ( $this->check_ip_exists( $normal_validation['sanitized']['bf_ip_address'] ) ) {
+		if ( $this->check_ip_exists( $normal_validation['sanitized']['brutef_ip_address'] ) ) {
 			$normal_validation['errors'] = array(
-				'field' => 'bf_ip_address',
+				'field' => 'brutef_ip_address',
 				'message' => 'Entry already exists.',
 			);
 		}
@@ -41,8 +41,8 @@ class IpSettingsService extends BaseService {
 	 */
 	public function get_all_ips( $type = 'all' ) {
 		$types = array(
-			'whitelist' => 'bf_whitelisted_ips',
-			'blacklist' => 'bf_blacklisted_ips',
+			'whitelist' => 'brutef_whitelisted_ips',
+			'blacklist' => 'brutef_blacklisted_ips',
 		);
 
 		if ( 'all' === $type ) {
@@ -69,9 +69,9 @@ class IpSettingsService extends BaseService {
 	public function check_ip_exists( $ip, $type = null ): bool {
 		$all_ips = $this->get_all_ips();
 		foreach ( $all_ips as $entry ) {
-			if ( is_array( $entry ) && isset( $entry['bf_ip_address'] ) && $entry['bf_ip_address'] === $ip ) {
+			if ( is_array( $entry ) && isset( $entry['brutef_ip_address'] ) && $entry['brutef_ip_address'] === $ip ) {
 				if ( null !== $type ) {
-					if ( $entry['bf_list_type'] !== $type ) {
+					if ( $entry['brutef_list_type'] !== $type ) {
 						return false;
 					}
 				}

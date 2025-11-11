@@ -23,15 +23,15 @@ class RateLimitService extends BaseService {
 	public function get_rate_limit_settings() {
 		$default_settings = json_encode(
 			array(
-				'bf_max_attempts'             => 5,
-				'bf_time_window'              => 30,
-				'bf_enable_lockout'           => false,
-				'bf_lockout_duration'         => 60,
-				'bf_enable_lockout_extension' => false,
-				'bf_extend_lockout_duration'  => 1,
-				'bf_custom_error_message'     => __( 'Too many attempts, Please try again in a while!!', 'brutefort' ),
+				'brutef_max_attempts'             => 5,
+				'brutef_time_window'              => 30,
+				'brutef_enable_lockout'           => false,
+				'brutef_lockout_duration'         => 60,
+				'brutef_enable_lockout_extension' => false,
+				'brutef_extend_lockout_duration'  => 1,
+				'brutef_custom_error_message'     => __( 'Too many attempts, Please try again in a while!!', 'brutefort' ),
 			)
 		);
-		return json_decode( get_option( 'bf_rate_limit_settings', $default_settings ), true );
+		return json_decode( get_option( 'brutef_rate_limit_settings', $default_settings ), true );
 	}
 }

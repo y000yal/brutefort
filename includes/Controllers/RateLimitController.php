@@ -54,27 +54,27 @@ class RateLimitController extends BaseController {
 		$params = $request->get_json_params();
 
 		$result = $this->rate_limit_service->validate_and_sanitize_settings( $params );
-		$result = apply_filters( 'bf_after_rate_limit_validation', $result );
+		$result = apply_filters( 'brutef_after_rate_limit_validation', $result );
 
 		if ( ! empty( $result['errors'] ) ) {
 			return $this->response(
 				array(
 					'status'  => false,
-					'message' => apply_filters( 'bf_settings_failed_validation_message', __( 'Form not submitted, please fill all necessary fields.', 'brutefort' ) ),
+					'message' => apply_filters( 'brutef_settings_failed_validation_message', __( 'Form not submitted, please fill all necessary fields.', 'brutefort' ) ),
 					'errors'  => $result['errors'],
 				),
 				422
 			);
 		}
 
-		$sanitized_values = apply_filters( 'bf_before_rate_limit_settings_save', $result['sanitized'] );
+		$sanitized_values = apply_filters( 'brutef_before_rate_limit_settings_save', $result['sanitized'] );
 
-		update_option( 'bf_rate_limit_settings', json_encode( $sanitized_values ) );
+		update_option( 'brutef_rate_limit_settings', json_encode( $sanitized_values ) );
 
 		return $this->response(
 			array(
 				'status'  => true,
-				'message' => apply_filters( 'bf_settings_success_save_message', __( 'Settings saved successfully.', 'brutefort' ) ),
+				'message' => apply_filters( 'brutef_settings_success_save_message', __( 'Settings saved successfully.', 'brutefort' ) ),
 			),
 			200
 		);

@@ -75,35 +75,34 @@ final class BruteFort {
 	 * Prevent cloning.
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheating; huh?', 'brutefort' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, 'Cheating; huh?', '1.0' );
 	}
 
 	/**
 	 * Prevent unserialization.
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheating; huh?', 'brutefort' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, 'Cheating; huh?', '1.0' );
 	}
 
 	/**
 	 * Define plugin constants.
 	 */
 	private function define_constants(): void {
-		$upload_dir = apply_filters( 'bf_upload_dir', wp_upload_dir() );
+		$upload_dir = apply_filters( 'brutef_upload_dir', wp_upload_dir() );
 
-		$this->define( 'BF_LOG_DIR', $upload_dir['basedir'] . '/ur-logs/' );
-		$this->define( 'BF_UPLOAD_PATH', $upload_dir['basedir'] . '/brutefort_uploads/' );
-		$this->define( 'BF_UPLOAD_URL', $upload_dir['baseurl'] . '/brutefort_uploads/' );
-		$this->define( 'BF_DS', DIRECTORY_SEPARATOR );
-		$this->define( 'BF_PLUGIN_FILE', __FILE__ );
-		$this->define( 'BF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-		$this->define( 'BF_ASSETS_URL', BF_PLUGIN_URL . 'assets' );
-		$this->define( 'BF_ABSPATH', __DIR__ . BF_DS );
-		$this->define( 'BF_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-		$this->define( 'BF_VERSION', $this->version );
-		$this->define( 'BF_FORM_PATH', BF_ABSPATH . 'includes' . BF_DS . 'form' . BF_DS );
-		$this->define( 'BF_SESSION_CACHE_GROUP', 'ur_session_id' );
-		$this->define( 'BF_PRO_ACTIVE', false );
+		$this->define( 'BRUTEF_UPLOAD_PATH', $upload_dir['basedir'] . '/brutefort/' );
+		$this->define( 'BRUTEF_UPLOAD_URL', $upload_dir['baseurl'] . '/brutefort/' );
+		$this->define( 'BRUTEF_DS', DIRECTORY_SEPARATOR );
+		$this->define( 'BRUTEF_PLUGIN_FILE', __FILE__ );
+		$this->define( 'BRUTEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+		$this->define( 'BRUTEF_ASSETS_URL', BRUTEF_PLUGIN_URL . 'assets' );
+		$this->define( 'BRUTEF_ABSPATH', __DIR__ . BRUTEF_DS );
+		$this->define( 'BRUTEF_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+		$this->define( 'BRUTEF_VERSION', $this->version );
+		$this->define( 'BRUTEF_FORM_PATH', BRUTEF_ABSPATH . 'includes' . BRUTEF_DS . 'form' . BRUTEF_DS );
+		$this->define( 'BRUTEF_SESSION_CACHE_GROUP', 'ur_session_id' );
+		$this->define( 'BRUTEF_PRO_ACTIVE', false );
 	}
 
 	/**
@@ -163,7 +162,7 @@ final class BruteFort {
 	 */
 	private function init_hooks(): void {
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-		add_filter( 'plugin_action_links_' . BF_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ) );
+		add_filter( 'plugin_action_links_' . BRUTEF_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ) );
 		add_filter( 'plugin_row_meta', array( __CLASS__, 'plugin_row_meta' ), 10, 2 );
 	}
 
@@ -231,7 +230,7 @@ final class BruteFort {
 	 * @return array The modified plugin meta.
 	 */
 	public static function plugin_row_meta( array $plugin_meta, string $plugin_file ): array {
-		if ( BF_PLUGIN_BASENAME === $plugin_file ) {
+		if ( BRUTEF_PLUGIN_BASENAME === $plugin_file ) {
 			$new_plugin_meta = array(
 				'docs'    => '<a href="' . esc_url( 'https://docs.wpuserregistration.com/' ) . '">' . esc_html__( 'Docs', 'brutefort' ) . '</a>',
 				'support' => '<a href="' . esc_url( 'https://wpuserregistration.com/support/' ) . '">' . esc_html__( 'Free support', 'brutefort' ) . '</a>',
@@ -253,7 +252,10 @@ final class BruteFort {
 	 * @return bool Whether to trigger the error.
 	 */
 	public function filter_doing_it_wrong( mixed $trigger, string $function, string $message, string $version ): bool {
-		return ( '_load_textdomain_just_in_time' === $function && str_contains( $message, '<code>brute-fort' ) ) ? false : $trigger;
+		if ( '_load_textdomain_just_in_time' === $function && ( str_contains( $message, 'brutefort' ) || str_contains( $message, 'brute-fort' ) ) ) {
+			return false;
+		}
+		return $trigger;
 	}
 	/**
 	 * Set up admin notices.
@@ -280,12 +282,12 @@ final class BruteFort {
 		} else {
 			$current_ip = gethostbyname( gethostname() );
 		}
-		$whitelist = get_option( 'bf_whitelisted_ips' );
+		$whitelist = get_option( 'brutef_whitelisted_ips' );
 		$whitelist = $whitelist ? json_decode( $whitelist, true ) : array();
 
 		$is_whitelisted = false;
 		foreach ( $whitelist as $entry ) {
-			if ( isset( $entry['bf_ip_address'] ) && $entry['bf_ip_address'] === $current_ip ) {
+			if ( isset( $entry['brutef_ip_address'] ) && $entry['brutef_ip_address'] === $current_ip ) {
 				$is_whitelisted = true;
 				break;
 			}
@@ -306,4 +308,4 @@ final class BruteFort {
 require_once plugin_dir_path( __FILE__ ) . 'includes/helpers.php';
 
 // Set global.
-$GLOBALS['brutefort'] = BF();
+$GLOBALS['brutefort'] = brutef_get_instance();

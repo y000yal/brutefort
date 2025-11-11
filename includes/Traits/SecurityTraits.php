@@ -13,7 +13,7 @@ trait SecurityTraits {
 	 *
 	 * @return string The sanitized IP address.
 	 */
-	public function brutefort_get_ip() {
+	public function brutef_get_ip() {
 		$ip = '';
 		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );

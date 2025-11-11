@@ -176,7 +176,7 @@ class LogsService {
 		$log_id      = isset( $log['ID'] ) ? $log['ID'] : null;
 		$last_status = isset( $log['last_status'] ) ? $log['last_status'] : null;
 		$is_locked    = ( 'locked' === $last_status );
-		$lockout_enabled = isset( $this->settings['bf_enable_lockout'] ) ? $this->settings['bf_enable_lockout'] : false;
+		$lockout_enabled = isset( $this->settings['brutef_enable_lockout'] ) ? $this->settings['brutef_enable_lockout'] : false;
 		$latest_locked_log = ( ! empty( $log_id ) && is_numeric( $log_id ) ) ? $this->get_locked_data( (int) $log_id ) : null;
 
 		// Skip if lockout is off and currently locked.
@@ -200,8 +200,8 @@ class LogsService {
 		}
 
 		// If not currently locked, check if lockout should now happen.
-		$failed_attempts = $this->get_failed_attempts( $ip, isset( $this->settings['bf_time_window'] ) ? $this->settings['bf_time_window'] : 60 );
-		$is_locking      = $failed_attempts >= ( isset( $this->settings['bf_max_attempts'] ) ? $this->settings['bf_max_attempts'] : 5 );
+		$failed_attempts = $this->get_failed_attempts( $ip, isset( $this->settings['brutef_time_window'] ) ? $this->settings['brutef_time_window'] : 60 );
+		$is_locking      = $failed_attempts >= ( isset( $this->settings['brutef_max_attempts'] ) ? $this->settings['brutef_max_attempts'] : 5 );
 
 		if ( $is_locking && $lockout_enabled ) {
 			$this->handle_new_lockout( $ip, $username, $total_attempts, $log );
@@ -220,7 +220,7 @@ class LogsService {
 	 */
 	private function should_extend_lockout( $latest_locked_log ): bool {
 		return (
-			$this->settings['bf_enable_lockout_extension']
+			$this->settings['brutef_enable_lockout_extension']
 			&& time() < strtotime( $latest_locked_log->lockout_until )
 			&& empty( $latest_locked_log->is_extended )
 		);
@@ -236,7 +236,7 @@ class LogsService {
 	 */
 	private function extend_lockout( string $ip, string $username, int $total_attempts, object $locked_log ): void {
 		$base_time        = strtotime( $locked_log->lockout_until );
-		$extension_period = (int) $this->settings['bf_extend_lockout_duration'] * 3600;
+		$extension_period = (int) $this->settings['brutef_extend_lockout_duration'] * 3600;
 		$new_until        = date_i18n( 'Y-m-d H:i:s', $base_time + $extension_period );
 
 		self::log_attempt(
@@ -335,11 +335,11 @@ class LogsService {
 	 * @return array Lockout detail information.
 	 */
 	public function get_lockout_detail( $enable_lockout, ?array $log = null ): array {
-		$total_duration = (int) ( $enable_lockout ? $this->settings['bf_lockout_duration'] : $this->settings['bf_time_window'] ) * 60; // This is the initial lockout duration converted to seconds.
+		$total_duration = (int) ( $enable_lockout ? $this->settings['brutef_lockout_duration'] : $this->settings['brutef_time_window'] ) * 60; // This is the initial lockout duration converted to seconds.
 		$is_extended    = 0;
-		if ( $this->settings['bf_enable_lockout_extension'] && $this->settings['bf_extend_lockout_duration'] > 0 ) {
+		if ( $this->settings['brutef_enable_lockout_extension'] && $this->settings['brutef_extend_lockout_duration'] > 0 ) {
 			$is_extended    = 1;
-			$total_duration += (int) $this->settings['bf_extend_lockout_duration'] * 60 * 60; // Hours → seconds.
+			$total_duration += (int) $this->settings['brutef_extend_lockout_duration'] * 60 * 60; // Hours → seconds.
 		}
 
 		$lockout_timestamp = current_time( 'timestamp' ) + $total_duration;
@@ -560,8 +560,8 @@ class LogsService {
 	 * @return bool True if limit exceeded.
 	 */
 	private function has_exceeded_failed_attempts( string $ip ): bool {
-		$fail_window  = (int) ( $this->settings['bf_time_window'] ?? 0 );
-		$max_attempts = (int) ( $this->settings['bf_max_attempts'] ?? 0 );
+		$fail_window  = (int) ( $this->settings['brutef_time_window'] ?? 0 );
+		$max_attempts = (int) ( $this->settings['brutef_max_attempts'] ?? 0 );
 
 		$recent_fails = self::get_failed_attempts( $ip, $fail_window );
 
@@ -598,8 +598,8 @@ class LogsService {
 		$latest_log = $latest_logs[0] ?? null;
 
 		// Count failed attempts in time window.
-		$failed_attempts = $this->get_failed_attempts( $ip, (int) $settings['bf_time_window'] );
-		$is_locking = $failed_attempts >= (int) $settings['bf_max_attempts'];
+		$failed_attempts = $this->get_failed_attempts( $ip, (int) $settings['brutef_time_window'] );
+		$is_locking = $failed_attempts >= (int) $settings['brutef_max_attempts'];
 
 		if ( ! $is_locking ) {
 			return null;
@@ -623,11 +623,11 @@ class LogsService {
 
 			// Case B: Not yet extended and still within lockout window → extend it.
 			if (
-				$settings['bf_enable_lockout_extension']
+				$settings['brutef_enable_lockout_extension']
 				&& empty( $latest_log->is_extended )
 				&& $lockout_ts > $now
 			) {
-				$extension = (int) $settings['bf_extend_lockout_duration'] * 3600;
+				$extension = (int) $settings['brutef_extend_lockout_duration'] * 3600;
 				$extended_ts = $lockout_ts + $extension;
 
 				return date_i18n( 'Y-m-d H:i:s', $extended_ts );
@@ -635,7 +635,7 @@ class LogsService {
 		}
 
 		// Case C: Fresh lockout (user just crossed limit or expired previous lock).
-		$base_lockout_duration = (int) $settings['bf_lockout_duration'] * 60;
+		$base_lockout_duration = (int) $settings['brutef_lockout_duration'] * 60;
 		$base_lockout_ts = $now + $base_lockout_duration;
 
 		return date_i18n( 'Y-m-d H:i:s', $base_lockout_ts );
