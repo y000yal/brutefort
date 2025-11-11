@@ -53,7 +53,7 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 		if ( $get_count ) {
 			$sql = 'SELECT COUNT(*) FROM ' . esc_sql( $this->table ) . ' AS logs';
 		} else {
-			// Explicitly select columns to avoid ID conflict between tables
+			// Explicitly select columns to avoid ID conflict between tables.
 			$sql = 'SELECT logs.ID AS log_main_id, logs.ip_address, logs.last_status, logs.attempts, logs.created_at, logs.updated_at, 
 					details.ID, details.log_id, details.username, details.user_id, details.status, details.is_extended, 
 					details.lockout_until, details.user_agent, details.attempt_time 

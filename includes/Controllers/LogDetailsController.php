@@ -54,7 +54,7 @@ class LogDetailsController extends BaseController {
 	public function delete_log_details( WP_Rest_Request $request ): WP_REST_Response {
 		$id = (int) absint( $request->get_param( 'id' ) );
 
-		// Get the log detail to find the associated log_id
+		// Get the log detail to find the associated log_id.
 		$log_detail = $this->log_details_repository->retrieve( $id );
 
 		if ( empty( $log_detail ) ) {
@@ -63,10 +63,10 @@ class LogDetailsController extends BaseController {
 
 		$log_id = isset( $log_detail['log_id'] ) ? (int) $log_detail['log_id'] : null;
 
-		// Delete the log detail
+		// Delete the log detail.
 		$this->log_details_repository->delete( $id );
 
-		// Decrement the attempts count in the parent log if log_id exists
+		// Decrement the attempts count in the parent log if log_id exists.
 		if ( $log_id ) {
 			$logs_repository = new LogsRepository();
 			$log = $logs_repository->retrieve( $log_id );

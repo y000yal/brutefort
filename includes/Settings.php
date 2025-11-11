@@ -69,7 +69,7 @@ class Settings {
 		if ( $is_hot ) {
 			// Load from webpack dev server for hot reload.
 			$dev_server_url = 'http://localhost:5432';
-			
+
 			wp_enqueue_script(
 				'brutefort-admin',
 				$dev_server_url . '/admin.js',

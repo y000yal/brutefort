@@ -416,7 +416,7 @@ class LogsService {
 
 		foreach ( $logs as $log ) {
 			$log_id = $log->log_id;
-			// Use log_main_id if available (from the explicit SELECT), otherwise fall back to log_id
+			// Use log_main_id if available (from the explicit SELECT), otherwise fall back to log_id.
 			$main_log_id = isset( $log->log_main_id ) ? $log->log_main_id : $log_id;
 
 			if ( ! isset( $grouped[ $log_id ] ) ) {
@@ -436,7 +436,7 @@ class LogsService {
 			// Prepare the details object.
 			$details = (object) array(
 				'log_id'         => $log->log_id,
-				'log_details_id' => $log->ID, // This is the log_details.ID
+				'log_details_id' => $log->ID, // This is the log_details.ID.
 				'username'      => $log->username,
 				'user_id'       => $log->user_id,
 				'status'        => $log->status,
@@ -473,12 +473,12 @@ class LogsService {
 			false
 		);
 
-		// Ensure we return an array and convert objects to arrays
+		// Ensure we return an array and convert objects to arrays.
 		if ( is_null( $results ) ) {
 			return array();
 		}
 
-		// Convert objects to arrays if needed
+		// Convert objects to arrays if needed.
 		if ( is_array( $results ) ) {
 			return array_map(
 				function ( $item ) {

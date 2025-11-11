@@ -9,6 +9,8 @@
  * Author URI: https://yoyallimbu.com.np
  * Text Domain: brutefort
  * Domain Path: /languages/
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package BruteFort
  */
