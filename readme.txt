@@ -50,9 +50,11 @@ Blacklisted IPs are instantly blocked from accessing the login page.
 Yes. BruteFort is designed to work alongside most other WordPress security plugins without conflict.
 
 == Screenshots ==
-1. Settings panel with IP restriction, whitelist & blacklist.
-2. Brute force detection log.
-3. Lockout settings for login attempt limits.
+1. Rate Limit Settings
+2. Ip Settings
+3. Log Details
+4. Dark Mode
+5. Login Limit Example
 
 == Changelog ==
 
