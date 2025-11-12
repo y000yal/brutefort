@@ -144,7 +144,7 @@ module.exports = function (grunt) {
 					command: "cross-env NODE_ENV=production webpack"
 				},
 				makepot: {
-					command: "vendor\\bin\\wp i18n make-pot . languages\\brutefort.pot --domain=brutefort"
+					command: "composer exec wp -- i18n make-pot . languages/brutefort.pot --domain=brutefort"
 				},
 				phpcs: {
 					command: "npm run phpcs"

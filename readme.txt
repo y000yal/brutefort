@@ -58,10 +58,10 @@ Yes. BruteFort is designed to work alongside most other WordPress security plugi
 
 == Changelog ==
 
-= 0.0.1 =
+= 0.0.1   - 12/11/2025 =
 * Initial release – login protection, IP whitelist/blacklist, brute force detection.
 
 == Upgrade Notice ==
 
-= 0.0.1 =
-Initial release.
+= 0.0.1   - 12/11/2025 =
+* Initial release – login protection, IP whitelist/blacklist, brute force detection.
