@@ -30,7 +30,7 @@ test-deploy.sh
 Gruntfile.js
 
 # Vendor dependencies (exclude from release)
-vendor/
+# Note: vendor/autoload.php is needed for plugin classes, so vendor/ is included
 
 # IDE files
 .vscode/

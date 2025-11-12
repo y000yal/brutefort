@@ -3,7 +3,7 @@
   "title": "BruteFort",
   "description": "A WordPress plugin to protect against brute force attacks with IP restrictions, whitelisting, and blacklisting.",
   "author": "y0000el",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack --watch",
