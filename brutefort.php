@@ -216,7 +216,7 @@ final class BruteFort {
 	 */
 	public static function plugin_action_links( array $actions ): array {
 		$new_actions = array(
-			'settings' => '<a href="' . admin_url( 'admin.php?page=brute-fort-settings' ) . '">' . esc_html__( 'Settings', 'brutefort' ) . '</a>',
+			'settings' => '<a href="' . admin_url( 'admin.php?page=brutefort' ) . '">' . esc_html__( 'Settings', 'brutefort' ) . '</a>',
 		);
 
 		return array_merge( $new_actions, $actions );
