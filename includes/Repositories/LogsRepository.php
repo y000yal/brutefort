@@ -49,7 +49,7 @@ class LogsRepository extends \BruteFort\Repositories\BaseRepository implements L
 	 *
 	 * @return array|object|string|null The query results or count.
 	 */
-	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false ): array|object|string|null {
+	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false ) {
 		if ( $get_count ) {
 			$sql = 'SELECT COUNT(*) FROM ' . esc_sql( $this->table ) . ' AS logs';
 		} else {

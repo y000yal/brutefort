@@ -25,21 +25,21 @@ class LoginGuard {
 	 *
 	 * @var RateLimitService
 	 */
-	protected string|RateLimitService $rate_limit_service;
+	protected $rate_limit_service;
 
 	/**
 	 * IP settings service instance.
 	 *
 	 * @var IpSettingsService
 	 */
-	protected string|IpSettingsService $ip_settings_service;
+	protected $ip_settings_service;
 
 	/**
 	 * Logs service instance.
 	 *
 	 * @var LogsService
 	 */
-	protected string|LogsService $logs_service;
+	protected $logs_service;
 
 	/**
 	 * Plugin settings.

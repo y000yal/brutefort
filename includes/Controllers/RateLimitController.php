@@ -26,7 +26,7 @@ class RateLimitController extends BaseController {
 	 *
 	 * @var RateLimitService
 	 */
-	protected string|RateLimitService $rate_limit_service;
+	protected $rate_limit_service;
 
 	/**
 	 * Constructor for RateLimitController.
@@ -50,7 +50,7 @@ class RateLimitController extends BaseController {
 	 * @param WP_Rest_Request $request The REST request object.
 	 * @return WP_HTTP_Response|WP_REST_Response|WP_Error Response with save result.
 	 */
-	public function store( WP_Rest_Request $request ): WP_HTTP_Response|WP_REST_Response|WP_Error {
+	public function store( WP_Rest_Request $request ) {
 		$params = $request->get_json_params();
 
 		$result = $this->rate_limit_service->validate_and_sanitize_settings( $params );

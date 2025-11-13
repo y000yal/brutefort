@@ -45,7 +45,7 @@ class LogsService {
 	 *
 	 * @var RateLimitService
 	 */
-	protected string|RateLimitService $rate_limit_service;
+	protected $rate_limit_service;
 
 	/**
 	 * Rate limit settings.
@@ -498,7 +498,7 @@ class LogsService {
 	 *
 	 * @return array|object|string|null The locked data or null if not found.
 	 */
-	public function get_locked_data( int $log_id ): string|array|null|object {
+	public function get_locked_data( int $log_id ) {
 		$data = $this->log_details_repository->index(
 			array(
 				array(

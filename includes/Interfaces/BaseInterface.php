@@ -34,7 +34,7 @@ interface BaseInterface {
 	 *
 	 * @return mixed The created entry.
 	 */
-	public function create( mixed $data ): mixed;
+	public function create( $data );
 
 	/**
 	 * Retrieve an entry from the database.
@@ -43,7 +43,7 @@ interface BaseInterface {
 	 *
 	 * @return mixed The retrieved entry.
 	 */
-	public function retrieve( int $id ): mixed;
+	public function retrieve( int $id );
 
 	/**
 	 * Update an entry in the database.
@@ -53,7 +53,7 @@ interface BaseInterface {
 	 *
 	 * @return mixed The updated entry.
 	 */
-	public function update( int $id, mixed $data ): mixed;
+	public function update( int $id, $data );
 
 	/**
 	 * Delete an entry from the database.
@@ -62,7 +62,7 @@ interface BaseInterface {
 	 *
 	 * @return bool Returns true on success.
 	 */
-	public function delete( int $id ): mixed;
+	public function delete( int $id );
 
 	/**
 	 * Delete multiple entries from the database.
@@ -71,5 +71,5 @@ interface BaseInterface {
 	 *
 	 * @return mixed
 	 */
-	public function delete_multiple( array $ids ): mixed;
+	public function delete_multiple( array $ids );
 }

@@ -9,7 +9,6 @@
 namespace BruteFort\Routes;
 
 use BruteFort\Routes\RateLimitRoutes;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * Main Routes class for managing all REST API endpoints.
@@ -67,13 +66,6 @@ class Routes {
 	 * @return array
 	 * @since 1.0.0
 	 */
-	#[ArrayShape(
-		array(
-			'rate-limit' => 'string',
-			'logs' => 'string',
-			'ip-settings' => 'string',
-		)
-	)]
 	public function get_routes_classes(): array {
 		return array(
 			'rate-limit'  => RateLimitRoutes::class,

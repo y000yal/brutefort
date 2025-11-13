@@ -27,14 +27,14 @@ class LogsController extends BaseController {
 	 *
 	 * @var LogsService
 	 */
-	protected string|LogsService $logs_service;
+	protected $logs_service;
 
 	/**
 	 * Logs repository instance.
 	 *
 	 * @var LogsRepository
 	 */
-	protected string|LogsRepository $logs_repository;
+	protected $logs_repository;
 
 	/**
 	 * Constructor for LogsController.

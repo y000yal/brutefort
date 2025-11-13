@@ -48,7 +48,7 @@ class BaseRepository implements BaseInterface {
 	 *
 	 * @return array|object|string|null Records or count.
 	 */
-	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false ): array|object|string|null {
+	public function index( array $conditions = array(), string $order_by = 'ID', string $order = 'DESC', $limit = null, $offset = null, bool $get_count = false ) {
 		global $wpdb;
 
 		$table_name = esc_sql( $this->table );
@@ -127,7 +127,7 @@ class BaseRepository implements BaseInterface {
 	 *
 	 * @return array|false|mixed|object|stdClass|void Created record or false on failure.
 	 */
-	public function create( $data ): mixed {
+	public function create( $data ) {
 		global $wpdb;
 
 		$result    = $wpdb->insert(
@@ -162,7 +162,7 @@ class BaseRepository implements BaseInterface {
 	 *
 	 * @return int|bool|mysqli_result|null Number of affected rows or false on failure.
 	 */
-	public function update( $id, $data ): int|bool|null|mysqli_result {
+	public function update( $id, $data ) {
 		global $wpdb;
 
 		return $wpdb->update(
@@ -179,7 +179,7 @@ class BaseRepository implements BaseInterface {
 	 *
 	 * @return int|bool|mysqli_result|null Number of affected rows or false on failure.
 	 */
-	public function delete_multiple( $ids ): int|bool|null|mysqli_result {
+	public function delete_multiple( $ids ) {
 		global $wpdb;
 
 		// Use individual delete operations to avoid interpolation issues.
@@ -197,7 +197,7 @@ class BaseRepository implements BaseInterface {
 	 *
 	 * @return int|bool|mysqli_result|null Number of affected rows or false on failure.
 	 */
-	public function delete( $id ): int|bool|null|mysqli_result {
+	public function delete( $id ) {
 		global $wpdb;
 
 		return $wpdb->delete( $this->table, array( 'ID' => $id ) );

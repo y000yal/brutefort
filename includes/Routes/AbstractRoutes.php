@@ -60,5 +60,5 @@ abstract class AbstractRoutes {
 	 *
 	 * @var string|PermissionMiddleware
 	 */
-	public string|PermissionMiddleware $middleware = PermissionMiddleware::class;
+	public $middleware = PermissionMiddleware::class;
 }

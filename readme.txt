@@ -58,6 +58,10 @@ Yes. BruteFort is designed to work alongside most other WordPress security plugi
 
 == Changelog ==
 
+= 0.0.3   - 13/11/2025 =
+* Fix     – Settings redirect from all plugins page.
+* Fix     - Compatibility with 7.4.
+
 = 0.0.2   - 12/11/2025 =
 * Fix     – Autoload not working issue.
 

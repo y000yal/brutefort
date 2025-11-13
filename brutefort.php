@@ -4,7 +4,7 @@
  * Plugin Name: BruteFort
  * Plugin URI: https://brutefort.com/
  * Description: BruteForce Protection for WordPress with IP Restriction, Whitelist & Blacklist Management.
- * Version: 0.0.2
+ * Version: 0.0.3
  * Author: Y0000el
  * Author URI: https://yoyallimbu.com.np
  * Text Domain: brutefort
@@ -38,7 +38,7 @@ final class BruteFort {
 	 *
 	 * @var string
 	 */
-	public string $version = '0.0.2';
+	public string $version = '0.0.3';
 
 	/**
 	 * Singleton instance.
@@ -111,7 +111,7 @@ final class BruteFort {
 	 * @param string      $name  Constant name.
 	 * @param bool|string $value Constant value.
 	 */
-	private function define( string $name, bool|string $value ): void {
+	private function define( string $name, $value ): void {
 		if ( ! defined( $name ) ) {
 			define( $name, $value );
 		}
@@ -251,8 +251,8 @@ final class BruteFort {
 	 * @param string $version   The version.
 	 * @return bool Whether to trigger the error.
 	 */
-	public function filter_doing_it_wrong( mixed $trigger, string $function, string $message, string $version ): bool {
-		if ( '_load_textdomain_just_in_time' === $function && ( str_contains( $message, 'brutefort' ) || str_contains( $message, 'brute-fort' ) ) ) {
+	public function filter_doing_it_wrong( $trigger, string $function, string $message, string $version ): bool {
+		if ( '_load_textdomain_just_in_time' === $function && ( false !== strpos( $message, 'brutefort' ) || false !== strpos( $message, 'brute-fort' ) ) ) {
 			return false;
 		}
 		return $trigger;

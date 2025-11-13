@@ -26,7 +26,7 @@ class IpSettingsController extends BaseController {
 	 *
 	 * @var IpSettingsService
 	 */
-	protected string|IpSettingsService $ip_settings_service;
+	protected $ip_settings_service;
 
 	/**
 	 * Constructor for IpSettingsController.
@@ -54,7 +54,7 @@ class IpSettingsController extends BaseController {
 	 * @return WP_HTTP_Response|WP_REST_Response|WP_Error
 	 * @since 1.0.0
 	 */
-	public function store( WP_Rest_Request $request ): WP_HTTP_Response|WP_REST_Response|WP_Error {
+	public function store( WP_Rest_Request $request ) {
 		$params = $request->get_json_params();
 
 		$result = $this->ip_settings_service->validate_and_sanitize_ip_settings( $params );
@@ -100,7 +100,7 @@ class IpSettingsController extends BaseController {
 	 * @return WP_HTTP_Response|WP_REST_Response|WP_Error
 	 * @since 1.0.0
 	 */
-	public function delete( WP_Rest_Request $request ): WP_HTTP_Response|WP_REST_Response|WP_Error {
+	public function delete( WP_Rest_Request $request ) {
 		$ips = sanitize_text_field( $request->get_param( 'ids' ) );
 
 		if ( empty( $ips ) ) {

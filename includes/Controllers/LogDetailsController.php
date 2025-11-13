@@ -28,14 +28,14 @@ class LogDetailsController extends BaseController {
 	 *
 	 * @var LogsService
 	 */
-	protected string|LogsService $logs_service;
+	protected $logs_service;
 
 	/**
 	 * Log details repository instance.
 	 *
 	 * @var LogDetailsRepository
 	 */
-	protected string|LogDetailsRepository $log_details_repository;
+	protected $log_details_repository;
 
 	/**
 	 * Constructor for LogDetailsController.
