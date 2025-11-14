@@ -74,4 +74,71 @@ class LogsController extends BaseController {
 			200
 		);
 	}
+
+	/**
+	 * Unlock an IP address by log ID.
+	 *
+	 * @param WP_Rest_Request $request The REST request object.
+	 * @return WP_REST_Response|WP_Error Response containing unlock result.
+	 */
+	public function unlock( WP_Rest_Request $request ) {
+		$id = (int) absint( $request->get_param( 'id' ) );
+
+		if ( empty( $id ) ) {
+			return $this->response(
+				array(
+					'status'  => false,
+					'message' => __( 'Invalid log ID.', 'brutefort' ),
+				),
+				422
+			);
+		}
+
+		// Get the log entry to retrieve the IP address.
+		$log = $this->logs_repository->retrieve( $id );
+
+		if ( empty( $log ) || empty( $log['ip_address'] ) ) {
+			return $this->response(
+				array(
+					'status'  => false,
+					'message' => __( 'Log entry not found.', 'brutefort' ),
+				),
+				404
+			);
+		}
+
+		$ip_address = sanitize_text_field( $log['ip_address'] );
+
+		// Check if IP is actually locked before attempting to unlock.
+		if ( ! $this->logs_service->is_ip_locked( $ip_address ) ) {
+			return $this->response(
+				array(
+					'status'  => false,
+					'message' => __( 'IP address is not currently locked.', 'brutefort' ),
+				),
+				400
+			);
+		}
+
+		// Unlock the IP address.
+		$unlocked = $this->logs_service->unlock_ip( $ip_address );
+
+		if ( ! $unlocked ) {
+			return $this->response(
+				array(
+					'status'  => false,
+					'message' => __( 'Failed to unlock IP address.', 'brutefort' ),
+				),
+				500
+			);
+		}
+
+		return $this->response(
+			array(
+				'status'  => true,
+				'message' => __( 'IP address unlocked successfully.', 'brutefort' ),
+			),
+			200
+		);
+	}
 }

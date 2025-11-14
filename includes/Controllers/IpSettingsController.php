@@ -11,7 +11,7 @@ use BruteFort\Services\IpSettingsService;
 use BruteFort\Controllers\Controller as BaseController;
 use WP_Error;
 use WP_HTTP_Response;
-use WP_Rest_Request;
+use WP_REST_Request;
 use WP_REST_Response;
 
 /**
@@ -39,22 +39,22 @@ class IpSettingsController extends BaseController {
 	/**
 	 * Get all IP settings.
 	 *
-	 * @param WP_Rest_Request $request The REST request object.
+	 * @param WP_REST_Request $request The REST request object.
 	 * @return WP_REST_Response Response containing all IP settings.
 	 */
-	public function index( WP_Rest_Request $request ): WP_REST_Response {
+	public function index( WP_REST_Request $request ): WP_REST_Response {
 		return $this->response( array( 'data' => $this->ip_settings_service->get_all_ips() ), 200 );
 	}
 
 	/**
 	 * Get item.
 	 *
-	 * @param WP_Rest_Request $request Full detail about the request.
+	 * @param WP_REST_Request $request Full detail about the request.
 	 *
 	 * @return WP_HTTP_Response|WP_REST_Response|WP_Error
 	 * @since 1.0.0
 	 */
-	public function store( WP_Rest_Request $request ) {
+	public function store( WP_REST_Request $request ) {
 		$params = $request->get_json_params();
 
 		$result = $this->ip_settings_service->validate_and_sanitize_ip_settings( $params );
@@ -95,12 +95,12 @@ class IpSettingsController extends BaseController {
 	/**
 	 * Get item.
 	 *
-	 * @param WP_Rest_Request $request Full detail about the request.
+	 * @param WP_REST_Request $request Full detail about the request.
 	 *
 	 * @return WP_HTTP_Response|WP_REST_Response|WP_Error
 	 * @since 1.0.0
 	 */
-	public function delete( WP_Rest_Request $request ) {
+	public function delete( WP_REST_Request $request ) {
 		$ips = sanitize_text_field( $request->get_param( 'ids' ) );
 
 		if ( empty( $ips ) ) {
@@ -175,5 +175,22 @@ class IpSettingsController extends BaseController {
 			),
 			200
 		);
+	}
+
+	/**
+	 * Get current user's IP address (frontend IP, same as show_admin_notices).
+	 *
+	 * @param WP_REST_Request $request The REST request object.
+	 * @return WP_REST_Response Response containing current IP address.
+	 */
+	public function get_current_ip( WP_REST_Request $request ): WP_REST_Response {
+		// Use the same method as show_admin_notices to get frontend IP.
+		$current_ip = '';
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$current_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+		} else {
+			$current_ip = gethostbyname( gethostname() );
+		}
+		return $this->response( array( 'ip' => $current_ip ), 200 );
 	}
 }

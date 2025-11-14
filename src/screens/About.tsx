@@ -14,7 +14,7 @@ const About = () => {
                     <i className="mb-1">"Your First Line of Defense Against Brute Force"</i>
                     <span>
                         At <b>BruteFort</b>, our mission is to empower WordPress users around the world with rock-solid, intelligent security solutions—built with care in Nepal.
-We’re committed to defending digital freedom by making cutting-edge protection tools accessible, lightweight, and easy to use.
+We're committed to defending digital freedom by making cutting-edge protection tools accessible, lightweight, and easy to use.
 Our goal is to eliminate brute-force attacks and malicious intrusions so that creators, businesses, and developers can build fearlessly.
                     </span>
                 </div>

@@ -63,6 +63,28 @@ a:not([aria-current="page"]):hover {
 	color: var(--color-primary-dark);
 }
 
+.dark a:not([aria-current="page"]):hover {
+	color: #f3f4f6;
+}
+
+/* Table dark mode styles */
+.dark table {
+	border-color: #374151;
+}
+
+.dark table th,
+.dark table td {
+	border-color: #374151;
+}
+
+.dark table thead {
+	border-bottom-color: #374151;
+}
+
+.dark table tbody tr {
+	border-bottom-color: #374151;
+}
+
 #toplevel_page_brutefort .wp-menu-image:before {
 	display: none !important;
 }

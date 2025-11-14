@@ -59,7 +59,7 @@
                                     duration: .3
                                 }
                             }}
-                            className="fixed top-0 right-0 h-full w-[60%] bg-white shadow-lg z-50"
+                            className="fixed top-0 right-0 h-full w-[60%] bg-white dark:bg-gray-800 shadow-lg z-50"
                         >
                             <IpLogDetails onDeleteLogDetail={onDeleteLogDetail}  onClose={onClose} isLoading={isLoading} isFetching={isFetching} details={logData} refetch={refetch} />
                         </motion.div>
