@@ -178,9 +178,9 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
           );
 
           return (
-            <span className="flex flex-col gap-1 items-start text-sm text-gray-600">
+            <span className="flex flex-col gap-1 items-start text-sm text-gray-600 dark:text-gray-300">
               <span>{formattedDate}</span>
-              <span className="text-xs text-gray-400">{formattedTime}</span>
+              <span className="text-xs text-gray-400 dark:text-gray-400">{formattedTime}</span>
             </span>
           );
         },
@@ -413,11 +413,11 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                 }}
                 className="fixed left-[160px] inset-0 flex items-center justify-center z-50 bg-black/40"
               >
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
-                  <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full [&_h2]:!text-gray-800 dark:[&_h2]:!text-white">
+                  <h2 className="text-lg font-semibold mb-4">
                     Confirm Delete
                   </h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+                  <p className="text-sm text-gray-600 dark:!text-gray-300 mb-6">
                     {__(
                       "Are you sure you want to delete the selected IP(s)?",
                       "brutefort"
@@ -425,7 +425,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                   </p>
                   <div className="flex justify-end gap-2">
                     <button
-                      className="px-4 py-1 text-sm rounded border cursor-pointer border-gray-300 hover:bg-white-400 dark:border-gray-600"
+                      className="px-4 py-1 text-sm rounded border cursor-pointer border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:!text-gray-300 dark:hover:bg-gray-700"
                       onClick={() => setShowConfirmModal(false)}
                     >
                       {__("Cancel", "brutefort")}

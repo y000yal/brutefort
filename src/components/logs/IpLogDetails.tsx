@@ -5,6 +5,7 @@ import {
     ArrowClockwise,
     ClockClockwise,
     DotsThreeOutline,
+    LockOpen,
     Pencil,
     PencilLine,
     PencilSimple,
@@ -23,6 +24,7 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
     const [isActionPillActive, setIsActionPillActive] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isUnlocking, setIsUnlocking] = useState(false);
     const [logDetailId, setLogDetailId] = useState(0);
     const [localDetails, setLocalDetails] = useState(details);
     const deletedCountRef = useRef(0); // Track how many items we've deleted locally
@@ -42,7 +44,7 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
 
     if (isLoading || isFetching) {
         return (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center h-full bg-white dark:bg-gray-800">
                 <Spinner/>
             </div>
         );
@@ -138,7 +140,68 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
         }
         setShowConfirmModal(true);
         setLogDetailId(log_details_id);
-    }
+    };
+
+    const handleUnlock = () => {
+        if (!displayDetails?.ID) {
+            showToast(
+                __("Invalid log entry.", "brutefort"),
+                { type: "error" }
+            );
+            return;
+        }
+
+        setIsUnlocking(true);
+        const unlockUrl = CONSTANTS.LOG_ROUTES.unlock(displayDetails.ID);
+
+        api.post(unlockUrl)
+            .then((res) => {
+                if (res.status === 200) {
+                    showToast(
+                        res?.data?.data?.message || res?.data?.message || __("IP address unlocked successfully.", "brutefort"),
+                        { type: "success" }
+                    );
+
+                    // Optimistically update local state
+                    if (displayDetails) {
+                        const updatedDetails = {
+                            ...displayDetails,
+                            last_status: 'unlocked'
+                        };
+                        setLocalDetails(updatedDetails);
+                    }
+
+                    // Invalidate logs query to update the main logs table
+                    queryClient.invalidateQueries({ queryKey: ['logs'] });
+                    // Refetch details to get updated data from server
+                    if (refetch) {
+                        refetch();
+                    }
+                }
+            })
+            .catch((error) => {
+                showToast(
+                    error?.response?.data?.message || error?.response?.data?.data?.message || __("Failed to unlock IP address.", "brutefort"),
+                    { type: "error" }
+                );
+            })
+            .finally(() => {
+                setIsUnlocking(false);
+            });
+    };
+
+    // Check if IP is locked (either by status or by having active lockout entries)
+    // A user can be locked even if last_status is not 'locked' if there's an active lockout_until timestamp
+    const isLocked = displayDetails?.last_status === 'locked' || 
+                     (displayDetails?.log_details && displayDetails.log_details.some((log: any) => {
+                         // Check for any log entry with an active lockout_until timestamp (regardless of status)
+                         if (log.lockout_until) {
+                             const lockoutDate = new Date(log.lockout_until);
+                             const now = new Date();
+                             return lockoutDate > now;
+                         }
+                         return false;
+                     }));
     return (
         <>
             <div
@@ -155,19 +218,39 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
                     )}
                 </span>
                     <div className="flex gap-2 items-center">
+                        {isLocked && (
+                            <button
+                                onClick={handleUnlock}
+                                disabled={isUnlocking || isFetching}
+                                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-green-600 dark:bg-green-700 border border-green-600 dark:border-green-700 rounded-lg hover:bg-green-700 dark:hover:bg-green-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                aria-label="Unlock IP address"
+                                title={__('Unlock IP', 'brutefort')}
+                            >
+                                <LockOpen 
+                                    size={18} 
+                                />
+                                {__('Unlock', 'brutefort')}
+                                {isUnlocking && (
+                                    <Spinner
+                                        size={16}
+                                        className="ml-1"
+                                    />
+                                )}
+                            </button>
+                        )}
                         {refetch && (
                             <button
                                 onClick={() => refetch()}
                                 disabled={isFetching}
-                                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                 aria-label="Refresh log details"
                                 title={__('Refresh', 'brutefort')}
                             >
-                                {isFetching ? (
-                                    <Spinner size={20} className="text-gray-600 dark:text-gray-300" />
-                                ) : (
-                                    <ArrowClockwise className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                                )}
+                                <ArrowClockwise 
+                                    size={18} 
+                                    className={isFetching ? "animate-spin" : ""}
+                                />
+                                {__('Refresh', 'brutefort')}
                             </button>
                         )}
                         <button
@@ -199,13 +282,13 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
                 </div>
 
                 {/* Log Attempts */}
-                <div className="flex-1 overflow-y-auto p-4 ">
-                    <span className="text-lg flex gap-2 font-bold mb-3">Attempt History</span>
+                <div className="flex-1 overflow-y-auto p-4 dark:bg-gray-800">
+                    <span className="text-lg flex gap-2 font-bold mb-3 dark:text-white">Attempt History</span>
                     <div className="space-y-3">
                         {displayDetails.log_details?.map((log: any, index: number) => (
                             <div
                                 key={index}
-                                className="rounded-lg p-4 dark:hover:bg-gray-900 hover:bg-gray-50 transition border border-gray-100"
+                                className="rounded-lg p-4 dark:hover:bg-gray-900 hover:bg-gray-50 transition border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800"
                             >
                                 <div className="flex dark:text-white justify-between items-center mb-1">
                                     <div className="dark:text-white font-medium">
@@ -218,13 +301,13 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
                                     </span>
                                         <Trash
                                             onClick={() => handleSelectedLog(log.log_details_id || log.ID)}
-                                            className="text-gray-500 hover:text-red-700 transition-colors duration-100 cursor-pointer"/>
+                                            className="text-gray-500 dark:text-gray-400 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-100 cursor-pointer"/>
                                     </div>
                                 </div>
-                                <div className="dark:text-white text-sm text-gray-600 flex items-center gap-1 mb-1">
-                                    <ClockClockwise className="w-4 h-4"/> {formatDate(log.attempt_time)}
+                                <div className="dark:text-gray-300 text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <ClockClockwise className="w-4 h-4 text-gray-600 dark:text-gray-400"/> {formatDate(log.attempt_time)}
                                 </div>
-                                <div className="dark:text-white text-sm text-gray-700">
+                                <div className="dark:text-gray-300 text-sm text-gray-700">
                                     <div className="mb-1"><strong>Browser:</strong> {log.user_agent}</div>
                                     {log.is_extended === '1' && log.lockout_until && (
                                         <div
@@ -253,11 +336,11 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
                         className="fixed left-[160px] inset-0 flex items-center justify-center z-50 bg-black/40"
                         id="confirm-delete"
                     >
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
-                            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+                        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full [&_h2]:!text-gray-800 dark:[&_h2]:!text-white">
+                            <h2 className="text-lg font-semibold mb-4">
                                 Confirm Delete
                             </h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+                            <p className="text-sm text-gray-600 dark:!text-gray-300 mb-6">
                                 {__(
                                     "Are you sure you want to delete the selected log?",
                                     "brutefort"
@@ -265,7 +348,7 @@ export const IpLogDetails: React.FC<LogDetailsInterface> = ({onClose, onDeleteLo
                             </p>
                             <div className="flex justify-end gap-2">
                                 <button
-                                    className="px-4 py-1 text-sm rounded border cursor-pointer border-gray-300 hover:bg-white-400 dark:border-gray-600"
+                                    className="px-4 py-1 text-sm rounded border cursor-pointer border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:!text-gray-300 dark:hover:bg-gray-700"
                                     onClick={() => setShowConfirmModal(false)}
                                 >
                                     {__("Cancel", "brutefort")}

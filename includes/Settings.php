@@ -24,6 +24,7 @@ class Settings {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'plugins_loaded', array( $this, 'include_classes' ) );
+		add_action( 'admin_init', array( $this, 'redirect_after_activation' ) );
 		register_deactivation_hook( BRUTEF_PLUGIN_FILE, array( $this, 'on_deactivation' ) );
 		register_activation_hook( BRUTEF_PLUGIN_FILE, array( $this, 'on_activation' ) );
 	}
@@ -97,12 +98,15 @@ class Settings {
 			);
 		}
 
+		$setup_wizard_completed = get_option( 'brutef_setup_wizard_completed', false );
+
 		wp_localize_script(
 			'brutefort-admin',
 			'BruteFortData',
 			array(
-				'restUrl' => esc_url_raw( rest_url( 'brutefort/v1/' ) ),
-				'nonce'   => wp_create_nonce( 'wp_rest' ),
+				'restUrl'              => esc_url_raw( rest_url( 'brutefort/v1/' ) ),
+				'nonce'                => wp_create_nonce( 'wp_rest' ),
+				'setupWizardCompleted' => (bool) $setup_wizard_completed,
 			)
 		);
 	}
@@ -114,6 +118,35 @@ class Settings {
 	public function include_classes(): void {}
 
 	/**
+	 * Redirect to plugin admin page after activation.
+	 *
+	 * @return void
+	 */
+	public function redirect_after_activation(): void {
+		// Check if we should redirect.
+		if ( ! get_transient( 'brutefort_activation_redirect' ) ) {
+			return;
+		}
+
+		// Delete the transient so we only redirect once.
+		delete_transient( 'brutefort_activation_redirect' );
+
+		// Don't redirect if doing AJAX, cron, or if user doesn't have permission.
+		if ( wp_doing_ajax() || wp_doing_cron() || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Don't redirect if already on the plugin page.
+		if ( isset( $_GET['page'] ) && 'brutefort' === $_GET['page'] ) {
+			return;
+		}
+
+		// Redirect to plugin admin page.
+		wp_safe_redirect( admin_url( 'admin.php?page=brutefort' ) );
+		exit;
+	}
+
+	/**
 	 * Creates the necessary database tables for the plugin.
 	 *
 	 * This function calls the `create_tables` method of the `Database` class to create the necessary tables for the plugin.
@@ -123,25 +156,26 @@ class Settings {
 	public static function on_activation(): void {
 		Database::create_tables();
 		self::add_admin_ip();
+		// Set transient to redirect after activation.
+		set_transient( 'brutefort_activation_redirect', true, 30 );
 	}
 
 	/**
 	 * Add the current admin IP to the whitelist.
 	 */
 	public static function add_admin_ip(): void {
-		// Get current server IP with proper sanitization.
-		$server_ip = '';
-		if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
-			$server_ip = sanitize_text_field( wp_unslash( $_SERVER['SERVER_ADDR'] ) );
-		} elseif ( isset( $_SERVER['LOCAL_ADDR'] ) ) {
-			$server_ip = sanitize_text_field( wp_unslash( $_SERVER['LOCAL_ADDR'] ) );
+		// Get current user's remote IP (frontend IP) for DDoS/brute force protection.
+		// Use REMOTE_ADDR, not SERVER_ADDR, to identify the actual client IP.
+		$remote_ip = '';
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$remote_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		} else {
-			$server_ip = gethostbyname( gethostname() );
+			$remote_ip = gethostbyname( gethostname() );
 		}
 
 		// Prepare whitelist entry in the same format as IpSettingsController expects.
 		$entry = array(
-			'brutef_ip_address' => $server_ip,
+			'brutef_ip_address' => $remote_ip,
 			'brutef_list_type'  => 'whitelist',
 			'created_at'    => strtotime( 'now' ),
 		);
@@ -153,7 +187,7 @@ class Settings {
 		// Prevent duplicates.
 		$exists = false;
 		foreach ( $whitelist as $item ) {
-			if ( isset( $item['brutef_ip_address'] ) && $item['brutef_ip_address'] === $server_ip ) {
+			if ( isset( $item['brutef_ip_address'] ) && $item['brutef_ip_address'] === $remote_ip ) {
 				$exists = true;
 				break;
 			}

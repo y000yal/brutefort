@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-table';
 import {Input} from "../components/forms";
 import {
+    ArrowClockwise,
     BookmarkSimple,
     CalendarCheck, Copy, Key,
     MagnifyingGlass,
@@ -29,7 +30,7 @@ const Logs = () => {
     const [selectedLog, setSelectedLog] = useState(null); // Selected row for details panel
     const queryClient = useQueryClient();
 
-    const {data = [], isLoading} = useQuery({
+    const {data = [], isLoading, isFetching, refetch} = useQuery({
         queryKey: ['logs'],
         queryFn: async () => {
             const res = await api.get(fetchRoute);
@@ -131,6 +132,10 @@ const Logs = () => {
         setHasSearchInput(value.length > 0);
     };
 
+    const handleRefresh = () => {
+        refetch();
+    };
+
     const handleDeleteLogDetail = (logDetailId) => {
         setSelectedLog((prev: any) => {
             if (!prev) return prev;
@@ -150,7 +155,21 @@ const Logs = () => {
         <>
             <div className="p-4 rounded-lg w-full transition-colors duration-300 gap-4">
                 <div className="header flex flex-col gap-4 mb-5">
-                    <span className="text-2xl font-bold">Logs</span>
+                    <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold">Logs</span>
+                        <button
+                            onClick={handleRefresh}
+                            disabled={isFetching}
+                            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            title="Refresh logs"
+                        >
+                            <ArrowClockwise 
+                                size={18} 
+                                className={isFetching ? "animate-spin" : ""}
+                            />
+                            Refresh
+                        </button>
+                    </div>
                     {/* <div className="search-box relative">
                         <label htmlFor="search-bar">
                             <MagnifyingGlass size={24} className="absolute top-3 left-3 z-10 text-gray-400"/>
@@ -176,7 +195,7 @@ const Logs = () => {
                 </div>
             </div>
             <div className="log-body mt-5">
-                <DataTable data={data} columns={columns} isLoading={isLoading} onRowClick={row => setSelectedLog(row.original)}/>
+                <DataTable data={data} columns={columns} isLoading={isLoading || isFetching} onRowClick={row => setSelectedLog(row.original)}/>
             </div>
 
             {selectedLog && (

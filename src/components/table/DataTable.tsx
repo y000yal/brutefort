@@ -62,8 +62,8 @@ const DataTable = <T,>({
     );
 
   return (
-    <div className="rounded-lg overflow-hidden dark:bg-gray-800 border border-gray-200 shadow-sm">
-      <table className="w-full table-auto dark:bg-gray-800 text-gray-500 border border-gray-200">
+    <div className="rounded-lg overflow-hidden dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
+      <table className="w-full table-auto dark:bg-gray-800 text-gray-500 border border-gray-200 dark:border-gray-700">
         <thead className="bg-gray-100 dark:bg-gray-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -102,11 +102,11 @@ const DataTable = <T,>({
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className="hover:bg-gray-50 dark:hover:bg-gray-900 font-medium cursor-pointer h-[70px]"
+              className="hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-b dark:border-gray-700 font-medium cursor-pointer h-[70px]"
               onClick={() => onRowClick?.(row)}
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-2">
+                <td key={cell.id} className="p-2 dark:text-gray-300">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -114,7 +114,7 @@ const DataTable = <T,>({
           ))}
         </tbody>
       </table>
-      <div className="p-2 flex items-center justify-between border-t border-gray-200 dark:bg-gray-800 dark:text-white bg-gray-50">
+      <div className="p-2 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white bg-gray-50">
         <div className="flex items-center dark:text-white gap-2">
           <button
             className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:text-white rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
@@ -138,7 +138,7 @@ const DataTable = <T,>({
 
         <div>
           <select
-            className="border border-gray-300 text-sm px-2 py-1 rounded"
+            className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm px-2 py-1 rounded"
             value={table.getState().pagination.pageSize}
             onChange={(e) => {
               table.setPageSize(Number(e.target.value));

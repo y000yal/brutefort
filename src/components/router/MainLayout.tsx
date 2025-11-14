@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import TabsNav from "../TabsNav";
 import { ShieldSlash } from "@phosphor-icons/react";
 import ThemeToggle from "../ThemeToggle";
-import { __ } from "@wordpress/i18n";
-import { Copyright } from "@phosphor-icons/react";
+
 export const MainLayout: React.FC = () => {
   return (
     <div className="pr-6 pl-0 max-w-8xl force-tailwind dark:text-gray-700 mt-4">

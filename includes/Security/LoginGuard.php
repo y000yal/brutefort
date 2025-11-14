@@ -65,9 +65,9 @@ class LoginGuard {
 	/**
 	 * Constructor for LoginGuard.
 	 *
-	 * @param RateLimitService|null  $rate_limit_service The rate limit service.
+	 * @param RateLimitService|null $rate_limit_service The rate limit service.
 	 * @param IpSettingsService|null $ip_settings_service The IP settings service.
-	 * @param LogsService|null       $logs_service The logs service.
+	 * @param LogsService|null $logs_service The logs service.
 	 */
 	public function __construct(
 		RateLimitService $rate_limit_service = null,
@@ -84,9 +84,16 @@ class LoginGuard {
 	 * Initialize the login guard.
 	 */
 	public function init(): void {
-		$this->settings   = $this->rate_limit_service->get_rate_limit_settings();
-		$this->ips        = $this->ip_settings_service->get_all_ips();
-		$ip = '';
+		// Check if setup wizard is completed before initializing login checks.
+		$setup_wizard_completed = get_option( 'brutef_setup_wizard_completed', false );
+		if ( ! $setup_wizard_completed ) {
+			// Don't initialize login checks if setup wizard is not completed.
+			return;
+		}
+
+		$this->settings = $this->rate_limit_service->get_rate_limit_settings();
+		$this->ips      = $this->ip_settings_service->get_all_ips();
+		$ip             = '';
 		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		} else {
@@ -103,6 +110,7 @@ class LoginGuard {
 	 * Check if an IP is whitelisted.
 	 *
 	 * @param string $ip The IP address to check.
+	 *
 	 * @return bool True if whitelisted, false otherwise.
 	 */
 	private function is_whitelisted( string $ip ): bool {
@@ -113,8 +121,9 @@ class LoginGuard {
 	 * Check before login to prevent brute force attacks.
 	 *
 	 * @param \WP_User|\WP_Error|null $user The user object or error.
-	 * @param string                  $username The username.
-	 * @param string                  $password The password.
+	 * @param string $username The username.
+	 * @param string $password The password.
+	 *
 	 * @return \WP_User|\WP_Error|null The user object or error.
 	 */
 	public function check_before_login( $user, $username, $password ) {
@@ -140,10 +149,10 @@ class LoginGuard {
 			$lockout_until = date_i18n( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 		}
 		// Convert GMT datetime string to timestamp in WP timezone.
-		$timestamp = get_date_from_gmt( $lockout_until, 'U' );
+		$timestamp         = get_date_from_gmt( $lockout_until, 'U' );
 		$lockout_formatted = date_i18n( 'F j, Y g:i a', $timestamp );
 
-		$message = $this->settings['brutef_custom_error_message'] ?? __( 'Too many attempts, Please try again in a while!!', 'brutefort' );
+		$message = $this->settings['brutef_custom_error_message'] ?? __( 'Too many attempts, Please try again after {{locked_out_until}}.', 'brutefort' );
 		$message = str_replace( '{{locked_out_until}}', $lockout_formatted, $message );
 
 		return new \WP_Error( 'brutef_locked', $message );
@@ -162,7 +171,7 @@ class LoginGuard {
 	/**
 	 * Log a successful login.
 	 *
-	 * @param string   $user_login The username.
+	 * @param string $user_login The username.
 	 * @param \WP_User $user The user object.
 	 */
 	public function log_success( $user_login, $user ): void {
@@ -173,7 +182,7 @@ class LoginGuard {
 				'log_data'    => array(
 					'ip_address'  => $this->current_ip,
 					'last_status' => 'success',
-					'attempts'    => ++$total_attempts,
+					'attempts'    => ++ $total_attempts,
 				),
 				'log_details' => array(
 					'username' => $user_login,

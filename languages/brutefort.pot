@@ -9,15 +9,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-13T10:52:19+00:00\n"
+"POT-Creation-Date: 2025-11-14T05:15:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: brutefort\n"
 
 #. Plugin Name of the plugin
 #: brutefort.php
-#: includes/Settings.php:36
 #: includes/Settings.php:37
+#: includes/Settings.php:38
 msgid "BruteFort"
 msgstr ""
 
@@ -89,11 +89,19 @@ msgstr ""
 msgid "Log details deleted successfully."
 msgstr ""
 
+#: includes/Controllers/SetupWizardController.php:32
+msgid "Setup wizard completed."
+msgstr ""
+
+#: includes/Controllers/SetupWizardController.php:65
+msgid "Setup wizard has been reset."
+msgstr ""
+
 #: includes/Middlewares/PermissionMiddleware.php:33
 msgid "You are not allowed to perform this action."
 msgstr ""
 
-#: includes/Security/LoginGuard.php:146
+#: includes/Security/LoginGuard.php:153
 #: includes/Services/RateLimitService.php:32
 msgid "Too many attempts, Please try again in a while!!"
 msgstr ""

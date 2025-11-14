@@ -17,7 +17,7 @@ const ColumnFilter = <T,>({ column }: ColumnFilterProps<T>) => {
       <select
         value={columnFilterValue ?? ""}
         onChange={(e) => column.setFilterValue(e.target.value || undefined)}
-        className="border border-gray-300 rounded px-2 py-1 text-sm w-full"
+        className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-2 py-1 text-sm w-full"
       >
         <option value="">All</option>
         {meta.filterOptions.map((opt) => (
@@ -34,7 +34,7 @@ const ColumnFilter = <T,>({ column }: ColumnFilterProps<T>) => {
         type="date"
         value={columnFilterValue ?? ""}
         onChange={(e) => column.setFilterValue(e.target.value || undefined)}
-        className="border border-gray-300 rounded px-2 py-1 text-sm w-full"
+        className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-2 py-1 text-sm w-full"
       />
     );
   }

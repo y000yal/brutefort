@@ -50,17 +50,17 @@ const TabsNav: React.FC = () => {
                 <NavLink
                     key={key}
                     to={path}
-                    ref={(el) => (tabRefs.current[key] = el)}
+                    ref={(el) => { tabRefs.current[key] = el; }}
                     className={({isActive}) =>
                         `relative z-10 flex items-center text-white dark:text-white gap-[15px] px-6 py-2 text-sm transition-all duration-200 rounded-md ${
                             isActive
                                 ? 'font-semibold'
-                                : 'text-gray-600 hover:text-primary-dark  hover:text-shadow-md transition dark:text-white'
+                                : 'text-gray-600 hover:text-primary-dark dark:hover:text-gray-100 transition dark:text-gray-300'
                         }`
                     }
                 >
                     <Icon className={
-                        `dark:text-white ${activeTabKey === key ? 'text-white' : 'hover:text-primary-dark hover:text-shadow-md transition'
+                        `dark:text-white ${activeTabKey === key ? 'text-white' : 'hover:text-primary-dark dark:hover:text-gray-100 transition'
                         }`
                     }
                           size={18} weight="bold"/>
