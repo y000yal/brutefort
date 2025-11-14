@@ -69,5 +69,22 @@ class LogRoutes extends AbstractRoutes {
 				),
 			)
 		);
+		register_rest_route(
+			$this->namespace . '/' . $this->version . '/',
+			'/' . $this->rest_base . '/(?P<id>\d+)/unlock',
+			array(
+				array(
+					'methods'             => 'POST',
+					'permission_callback' => array( $this->middleware, 'authorize' ),
+					'callback'            => array( new LogsController(), 'unlock' ),
+					'args'                => array(
+						'id' => array(
+							'required' => true,
+							'type'     => 'integer',
+						),
+					),
+				),
+			)
+		);
 	}
 }

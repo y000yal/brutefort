@@ -74,5 +74,16 @@ class IpRoutes extends AbstractRoutes {
 				),
 			)
 		);
+		register_rest_route(
+			$this->namespace . '/' . $this->version . '/',
+			'/' . $this->rest_base . '/current-ip',
+			array(
+				array(
+					'methods'             => 'GET',
+					'permission_callback' => array( $this->middleware, 'authorize' ),
+					'callback'            => array( new IpSettingsController(), 'get_current_ip' ),
+				),
+			)
+		);
 	}
 }

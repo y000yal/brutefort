@@ -68,10 +68,11 @@ class Routes {
 	 */
 	public function get_routes_classes(): array {
 		return array(
-			'rate-limit'  => RateLimitRoutes::class,
-			'logs'        => LogRoutes::class,
-			'log-details' => LogDetailRoutes::class,
-			'ip-settings' => IpRoutes::class,
+			'rate-limit'    => RateLimitRoutes::class,
+			'logs'          => LogRoutes::class,
+			'log-details'   => LogDetailRoutes::class,
+			'ip-settings'   => IpRoutes::class,
+			'setup-wizard'  => SetupWizardRoutes::class,
 		);
 	}
 }

@@ -245,11 +245,20 @@
   margin-bottom: 1rem;
 }
 
+.dark .brutefort-table {
+  background: #1f2937;
+}
+
 .brutefort-table th,
 .brutefort-table td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #e1e5e9;
+}
+
+.dark .brutefort-table th,
+.dark .brutefort-table td {
+  border-bottom-color: #374151;
 }
 
 .brutefort-table th {
@@ -258,8 +267,17 @@
   color: #333;
 }
 
+.dark .brutefort-table th {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+
 .brutefort-table tr:hover {
   background: #f9f9f9;
+}
+
+.dark .brutefort-table tr:hover {
+  background: #374151;
 }
 
 .brutefort-logs-pagination {

@@ -68,7 +68,7 @@ class LogsService {
 		global $wpdb;
 		$this->db                     = $wpdb;
 		$this->logs_repository        = new LogsRepository();
-		$this->ip_settings_service     = new IpSettingsService();
+		$this->ip_settings_service    = new IpSettingsService();
 		$this->rate_limit_service     = new RateLimitService();
 		$this->log_details_repository = new LogDetailsRepository();
 		$this->settings               = $this->rate_limit_service->get_rate_limit_settings();
@@ -117,6 +117,7 @@ class LogsService {
 	 * Get log by IP address.
 	 *
 	 * @param string $ip The IP address.
+	 *
 	 * @return array The log data.
 	 */
 	public function get_log_by_ip( $ip ): array {
@@ -128,6 +129,7 @@ class LogsService {
 	 *
 	 * @param string $ip The IP address to check.
 	 * @param string $username The username (optional).
+	 *
 	 * @return bool True if locked, false otherwise.
 	 */
 	public function is_ip_locked( string $ip, string $username = '' ): bool {
@@ -154,7 +156,7 @@ class LogsService {
 	 * @param string $username The username of the user.
 	 */
 	public function log_fail_attempt( $ip, $username ): void {
-		$log = $this->logs_repository->get_log_by_ip( $ip );
+		$log            = $this->logs_repository->get_log_by_ip( $ip );
 		$total_attempts = isset( $log['attempts'] ) ? (int) $log['attempts'] : 0;
 
 		if ( $this->ip_settings_service->check_ip_exists( $ip, 'whitelist' ) ) {
@@ -171,12 +173,13 @@ class LogsService {
 					),
 				)
 			);
+
 			return;
 		}
-		$log_id      = isset( $log['ID'] ) ? $log['ID'] : null;
-		$last_status = isset( $log['last_status'] ) ? $log['last_status'] : null;
-		$is_locked    = ( 'locked' === $last_status );
-		$lockout_enabled = isset( $this->settings['brutef_enable_lockout'] ) ? $this->settings['brutef_enable_lockout'] : false;
+		$log_id            = isset( $log['ID'] ) ? $log['ID'] : null;
+		$last_status       = isset( $log['last_status'] ) ? $log['last_status'] : null;
+		$is_locked         = ( 'locked' === $last_status );
+		$lockout_enabled   = isset( $this->settings['brutef_enable_lockout'] ) ? $this->settings['brutef_enable_lockout'] : false;
 		$latest_locked_log = ( ! empty( $log_id ) && is_numeric( $log_id ) ) ? $this->get_locked_data( (int) $log_id ) : null;
 
 		// Skip if lockout is off and currently locked.
@@ -200,7 +203,7 @@ class LogsService {
 		}
 
 		// If not currently locked, check if lockout should now happen.
-		$failed_attempts = $this->get_failed_attempts( $ip, isset( $this->settings['brutef_time_window'] ) ? $this->settings['brutef_time_window'] : 60 );
+		$failed_attempts = count( $this->get_failed_attempts( $ip, isset( $this->settings['brutef_time_window'] ) ? $this->settings['brutef_time_window'] : 60 ) );
 		$is_locking      = $failed_attempts >= ( isset( $this->settings['brutef_max_attempts'] ) ? $this->settings['brutef_max_attempts'] : 5 );
 
 		if ( $is_locking && $lockout_enabled ) {
@@ -216,6 +219,7 @@ class LogsService {
 	 * Check if lockout should be extended.
 	 *
 	 * @param object $latest_locked_log The latest locked log entry.
+	 *
 	 * @return bool True if lockout should be extended.
 	 */
 	private function should_extend_lockout( $latest_locked_log ): bool {
@@ -229,10 +233,10 @@ class LogsService {
 	/**
 	 * Extend the lockout duration.
 	 *
-	 * @param string $ip             The IP address.
-	 * @param string $username       The username.
+	 * @param string $ip The IP address.
+	 * @param string $username The username.
 	 * @param int    $total_attempts Total attempts count.
-	 * @param object $locked_log     The locked log entry.
+	 * @param object $locked_log The locked log entry.
 	 */
 	private function extend_lockout( string $ip, string $username, int $total_attempts, object $locked_log ): void {
 		$base_time        = strtotime( $locked_log->lockout_until );
@@ -260,6 +264,7 @@ class LogsService {
 	 * Check if lockout is still active.
 	 *
 	 * @param object $lock The lock object.
+	 *
 	 * @return bool True if still locked.
 	 */
 	private function is_still_locked( object $lock ): bool {
@@ -269,7 +274,7 @@ class LogsService {
 	/**
 	 * Increment attempts count only.
 	 *
-	 * @param int $log_id         The log ID.
+	 * @param int $log_id The log ID.
 	 * @param int $total_attempts Total attempts count.
 	 */
 	private function increment_attempts_only( int $log_id, int $total_attempts ): void {
@@ -279,10 +284,10 @@ class LogsService {
 	/**
 	 * Handle new lockout creation.
 	 *
-	 * @param string $ip             The IP address.
-	 * @param string $username       The username.
+	 * @param string $ip The IP address.
+	 * @param string $username The username.
 	 * @param int    $total_attempts Total attempts count.
-	 * @param array  $log            The log entry.
+	 * @param array  $log The log entry.
 	 */
 	private function handle_new_lockout( string $ip, string $username, int $total_attempts, array $log ): void {
 		$lockout_detail = $this->get_lockout_detail( true, $log );
@@ -307,8 +312,8 @@ class LogsService {
 	/**
 	 * Record a failed login attempt.
 	 *
-	 * @param string $ip             The IP address.
-	 * @param string $username       The username.
+	 * @param string $ip The IP address.
+	 * @param string $username The username.
 	 * @param int    $total_attempts Total attempts count.
 	 */
 	private function record_failed_attempt( string $ip, string $username, int $total_attempts ): void {
@@ -331,7 +336,8 @@ class LogsService {
 	 * Get lockout detail information.
 	 *
 	 * @param bool       $enable_lockout Whether lockout is enabled.
-	 * @param array|null $log            The log entry.
+	 * @param array|null $log The log entry.
+	 *
 	 * @return array Lockout detail information.
 	 */
 	public function get_lockout_detail( $enable_lockout, ?array $log = null ): array {
@@ -353,17 +359,19 @@ class LogsService {
 	/**
 	 * Get failed attempts count within time window.
 	 *
-	 * @param string $ip             The IP address.
+	 * @param string $ip The IP address.
 	 * @param int    $window_minutes Time window in minutes.
-	 * @return int Number of failed attempts.
+	 *
+	 * @return array List of failed attempts.
 	 */
-	public function get_failed_attempts( string $ip, int $window_minutes ): int {
+	public function get_failed_attempts( string $ip, int $window_minutes ): array {
 		$now              = current_time( 'timestamp' );
 		$cutoff_timestamp = $now - ( $window_minutes * 60 );
 		$since            = gmdate( 'Y-m-d H:i:s', $cutoff_timestamp );
-		$log              = $this->logs_repository->get_log_by_ip( $ip );
+
+		$log = $this->logs_repository->get_log_by_ip( $ip );
 		if ( ! empty( $log ) ) {
-			return (int) $this->log_details_repository->index(
+			return $this->log_details_repository->index(
 				array(
 					array(
 						'log_id'       => $log['ID'],
@@ -378,7 +386,7 @@ class LogsService {
 				'DESC',
 				null,
 				null,
-				true
+				false
 			);
 		}
 
@@ -409,6 +417,7 @@ class LogsService {
 	 * Restructure log data for better organization.
 	 *
 	 * @param array $logs Array of log entries.
+	 *
 	 * @return array Restructured log data.
 	 */
 	public function restructure_log_data( $logs ): array {
@@ -422,14 +431,14 @@ class LogsService {
 			if ( ! isset( $grouped[ $log_id ] ) ) {
 				// Initialize the base object.
 				$grouped[ $log_id ] = (object) array(
-					'ID'          => $main_log_id,
-					'ip_address'  => $log->ip_address,
-					'last_status' => $log->last_status,
-					'attempts'    => $log->attempts,
-					'created_at'  => $log->created_at,
-					'updated_at'  => $log->updated_at,
+					'ID'             => $main_log_id,
+					'ip_address'     => $log->ip_address,
+					'last_status'    => $log->last_status,
+					'attempts'       => $log->attempts,
+					'created_at'     => $log->created_at,
+					'updated_at'     => $log->updated_at,
 					'is_whitelisted' => $this->ip_settings_service->check_ip_exists( $log->ip_address, 'whitelist' ),
-					'log_details' => array(),
+					'log_details'    => array(),
 				);
 			}
 
@@ -437,17 +446,18 @@ class LogsService {
 			$details = (object) array(
 				'log_id'         => $log->log_id,
 				'log_details_id' => $log->ID, // This is the log_details.ID.
-				'username'      => $log->username,
-				'user_id'       => $log->user_id,
-				'status'        => $log->status,
-				'is_extended'   => $log->is_extended,
-				'lockout_until' => $log->lockout_until,
-				'user_agent'    => $log->user_agent,
-				'attempt_time'  => $log->attempt_time,
+				'username'       => $log->username,
+				'user_id'        => $log->user_id,
+				'status'         => $log->status,
+				'is_extended'    => $log->is_extended,
+				'lockout_until'  => $log->lockout_until,
+				'user_agent'     => $log->user_agent,
+				'attempt_time'   => $log->attempt_time,
 			);
 
 			array_unshift( $grouped[ $log_id ]->log_details, $details );
 		}
+
 		// Re-index the array.
 		return array_values( $grouped );
 	}
@@ -457,6 +467,7 @@ class LogsService {
 	 * Get log details by ID.
 	 *
 	 * @param int $id The log ID.
+	 *
 	 * @return array Array of log details.
 	 */
 	public function get_log_details( $id ): array {
@@ -518,6 +529,7 @@ class LogsService {
 	 * Check if last login was successful.
 	 *
 	 * @param array $log The log entry.
+	 *
 	 * @return bool True if successful.
 	 */
 	private function was_last_login_successful( array $log ): bool {
@@ -528,7 +540,8 @@ class LogsService {
 	 * Check if IP is temporarily locked.
 	 *
 	 * @param int    $log_id The log ID.
-	 * @param string $now    Current timestamp.
+	 * @param string $now Current timestamp.
+	 *
 	 * @return bool True if temporarily locked.
 	 */
 	private function is_temporarily_locked( int $log_id, string $now ): bool {
@@ -557,13 +570,14 @@ class LogsService {
 	 * Check if IP has exceeded failed attempts limit.
 	 *
 	 * @param string $ip The IP address.
+	 *
 	 * @return bool True if limit exceeded.
 	 */
 	private function has_exceeded_failed_attempts( string $ip ): bool {
 		$fail_window  = (int) ( $this->settings['brutef_time_window'] ?? 0 );
 		$max_attempts = (int) ( $this->settings['brutef_max_attempts'] ?? 0 );
 
-		$recent_fails = self::get_failed_attempts( $ip, $fail_window );
+		$recent_fails = count( self::get_failed_attempts( $ip, $fail_window ) );
 
 		return $recent_fails >= $max_attempts;
 	}
@@ -572,6 +586,7 @@ class LogsService {
 	 * Get effective lockout end time.
 	 *
 	 * @param string $ip The IP address.
+	 *
 	 * @return string|null Lockout end time or null if not locked.
 	 */
 	public function get_effective_lockout_until( string $ip ): ?string {
@@ -581,7 +596,7 @@ class LogsService {
 		}
 
 		$settings = $this->rate_limit_service->get_rate_limit_settings();
-		$now = current_time( 'timestamp' );
+		$now      = current_time( 'timestamp' );
 
 		// Fetch the latest log detail.
 		$latest_logs = $this->log_details_repository->index(
@@ -599,7 +614,7 @@ class LogsService {
 
 		// Count failed attempts in time window.
 		$failed_attempts = $this->get_failed_attempts( $ip, (int) $settings['brutef_time_window'] );
-		$is_locking = $failed_attempts >= (int) $settings['brutef_max_attempts'];
+		$is_locking      = count( $failed_attempts ) >= (int) $settings['brutef_max_attempts'];
 
 		if ( ! $is_locking ) {
 			return null;
@@ -627,7 +642,7 @@ class LogsService {
 				&& empty( $latest_log->is_extended )
 				&& $lockout_ts > $now
 			) {
-				$extension = (int) $settings['brutef_extend_lockout_duration'] * 3600;
+				$extension   = (int) $settings['brutef_extend_lockout_duration'] * 3600;
 				$extended_ts = $lockout_ts + $extension;
 
 				return date_i18n( 'Y-m-d H:i:s', $extended_ts );
@@ -635,9 +650,155 @@ class LogsService {
 		}
 
 		// Case C: Fresh lockout (user just crossed limit or expired previous lock).
-		$base_lockout_duration = (int) $settings['brutef_lockout_duration'] * 60;
-		$base_lockout_ts = $now + $base_lockout_duration;
+		$base_lockout_duration = (int) $settings['brutef_time_window'] * 60;
+		$base_lockout_ts       = strtotime( array_pop( $failed_attempts )->attempt_time ) + $base_lockout_duration;
 
 		return date_i18n( 'Y-m-d H:i:s', $base_lockout_ts );
+	}
+
+	/**
+	 * Unlock an IP address by clearing lockouts and resetting status.
+	 *
+	 * @param string $ip The IP address to unlock.
+	 *
+	 * @return bool True if unlock was successful, false otherwise.
+	 */
+	public function unlock_ip( string $ip ): bool {
+		$log = $this->logs_repository->get_log_by_ip( $ip );
+
+		if ( empty( $log ) || empty( $log['ID'] ) ) {
+			return false;
+		}
+
+		$log_id = (int) $log['ID'];
+
+		// Clear all active lockout entries by setting lockout_until to past date.
+		// This includes entries with status 'locked' AND entries with active lockout_until timestamps
+		// (even if status is not 'locked', for basic lockouts where status might not be set).
+		$now       = current_time( 'mysql' );
+		$past_date = date_i18n( 'Y-m-d H:i:s', current_time( 'timestamp' ) - 3600 );
+
+		// First, get all log_details for this log_id that have lockout_until timestamps.
+		$all_log_details = $this->log_details_repository->index(
+			array(
+				array(
+					'log_id' => $log_id,
+				),
+			),
+			'ID',
+			'DESC',
+			null,
+			null,
+			false
+		);
+
+		$has_active_lockout = false;
+		if ( ! empty( $all_log_details ) ) {
+			foreach ( $all_log_details as $log_detail ) {
+				// Convert object to array if needed for consistent access.
+				$log_detail_array = is_object( $log_detail ) ? (array) $log_detail : $log_detail;
+				$lockout_until    = isset( $log_detail->lockout_until ) ? $log_detail->lockout_until : ( isset( $log_detail_array['lockout_until'] ) ? $log_detail_array['lockout_until'] : null );
+
+				// If there's a lockout_until timestamp that's in the future, clear it.
+				if ( ! empty( $lockout_until ) && $lockout_until > $now ) {
+					$has_active_lockout = true;
+					$detail_id          = isset( $log_detail->ID ) ? (int) $log_detail->ID : ( isset( $log_detail_array['ID'] ) ? (int) $log_detail_array['ID'] : 0 );
+					if ( $detail_id > 0 ) {
+						// Set lockout_until to past date to clear the lockout.
+						$update_data = array(
+							'lockout_until' => $past_date,
+						);
+						// Only update status if it's currently 'locked'.
+						$current_status = isset( $log_detail->status ) ? $log_detail->status : ( isset( $log_detail_array['status'] ) ? $log_detail_array['status'] : 'fail' );
+						if ( 'locked' === $current_status ) {
+							$update_data['status'] = 'fail';
+						}
+						$this->log_details_repository->update( $detail_id, $update_data );
+					}
+				}
+			}
+		}
+
+		// For max attempt locks (lockout disabled), delete recent failed attempts within time window.
+		$failed_attempts = count( $this->get_failed_attempts( $ip, (int) $this->settings['brutef_time_window'] ) );
+		$max_attempts    = (int) $this->settings['brutef_max_attempts'];
+		$deleted_count   = 0;
+		if ( $failed_attempts >= $max_attempts ) {
+			// Delete failed attempts within the time window to clear the max attempt lock.
+			$now              = current_time( 'timestamp' );
+			$cutoff_timestamp = $now - ( (int) $this->settings['brutef_time_window'] * 60 );
+			$since            = gmdate( 'Y-m-d H:i:s', $cutoff_timestamp );
+
+			$recent_failed_details = $this->log_details_repository->index(
+				array(
+					array(
+						'log_id'       => $log_id,
+						'status'       => 'fail',
+						'attempt_time' => array(
+							'operator' => '>',
+							'value'    => $since,
+						),
+					),
+				),
+				'ID',
+				'ASC',
+				null,
+				null,
+				false
+			);
+
+			// Delete enough failed attempts to bring count below max_attempts.
+			$attempts_to_delete = $failed_attempts - $max_attempts + 1;
+			if ( ! empty( $recent_failed_details ) ) {
+				foreach ( $recent_failed_details as $failed_detail ) {
+					if ( $deleted_count >= $attempts_to_delete ) {
+						break;
+					}
+					$detail_id = isset( $failed_detail->ID ) ? (int) $failed_detail->ID : ( isset( $failed_detail['ID'] ) ? (int) $failed_detail['ID'] : 0 );
+					if ( $detail_id > 0 ) {
+						$this->log_details_repository->delete( $detail_id );
+						$deleted_count++;
+					}
+				}
+
+				// Update attempts count in main log.
+				if ( $deleted_count > 0 ) {
+					$current_attempts = isset( $log['attempts'] ) ? (int) $log['attempts'] : 0;
+					$new_attempts     = max( 0, $current_attempts - $deleted_count );
+					$this->logs_repository->update(
+						$log_id,
+						array(
+							'attempts' => $new_attempts,
+						)
+					);
+				}
+			}
+		}
+
+		// Update main log status to 'unlocked' if:
+		// 1. Last status was 'locked', OR
+		// 2. We cleared an active lockout (has_active_lockout), OR
+		// 3. We cleared max attempt lock by deleting failed attempts.
+		$should_update_status = false;
+		if ( isset( $log['last_status'] ) && 'locked' === $log['last_status'] ) {
+			$should_update_status = true;
+		} elseif ( $has_active_lockout ) {
+			// If we cleared an active lockout (even if status wasn't 'locked'), update status.
+			$should_update_status = true;
+		} elseif ( $failed_attempts >= $max_attempts && $deleted_count > 0 ) {
+			// If we cleared max attempt lock by deleting failed attempts, also update status.
+			$should_update_status = true;
+		}
+
+		if ( $should_update_status ) {
+			$this->logs_repository->update(
+				$log_id,
+				array(
+					'last_status' => 'unlocked',
+				)
+			);
+		}
+
+		return true;
 	}
 }

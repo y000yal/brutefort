@@ -29,7 +29,7 @@ class RateLimitService extends BaseService {
 				'brutef_lockout_duration'         => 60,
 				'brutef_enable_lockout_extension' => false,
 				'brutef_extend_lockout_duration'  => 1,
-				'brutef_custom_error_message'     => __( 'Too many attempts, Please try again in a while!!', 'brutefort' ),
+				'brutef_custom_error_message'     => __( 'Too many attempts, Please try again after {{locked_out_until}}.', 'brutefort' ),
 			)
 		);
 		return json_decode( get_option( 'brutef_rate_limit_settings', $default_settings ), true );
