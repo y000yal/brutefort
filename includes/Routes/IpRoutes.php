@@ -85,5 +85,16 @@ class IpRoutes extends AbstractRoutes {
 				),
 			)
 		);
+		register_rest_route(
+			$this->namespace . '/' . $this->version . '/',
+			'/' . $this->rest_base . '/setup-wizard-whitelist',
+			array(
+				array(
+					'methods'             => 'POST',
+					'permission_callback' => array( $this->middleware, 'authorize' ),
+					'callback'            => array( new IpSettingsController(), 'whitelist_from_setup_wizard' ),
+				),
+			)
+		);
 	}
 }

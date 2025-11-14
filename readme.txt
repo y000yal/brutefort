@@ -4,7 +4,7 @@ Tags: brute force, login protection, ip restriction, security, wordpress securit
 Requires at least: 5.0
 Tested up to: 6.8.3
 Requires PHP: 7.4
-Stable tag: 0.0.4
+Stable tag: 0.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Yes. BruteFort is designed to work alongside most other WordPress security plugi
 5. Login Limit Example
 
 == Changelog ==
+
+= 0.0.5   - 14/11/2025 =
+* Fix     - Entry already exists issue on setup wizard.
 
 = 0.0.4   - 14/11/2025 =
 * Feature – Basic Setup wizard.

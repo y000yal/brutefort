@@ -28,8 +28,8 @@ export const Router: React.FC = () => {
     useEffect(() => {
         if (!isLoading && wizardStatus) {
             const completed = wizardStatus.completed === true;
-            // HashRouter uses hash, so check hash instead of pathname
-            const currentPath = location.hash.replace('#', '') || '/';
+            // HashRouter uses pathname for the route path (hash is handled by the router)
+            const currentPath = location.pathname || '/';
             const isOnWizardPage = currentPath === '/setup-wizard';
             
             // If wizard is not completed and user is not on wizard page, redirect to wizard
@@ -58,7 +58,7 @@ export const Router: React.FC = () => {
     // Determine if wizard is completed
     // Default to false if status is not available (safer for security)
     const wizardCompleted = wizardStatus?.completed === true;
-    const currentPath = location.hash.replace('#', '') || '/';
+    const currentPath = location.pathname || '/';
     const isOnWizardPage = currentPath === '/setup-wizard';
 
     // If wizard is not completed, only show the setup wizard route

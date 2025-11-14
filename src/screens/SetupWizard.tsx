@@ -44,72 +44,29 @@ const SetupWizard: React.FC = () => {
     const timestamp = Math.floor(Date.now() / 1000);
 
     try {
-      const response = await api.post("ip-settings", {
-        formData: {
-          brutef_ip_address: {
-            value: ipAddress.trim(),
-            type: "regex",
-            required: true,
-          },
-          brutef_list_type: {
-            value: "whitelist",
-            type: "text",
-            required: true,
-          },
-          created_at: {
-            value: timestamp,
-            type: "text",
-            required: true,
-          },
-        },
+      const response = await api.post("ip-settings/setup-wizard-whitelist", {
+        ip_address: ipAddress.trim(),
+        created_at: timestamp,
       });
 
       if (response.status === 200) {
-        // Mark setup wizard as completed
-        await api.post("setup-wizard/complete", {});
-        
         showToast(
           response.data?.message || __("IP whitelisted successfully!", "brutefort"),
           { type: "success" }
         );
 
-        // Invalidate queries and redirect
-        queryClient.invalidateQueries(["ip-settings"]);
-        
-        // Redirect to settings after a short delay
-        setTimeout(() => {
-          navigate("/settings");
-        }, 1000);
+        // Invalidate queries and wait for refetch
+        queryClient.invalidateQueries({ queryKey: ["ip-settings"] });
+        queryClient.invalidateQueries({ queryKey: ["setup-wizard-status"] }).then(() => {
+          // Router's useEffect will automatically redirect when status updates
+          // But we also navigate here to ensure immediate redirect
+          navigate("/settings", { replace: true });
+        });
       }
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.message || "";
-      const isEntryExists = errorMessage.toLowerCase().includes("entry already exists");
-      
-      // If entry already exists, treat it as success and complete the wizard
-      if (isEntryExists) {
-        // Mark setup wizard as completed
-        await api.post("setup-wizard/complete", {});
-        
-        showToast(
-          __("IP address is already whitelisted. Continuing...", "brutefort"),
-          { type: "success" }
-        );
-
-        // Invalidate queries and redirect
-        queryClient.invalidateQueries(["ip-settings"]);
-        
-        // Redirect to settings after a short delay
-        setTimeout(() => {
-          navigate("/settings");
-        }, 1000);
-      } else {
-        // Show error for other failures
-        showToast(
-          errorMessage || __("Failed to whitelist IP address.", "brutefort"),
-          { type: "error" }
-        );
-        setIsSaving(false);
-      }
+      const errorMessage = error?.response?.data?.message || __("Failed to whitelist IP address.", "brutefort");
+      showToast(errorMessage, { type: "error" });
+      setIsSaving(false);
     }
   };
 
@@ -151,7 +108,7 @@ const SetupWizard: React.FC = () => {
               label={__("IP Address to Whitelist", "brutefort")}
               type="text"
               value={ipAddress}
-              onChange={(e) => setIpAddress(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIpAddress(e.target.value)}
               placeholder={__("Enter IP address", "brutefort")}
               disabled={isLoadingIp}
               className="w-full"

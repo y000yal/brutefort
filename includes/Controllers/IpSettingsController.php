@@ -61,8 +61,30 @@ class IpSettingsController extends BaseController {
 
 		$result = apply_filters( 'brutef_after_ip_settings_validation', $result );
 
+		// Check if the error is due to entry already existing.
+		$is_entry_exists_error = false;
 		if ( ! empty( $result['errors'] ) ) {
+			$error_message = $result['errors']['message'] ?? '';
+			$is_entry_exists_error = ( 'Entry already exists.' === $error_message || false !== stripos( $error_message, 'entry already exists' ) );
 
+			// If entry already exists and it's a whitelist entry, treat it as success.
+			if ( $is_entry_exists_error ) {
+				$ip_address = isset( $result['sanitized']['brutef_ip_address'] ) ? $result['sanitized']['brutef_ip_address'] : ( isset( $params['formData']['brutef_ip_address']['value'] ) ? $params['formData']['brutef_ip_address']['value'] : '' );
+				$list_type  = isset( $result['sanitized']['brutef_list_type'] ) ? $result['sanitized']['brutef_list_type'] : ( isset( $params['formData']['brutef_list_type']['value'] ) ? $params['formData']['brutef_list_type']['value'] : '' );
+
+				// If it's a whitelist entry and already exists, return success.
+				if ( 'whitelist' === $list_type && $this->ip_settings_service->check_ip_exists( $ip_address, 'whitelist' ) ) {
+					return $this->response(
+						array(
+							'status'  => true,
+							'message' => apply_filters( 'brutef_settings_success_save_message', __( 'IP address is already whitelisted.', 'brutefort' ) ),
+						),
+						200
+					);
+				}
+			}
+
+			// For other errors, return error response.
 			$message = $result['errors']['message'] ?? apply_filters( 'brutef_settings_failed_validation_message', __( 'Form not submitted, please fill all necessary fields.', 'brutefort' ) );
 
 			return $this->response(
@@ -192,5 +214,60 @@ class IpSettingsController extends BaseController {
 			$current_ip = gethostbyname( gethostname() );
 		}
 		return $this->response( array( 'ip' => $current_ip ), 200 );
+	}
+
+	/**
+	 * Whitelist IP from setup wizard and mark wizard as complete.
+	 *
+	 * @param WP_REST_Request $request The REST request object.
+	 * @return WP_REST_Response Response indicating success or failure.
+	 */
+	public function whitelist_from_setup_wizard( WP_REST_Request $request ): WP_REST_Response {
+		$params = $request->get_json_params();
+		$ip_address = isset( $params['ip_address'] ) ? sanitize_text_field( $params['ip_address'] ) : '';
+
+		if ( empty( $ip_address ) ) {
+			return $this->response(
+				array(
+					'status'  => false,
+					'message' => __( 'IP address is required.', 'brutefort' ),
+				),
+				422
+			);
+		}
+
+		// Check if IP already exists in whitelist.
+		$ip_exists = $this->ip_settings_service->check_ip_exists( $ip_address, 'whitelist' );
+
+		if ( ! $ip_exists ) {
+			// IP doesn't exist, add it to whitelist.
+			$timestamp = isset( $params['created_at'] ) ? absint( $params['created_at'] ) : time();
+			$whitelist_ips = $this->ip_settings_service->get_all_ips( 'whitelist' );
+
+			$new_entry = array(
+				'brutef_ip_address' => $ip_address,
+				'brutef_list_type'  => 'whitelist',
+				'created_at'        => $timestamp,
+			);
+
+			$whitelist_ips[] = $new_entry;
+			update_option( 'brutef_whitelisted_ips', json_encode( $whitelist_ips ) );
+		}
+
+		// Mark setup wizard as completed.
+		update_option( 'brutef_setup_wizard_completed', true );
+
+		$message = $ip_exists
+			? __( 'IP address is already whitelisted. Setup wizard completed.', 'brutefort' )
+			: __( 'IP address whitelisted successfully. Setup wizard completed.', 'brutefort' );
+
+		return $this->response(
+			array(
+				'status'  => true,
+				'message' => $message,
+				'already_exists' => $ip_exists,
+			),
+			200
+		);
 	}
 }

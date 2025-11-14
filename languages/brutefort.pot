@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: BruteFort 0.0.3\n"
+"Project-Id-Version: BruteFort 0.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/brutefort\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-14T05:15:54+00:00\n"
+"POT-Creation-Date: 2025-11-14T10:41:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: brutefort\n"
@@ -59,26 +59,42 @@ msgstr ""
 msgid "Your current IP (%s) is not whitelisted. For security, please add it to the whitelist in BruteFort settings."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:66
+#: includes/Controllers/IpSettingsController.php:80
+msgid "IP address is already whitelisted."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:88
 #: includes/Controllers/RateLimitController.php:63
 msgid "Form not submitted, please fill all necessary fields."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:89
+#: includes/Controllers/IpSettingsController.php:111
 #: includes/Controllers/RateLimitController.php:77
 msgid "Settings saved successfully."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:110
+#: includes/Controllers/IpSettingsController.php:132
 msgid "No row selected."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:144
+#: includes/Controllers/IpSettingsController.php:166
 msgid "You cannot remove your own IP from the whitelist. At least one IP must remain."
 msgstr ""
 
-#: includes/Controllers/IpSettingsController.php:174
+#: includes/Controllers/IpSettingsController.php:196
 msgid "Records deleted successfully."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:233
+msgid "IP address is required."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:261
+msgid "IP address is already whitelisted. Setup wizard completed."
+msgstr ""
+
+#: includes/Controllers/IpSettingsController.php:262
+msgid "IP address whitelisted successfully. Setup wizard completed."
 msgstr ""
 
 #: includes/Controllers/LogDetailsController.php:61
@@ -87,6 +103,26 @@ msgstr ""
 
 #: includes/Controllers/LogDetailsController.php:81
 msgid "Log details deleted successfully."
+msgstr ""
+
+#: includes/Controllers/LogsController.php:91
+msgid "Invalid log ID."
+msgstr ""
+
+#: includes/Controllers/LogsController.php:104
+msgid "Log entry not found."
+msgstr ""
+
+#: includes/Controllers/LogsController.php:117
+msgid "IP address is not currently locked."
+msgstr ""
+
+#: includes/Controllers/LogsController.php:130
+msgid "Failed to unlock IP address."
+msgstr ""
+
+#: includes/Controllers/LogsController.php:139
+msgid "IP address unlocked successfully."
 msgstr ""
 
 #: includes/Controllers/SetupWizardController.php:32
@@ -101,7 +137,7 @@ msgstr ""
 msgid "You are not allowed to perform this action."
 msgstr ""
 
-#: includes/Security/LoginGuard.php:153
+#: includes/Security/LoginGuard.php:155
 #: includes/Services/RateLimitService.php:32
-msgid "Too many attempts, Please try again in a while!!"
+msgid "Too many attempts, Please try again after {{locked_out_until}}."
 msgstr ""
