@@ -1,14 +1,14 @@
 === BruteFort ===
 Contributors: y0000el
-Tags: brute force, login protection, custom login url, geo blocking, ip restriction, security, hide wp-login, country blocking, login security, wordpress security, rate limiting, ip whitelist, ip blacklist, wp-admin protection, login attempts
+Tags: brute force, login protection, custom login url, geo blocking, ip restriction
 Requires at least: 5.0
 Tested up to: 6.8.3
 Requires PHP: 7.4
-Stable tag: 0.0.6
+Stable tag: 0.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-BruteFort – Complete WordPress Login Security: Hide wp-login.php with Custom Login URL, block countries with Geo Blocking, prevent brute force attacks with rate limiting, IP whitelisting & blacklisting.
+BruteFort – Complete WordPress login security with custom login URLs, geo blocking, brute force protection, and IP restrictions in one plugin.
 
 == Description ==
 
@@ -120,6 +120,10 @@ Yes! The Geo Blocking feature lets you select specific countries to block or all
 6. Dark Mode Interface Support
 
 == Changelog ==
+
+= 0.0.7 - 19/11/2025 =
+* Fix   - Removed extra tags and shortened extra long short descriptions.
+
 
 = 0.0.6 - 19/11/2025 =
 * Feature - **Custom Login URL**: Hide wp-login.php and create custom login slugs

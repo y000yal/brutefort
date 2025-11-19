@@ -4,7 +4,7 @@
  * Plugin Name: BruteFort
  * Plugin URI: https://brutefort.com/
  * Description: BruteForce Protection for WordPress with IP Restriction, Whitelist & Blacklist Management.
- * Version: 0.0.5
+ * Version: 0.0.7
  * Author: Y0000el
  * Author URI: https://yoyallimbu.com.np
  * Text Domain: brutefort
@@ -39,7 +39,7 @@ final class BruteFort {
 	 *
 	 * @var string
 	 */
-	public string $version = '0.0.5';
+	public string $version = '0.0.7';
 
 	/**
 	 * Singleton instance.
