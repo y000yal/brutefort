@@ -72,6 +72,8 @@ class Routes {
 			'logs'          => LogRoutes::class,
 			'log-details'   => LogDetailRoutes::class,
 			'ip-settings'   => IpRoutes::class,
+			'geo-settings'  => GeoRoutes::class,
+			'login-url'     => LoginUrlRoutes::class,
 			'setup-wizard'  => SetupWizardRoutes::class,
 		);
 	}

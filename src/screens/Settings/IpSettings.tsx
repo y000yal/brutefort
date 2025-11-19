@@ -9,27 +9,24 @@ import React, {
 import { IpSettingsProps } from "../../types";
 import Spinner from "../../components/Spinner";
 import { __ } from "@wordpress/i18n";
-import { CheckBox, Input, Select } from "../../components/forms";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../axios/api";
-import DataTable from "../../components/table/DataTable";
-import {
-  BookmarkSimple,
-  CalendarCheck,
-  Key,
-  List,
-  MapPin,
-  Note,
-  PencilSimple,
-  PlusCircle,
-  Trash,
-  Warning,
-} from "@phosphor-icons/react";
 import CopyCell from "../../components/table/CopyCell";
 import { createColumnHelper } from "@tanstack/react-table";
 import { showToast } from "../../utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../axios/api";
+import { CheckBox, Input, Select } from "../../components/forms";
+import DataTable from "../../components/table/DataTable";
+import {
+  BookmarkSimple,
+  CalendarCheck,
+  List,
+  MapPin,
+  PencilSimple,
+  PlusCircle,
+  Trash,
+} from "@phosphor-icons/react";
 
 const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
   const [timestamp, setTimestamp] = useState(Math.floor(Date.now() / 1000));
@@ -126,9 +123,8 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         ),
         cell: (info) => (
           <span
-            className={`capitalize log-status status-${
-              "whitelist" === info.getValue() ? "success" : "locked"
-            }`}
+            className={`capitalize log-status status-${"whitelist" === info.getValue() ? "success" : "locked"
+              }`}
           >
             {info.getValue()}
           </span>
@@ -226,7 +222,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         if (response.status == 200) {
           showToast(
             response?.message ||
-              __("Settings saved successfully.", "brutefort"),
+            __("Settings saved successfully.", "brutefort"),
             { type: "success" }
           );
           setErrors({});
@@ -237,7 +233,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         if (response.status > 200) {
           showToast(
             response?.response?.data?.message ||
-              __("Settings not saved.", "brutefort"),
+            __("Settings not saved.", "brutefort"),
             { type: "error" }
           );
 
@@ -265,7 +261,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         if (response.status == 200) {
           showToast(
             response?.message ||
-              __("Records deleted successfully.", "brutefort"),
+            __("Records deleted successfully.", "brutefort"),
             { type: "success" }
           );
           setErrors({});
@@ -278,7 +274,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
         if (response.status > 200) {
           showToast(
             response?.response?.data?.message ||
-              __("Something went wrong while deleting records.", "brutefort"),
+            __("Something went wrong while deleting records.", "brutefort"),
             { type: "error" }
           );
 
@@ -290,10 +286,18 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
 
   return (
     <div className="flex gap-4 justify-around flex-col">
-      <div className="settings-title flex align-center justify-between mb-4">
-        <span className="text-2xl font-semibold">
-          {__("Whitelist/Blacklist Settings", "brutefort")}
-        </span>
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-1.5 bg-blue-50 dark:bg-blue-900/30 rounded text-blue-600 dark:text-blue-400">
+            <MapPin size={18} weight="bold" />
+          </div>
+          <span className="text-base font-semibold text-gray-900 dark:text-white">
+            {__("Whitelist/Blacklist Settings", "brutefort")}
+          </span>
+        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          {__("Manage IP addresses allowed or blocked from logging in.", "brutefort")}
+        </p>
       </div>
 
       <div className="flex gap-4 items-start">
@@ -322,9 +326,8 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
               "Enter IP Address to whitelist/blacklist.",
               "brutefort"
             )}
-            className={`${
-              errors?.field === "brutef_ip_address" ? "input-error" : ""
-            }`}
+            className={`${errors?.field === "brutef_ip_address" ? "input-error" : ""
+              }`}
           />
           <div className="save-btn flex gap-2 items-center">
             <button
@@ -395,7 +398,7 @@ const IpSettings = forwardRef((props: IpSettingsProps, ref: React.Ref<any>) => {
                     className="text-white hover:text-blue-400 transition-colors duration-100 cursor-pointer"
                     size={22}
                     weight="fill"
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 </div>
               </motion.div>

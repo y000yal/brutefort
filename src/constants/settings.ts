@@ -1,16 +1,54 @@
 import React from "react";
-import {Gauge, MapPin} from "@phosphor-icons/react";
+import { Gauge, GlobeHemisphereWest, Link, MapPin } from "@phosphor-icons/react";
 import RateLimit from "../screens/Settings/RateLimit";
 import IpSettings from "../screens/Settings/IpSettings";
-import {SettingComponentType} from "../types";
+import GeoSettings from "../screens/Settings/GeoSettings";
+import LoginUrlSettings from "../screens/Settings/LoginUrlSettings";
+import { SettingComponentType } from "../types";
 
-const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementType; component: SettingComponentType, description: string, globalSave : boolean; Routes: Record<string, any> }> = {
+const SETTINGS: Record<string, { id: string, label: string; icon: React.ElementType; component: SettingComponentType, description: string, globalSave: boolean; Routes: Record<string, any> }> = {
     rateLimitSettings: {
         id: "rate-limit-settings",
         label: "Rate Limit Settings",
         icon: Gauge,
         component: RateLimit,
         description: "All settings related with rate limiting, intervals , limit extensions can be found here.",
+        globalSave: true,
+        Routes: {
+            Save: {
+                value: '/',
+                type: 'POST'
+            },
+            Index: {
+                value: '/',
+                type: 'GET'
+            }
+        }
+    },
+    loginUrlSettings: {
+        id: "login-url-settings",
+        label: "Custom Login URL",
+        icon: Link,
+        component: LoginUrlSettings,
+        description: "Hide your login page to prevent automated attacks.",
+        globalSave: true,
+        Routes: {
+            Save: {
+                value: '/',
+                type: 'POST'
+            },
+            Index: {
+                value: '/',
+                type: 'GET'
+            }
+        }
+    },
+    geoSettings: {
+        id: "geo-settings",
+        label: "Geo Blocking",
+        icon: GlobeHemisphereWest,
+        component: GeoSettings,
+        description: "Restrict access to your login page based on country.",
         globalSave: true,
         Routes: {
             Save: {

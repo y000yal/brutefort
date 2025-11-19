@@ -1,16 +1,16 @@
-import React, {useState, forwardRef, useImperativeHandle, useEffect, useRef} from "react";
-import {Input, CheckBox} from "../../components/forms";
-import {Info} from "@phosphor-icons/react";
-import {RateLimitProps} from "../../types";
+import React, { useState, forwardRef, useImperativeHandle, useEffect, useRef } from "react";
+import { Input, CheckBox } from "../../components/forms";
+import { Gauge } from "@phosphor-icons/react";
+import { RateLimitProps } from "../../types";
 import api from "../../axios/api";
 import Spinner from "../../components/Spinner";
-import {useQuery} from '@tanstack/react-query';
-import {__} from "@wordpress/i18n";
+import { useQuery } from '@tanstack/react-query';
+import { __ } from "@wordpress/i18n";
 
 const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const [enableLockoutExtension, setEnableLockoutExtension] = useState(false);
     const [enableLockout, setEnableLockout] = useState(true);
-    const {errors, settings} = props;
+    const { errors, settings } = props;
     const [isFetching, setIsFetching] = useState(false);
     const [initialFormData, setInitialFormData] = useState({});
     const maxAttemptsRef = useRef<HTMLInputElement>(null);
@@ -26,12 +26,6 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const url = `${endpoint}${indexRoute}`;
 
     useImperativeHandle(ref, () => ({
-        /**
-         * Retrieves form data from the DOM elements related to rate limiting settings.
-         *
-         * @returns {Object} An object containing the values and types of various
-         * rate limiting settings:
-         */
         getFormData: () => ({
             brutef_max_attempts: {
                 value: maxAttemptsRef.current?.value || '',
@@ -77,33 +71,17 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
     const handleLockout = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEnableLockout(e.target.checked);
     };
-    /**
-     * fetch settings data
-     */
-        // useEffect(() => {
-        //     setIsFetching(true);
-        //     const routeConfig = settings?.Routes?.Index?.value;
-        //     const endpoint = settings?.id;
-        //     const url = `${endpoint}${routeConfig}`;
-        //     api.get(url).then(result => {
-        //         if (result.status === 200) {
-        //             setIsFetching(false);
-        //             const data = result?.data?.data;
-        //             setInitialFormData(data !== null ? data : initialFormData);
-        //         }
-        //     })
-        // }, [])
-    const {data, isLoading} = useQuery({
-            initialData: undefined,
-            queryKey: ['rate-limit-settings-index'],
-            queryFn: async () => {
-                const res = await api.get(url);
-                return res.data.data;
-            },
-            staleTime: Infinity, // cache forever unless manually invalidate
-            enabled: !!url // only run when url is defined
-        });
 
+    const { data, isLoading } = useQuery({
+        initialData: undefined,
+        queryKey: ['rate-limit-settings-index'],
+        queryFn: async () => {
+            const res = await api.get(url);
+            return res.data.data;
+        },
+        staleTime: Infinity,
+        enabled: !!url
+    });
 
     useEffect(() => {
         if (data) {
@@ -112,127 +90,153 @@ const RateLimit = forwardRef((props: RateLimitProps, ref: React.Ref<any>) => {
             setEnableLockout(data?.brutef_enable_lockout);
         }
     }, [data]);
+
     return (
-        <div className="flex gap-4 justify-around flex-col">
+        <div className="flex flex-col gap-5">
             {isFetching || !Object.keys(initialFormData).length ? (
-                <div className="flex items-center justify-center">
-                    <Spinner size={18} className="rounded-lg" color="border-primary-light"/>
+                <div className="flex justify-center items-center p-10">
+                    <Spinner size={30} color="border-blue-500" />
                 </div>
             ) : (
                 <>
+                    {/* General Rate Limits Card */}
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div className="mb-6">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="p-1.5 bg-blue-50 dark:bg-blue-900/30 rounded text-blue-600 dark:text-blue-400">
+                                    <Gauge size={18} weight="bold" />
+                                </div>
+                                <span className="text-base font-semibold text-gray-900 dark:text-white">
+                                    {__("General Rate Limits", "brutefort")}
+                                </span>
+                            </div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                {__("Control how many login attempts are allowed.", "brutefort")}
+                            </p>
+                        </div>
 
-                    <span className="settings-title">{__("General Rate Limits", "brutefort")}</span>
+                        <div className="space-y-4">
+                            <Input
+                                label="Max Allowed Attempts"
+                                ref={maxAttemptsRef}
+                                id="bf-max-attempts"
+                                name="brutef_max_attempts"
+                                min={1}
+                                defaultValue={initialFormData?.brutef_max_attempts || 3}
+                                type="number"
+                                className={`${errors?.brutef_max_attempts ? 'input-error' : ''}`}
+                                tooltip="e.g. default 3 attempts per 15 minutes"
+                            />
+                            <div className="flex gap-2 items-end">
+                                <Input
+                                    label="Time Period"
+                                    ref={timeWindowRef}
+                                    id="bf-time-window"
+                                    name="brutef_time_window"
+                                    min={1}
+                                    defaultValue={initialFormData?.brutef_time_window || 15}
+                                    type="number"
+                                    placeholder="in minutes..."
+                                    className={`flex-1 ${errors?.brutef_time_window ? 'input-error' : ''}`}
+                                    tooltip="E.g. default 3 attempts per 15 minutes"
+                                />
+                                <span className="text-sm text-gray-600 dark:text-gray-300 pb-2">{__("minute(s)", "brutefort")}</span>
+                            </div>
 
-                    <Input
-                        label="Max Allowed Attempts"
-                        ref={maxAttemptsRef}
-                        id="bf-max-attempts"
-                        name="brutef_max_attempts"
-                        min={1}
-                        defaultValue={initialFormData?.brutef_max_attempts || 3}
-                        type="number"
-                        className={`${errors?.brutef_max_attempts ? 'input-error' : ''}`}
-                        tooltip="e.g. default 3 attempts per 15 minutes"
-                    />
-                    <div className="flex gap-1 items-center content-center">
-                        <Input
-                            label="Time Period"
-                            ref={timeWindowRef}
-                            id="bf-time-window"
-                            name="brutef_time_window"
-                            min={1}
-                            defaultValue={initialFormData?.brutef_time_window || 15}
-                            type="number"
-                            placeholder="in minutes..."
-                            className={`w-[515px] ${errors?.brutef_time_window ? 'input-error' : ''}`}
-                            tooltip="E.g. default 3 attempts per 15 minutes"
-                        />
-                        <span className="italic self-end">{__("minute(s)", "brutefort")}</span>
+                            <Input
+                                ref={customErrorMessageRef}
+                                className={errors?.brutef_custom_error_message ? 'input-error' : ''}
+                                id="bf-custom-error-message"
+                                name="brutef_custom_error_message"
+                                defaultValue={initialFormData?.brutef_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
+                                type="text"
+                                label="Custom Error Message"
+                                placeholder="Too many attempts!! Try again after {{locked_out_until}}."
+                                tooltip="Use {{locked_out_until}} tag to show locked out until period."
+                            />
+                        </div>
                     </div>
 
-                    <Input
-                        ref={customErrorMessageRef}
-                        className={errors?.brutef_custom_error_message ? 'input-error' : ''}
-                        id="bf-custom-error-message"
-                        name="brutef_custom_error_message"
-                        defaultValue={initialFormData?.brutef_custom_error_message || "Too many attempts!! Try again after {{locked_out_until}}."}
-                        type="text"
-                        label="Custom Error Message"
-                        placeholder="Too many attempts!! Try again after {{locked_out_until}}."
-                        tooltip="Use {{locked_out_until}} tag to show locked out until period."
-                    />
+                    {/* Lockout Settings Card */}
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div className="mb-4">
+                            <span className="text-base font-semibold text-gray-900 dark:text-white">
+                                {__("Lockout Settings", "brutefort")}
+                            </span>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {__("Configure IP lockout behavior after failed attempts.", "brutefort")}
+                            </p>
+                        </div>
 
-                    <span className="settings-title">{__("Lockout Settings", "brutefort")}</span>
-                    <>
-                        <CheckBox
-                            ref={enableLockoutRef}
-                            id="bf-enable-lockout"
-                            name="brutef_enable_lockout"
-                            defaultChecked={initialFormData?.brutef_enable_lockout || enableLockout}
-                            label="Enable lockout"
-                            onChange={handleLockout}
-                            tooltip="Enabling this will override requests per set time just above."
-                            className={errors?.brutef_enable_lockout ? 'input-error' : ''}
-                        />
-                    </>
+                        <div className="space-y-4">
+                            <CheckBox
+                                ref={enableLockoutRef}
+                                id="bf-enable-lockout"
+                                name="brutef_enable_lockout"
+                                defaultChecked={initialFormData?.brutef_enable_lockout || enableLockout}
+                                label="Enable lockout"
+                                onChange={handleLockout}
+                                tooltip="Enabling this will override requests per set time just above."
+                                className={errors?.brutef_enable_lockout ? 'input-error' : ''}
+                            />
 
-                    {enableLockout && (
-                        <>
-                            <div className="flex gap-1 items-center content-center">
-                                <Input
-                                    ref={lockoutDurationRef}
-                                    id="bf-lockout-duration"
-                                    name="brutef_lockout_duration"
-                                    min={1}
-                                    defaultValue={initialFormData?.brutef_lockout_duration || 5}
-                                    type="text"
-                                    label="Lockout Duration"
-                                    placeholder="in minutes..."
-                                    tooltip="How long an IP is blocked after limit (in minutes)."
-                                    className={`w-[515px] ${errors?.brutef_lockout_duration ? 'input-error' : ''}`}
-                                />
-                                <span className="italic self-end">{__("minute(s)", "brutefort")}</span>
-
-                            </div>
-                            <span className="settings-title">{__("Lockout Extensions", "brutefort")}</span>
-
-                            <>
-                                <CheckBox
-                                    ref={enableLockoutExtensionRef}
-                                    id="bf-enable-lockout-extension"
-                                    name="brutef_enable_lockout_extension"
-                                    defaultChecked={initialFormData?.brutef_enable_lockout_extension || enableLockoutExtension}
-                                    label="Enable lockout extension"
-                                    onChange={handleLockoutExtension}
-                                    tooltip="Tick this if you want to extend the lockout period if the login attempt keeps on failing (in hrs)."
-                                    className={errors?.bg_extend_lockout ? 'input-error' : ''}
-                                />
-                            </>
-                            <>
-                                {enableLockoutExtension && (
-                                    <div className="flex gap-2 items-center content-center">
+                            {enableLockout && (
+                                <>
+                                    <div className="flex gap-2 items-end">
                                         <Input
-                                            ref={extendLockoutDurationRef}
-                                            id="bf-extend-lockout-duration"
-                                            name="brutef_extend_lockout_duration"
+                                            ref={lockoutDurationRef}
+                                            id="bf-lockout-duration"
+                                            name="brutef_lockout_duration"
                                             min={1}
-                                            defaultValue={initialFormData?.brutef_extend_lockout_duration || 1}
-                                            type="number"
-                                            label="Extended Duration"
-                                            placeholder="in hours..."
-                                            tooltip="How long should the restriction time be extended in hours."
-                                            className={`w-[515px] ${errors?.brutef_extend_lockout_duration ? 'input-error' : ''}`}
+                                            defaultValue={initialFormData?.brutef_lockout_duration || 5}
+                                            type="text"
+                                            label="Lockout Duration"
+                                            placeholder="in minutes..."
+                                            tooltip="How long an IP is blocked after limit (in minutes)."
+                                            className={`flex-1 ${errors?.brutef_lockout_duration ? 'input-error' : ''}`}
                                         />
-                                        <span className="italic self-end">{__("hour(s)", "brutefort")}</span>
-
+                                        <span className="text-sm text-gray-600 dark:text-gray-300 pb-2">{__("minute(s)", "brutefort")}</span>
                                     </div>
-                                )}
-                            </>
-                        </>
-                    )}
+
+                                    <div className="mt-6">
+                                        <span className="text-base font-medium text-gray-700 dark:text-gray-200 block mb-3">
+                                            {__("Lockout Extensions", "brutefort")}
+                                        </span>
+                                        <CheckBox
+                                            ref={enableLockoutExtensionRef}
+                                            id="bf-enable-lockout-extension"
+                                            name="brutef_enable_lockout_extension"
+                                            defaultChecked={initialFormData?.brutef_enable_lockout_extension || enableLockoutExtension}
+                                            label="Enable lockout extension"
+                                            onChange={handleLockoutExtension}
+                                            tooltip="Tick this if you want to extend the lockout period if the login attempt keeps on failing (in hrs)."
+                                            className={errors?.bg_extend_lockout ? 'input-error' : ''}
+                                        />
+                                    </div>
+
+                                    {enableLockoutExtension && (
+                                        <div className="flex gap-2 items-end mt-4">
+                                            <Input
+                                                ref={extendLockoutDurationRef}
+                                                id="bf-extend-lockout-duration"
+                                                name="brutef_extend_lockout_duration"
+                                                min={1}
+                                                defaultValue={initialFormData?.brutef_extend_lockout_duration || 1}
+                                                type="number"
+                                                label="Extended Duration"
+                                                placeholder="in hours..."
+                                                tooltip="How long should the restriction time be extended in hours."
+                                                className={`flex-1 ${errors?.brutef_extend_lockout_duration ? 'input-error' : ''}`}
+                                            />
+                                            <span className="text-sm text-gray-600 dark:text-gray-300 pb-2">{__("hour(s)", "brutefort")}</span>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </div>
                 </>
             )}
-
         </div>
     );
 });

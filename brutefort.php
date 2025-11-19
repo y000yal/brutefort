@@ -18,6 +18,7 @@
 use BruteFort\Routes\Routes;
 use BruteFort\Settings;
 use BruteFort\Security\LoginGuard;
+use BruteFort\Services\LoginUrlService;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -132,6 +133,9 @@ final class BruteFort {
 		if ( $this->is_request( 'frontend' ) ) {
 			new LoginGuard();
 		}
+
+		// Initialize Login URL Service.
+		( new LoginUrlService() )->init();
 	}
 
 	/**
@@ -231,10 +235,7 @@ final class BruteFort {
 	 */
 	public static function plugin_row_meta( array $plugin_meta, string $plugin_file ): array {
 		if ( BRUTEF_PLUGIN_BASENAME === $plugin_file ) {
-			$new_plugin_meta = array(
-				'docs'    => '<a href="' . esc_url( 'https://docs.wpuserregistration.com/' ) . '">' . esc_html__( 'Docs', 'brutefort' ) . '</a>',
-				'support' => '<a href="' . esc_url( 'https://wpuserregistration.com/support/' ) . '">' . esc_html__( 'Free support', 'brutefort' ) . '</a>',
-			);
+			$new_plugin_meta = array();
 
 			return array_merge( $plugin_meta, $new_plugin_meta );
 		}

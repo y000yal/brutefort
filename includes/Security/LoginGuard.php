@@ -10,6 +10,7 @@ namespace BruteFort\Security;
 use BruteFort\Services\IpSettingsService;
 use BruteFort\Services\LogsService;
 use BruteFort\Services\RateLimitService;
+use BruteFort\Services\GeoService;
 use BruteFort\Traits\SecurityTraits;
 
 /**
@@ -42,6 +43,13 @@ class LoginGuard {
 	protected $logs_service;
 
 	/**
+	 * Geo service instance.
+	 *
+	 * @var GeoService
+	 */
+	protected $geo_service;
+
+	/**
 	 * Plugin settings.
 	 *
 	 * @var array
@@ -68,15 +76,18 @@ class LoginGuard {
 	 * @param RateLimitService|null  $rate_limit_service The rate limit service.
 	 * @param IpSettingsService|null $ip_settings_service The IP settings service.
 	 * @param LogsService|null       $logs_service The logs service.
+	 * @param GeoService|null        $geo_service The geo service.
 	 */
 	public function __construct(
 		RateLimitService $rate_limit_service = null,
 		IpSettingsService $ip_settings_service = null,
-		LogsService $logs_service = null
+		LogsService $logs_service = null,
+		GeoService $geo_service = null
 	) {
 		$this->rate_limit_service  = $rate_limit_service ?? new RateLimitService();
 		$this->ip_settings_service = $ip_settings_service ?? new IpSettingsService();
 		$this->logs_service        = $logs_service ?? new LogsService();
+		$this->geo_service         = $geo_service ?? new GeoService();
 		$this->init();
 	}
 
@@ -129,6 +140,10 @@ class LoginGuard {
 	public function check_before_login( $user, $username, $password ) {
 		if ( $this->is_whitelisted( $this->current_ip ) ) {
 			return $user;
+		}
+
+		if ( $this->geo_service->is_country_blocked( $this->current_ip ) ) {
+			return new \WP_Error( 'brutef_geo_blocked', __( 'Access denied from your location.', 'brutefort' ) );
 		}
 		if ( $this->logs_service->is_ip_locked( $this->current_ip, $username ) ) {
 			return $this->show_locked_error();

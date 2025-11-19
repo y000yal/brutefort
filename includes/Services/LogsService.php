@@ -390,7 +390,7 @@ class LogsService {
 			);
 		}
 
-		return 0;
+		return array();
 	}
 
 	/**

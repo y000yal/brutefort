@@ -9,12 +9,12 @@ const fs = require( "fs" );
 module.exports = function (grunt) {
 	// Read .distignore for additional patterns to exclude from the zip.
 	const distIgnorePatterns = fs.existsSync( ".distignore" )
-	? fs
-		.readFileSync( ".distignore", "utf-8" )
-		.split( "\n" )
-		.filter( (line) => line.trim() && ! line.startsWith( "#" ) )
-		.map( (line) => ` ! ${line.trim()}` )
-	: [];
+		? fs
+			.readFileSync( ".distignore", "utf-8" )
+			.split( "\n" )
+			.filter( (line) => line.trim() && ! line.startsWith( "#" ) )
+			.map( (line) => ` ! ${line.trim()}` )
+		: [];
 
 	grunt.initConfig(
 		{
@@ -46,12 +46,12 @@ module.exports = function (grunt) {
 				},
 				compile: {
 					files: [
-					{
-						expand: true,
-						cwd: "<%= dirs.css %>/",
-						src: ["*.scss", "modules/**/*.scss"], // Include the modules directory.
-						dest: "<%= dirs.css %>/",
-						ext: ".css",
+						{
+							expand: true,
+							cwd: "<%= dirs.css %>/",
+							src: ["*.scss", "modules/**/*.scss"], // Include the modules directory.
+							dest: "<%= dirs.css %>/",
+							ext: ".css",
 					},
 					],
 				},
@@ -73,62 +73,62 @@ module.exports = function (grunt) {
 						archive: "release/<%= pkg.name %>.zip",
 					},
 					files: [
-					{
-						expand: true,
-						cwd: ".",
-						src: [
-							"**",
-							"!node_modules/**",
-							"!dist/**",
-							"!release/**",
-							"!Gruntfile.js",
-							"!package-lock.json",
-							"!webpack.config.js",
-							"!tests/**",
-							"!composer.lock",
-							"!phpcs.xml",
-							"!changelog.txt",
-							"!src/**",
-							"!scripts/**",
-							"!*.config.js",
-							"!*.config.ts",
-							"!*.babelrc",
-							"!*.eslintrc.js",
-							"!*.prettierrc",
-							"!*.md",
-							"!.vscode/**",
-							"!.idea/**",
-							"!*.swp",
-							"!*.swo",
-							"!.DS_Store",
-							"!Thumbs.db",
-							"!package.json",
-							"!package-lock.json",
-							"!tsconfig.json",
-							"!tailwind.config.js",
-							"!postcss.config.js",
-							"!webpack.config.js",
-							"!Gruntfile.js",
-							"!src/**",
-							"!scripts/**",
-							"!tests/**",
-							"!node_modules/**",
-							"!dist/**",
-							"!release/**",
-							"!*.zip",
-							"!.babelrc",
-							"!.eslintrc.js",
-							"!.prettierrc",
-							"!*.config.js",
-							"!*.config.ts",
-							"!changelog.txt",
-							"!phpcs.xml",
-							"!README.md",
-							"!CHANGELOG.md",
-							"!deploy.sh",
-							"!test-deploy.sh"
-						],
-						dest: "brutefort/"
+						{
+							expand: true,
+							cwd: ".",
+							src: [
+								"**",
+								"!node_modules/**",
+								"!dist/**",
+								"!release/**",
+								"!Gruntfile.js",
+								"!package-lock.json",
+								"!webpack.config.js",
+								"!tests/**",
+								"!composer.lock",
+								"!phpcs.xml",
+								"!changelog.txt",
+								"!src/**",
+								"!scripts/**",
+								"!*.config.js",
+								"!*.config.ts",
+								"!*.babelrc",
+								"!*.eslintrc.js",
+								"!*.prettierrc",
+								"!*.md",
+								"!.vscode/**",
+								"!.idea/**",
+								"!*.swp",
+								"!*.swo",
+								"!.DS_Store",
+								"!Thumbs.db",
+								"!package.json",
+								"!package-lock.json",
+								"!tsconfig.json",
+								"!tailwind.config.js",
+								"!postcss.config.js",
+								"!webpack.config.js",
+								"!Gruntfile.js",
+								"!src/**",
+								"!scripts/**",
+								"!tests/**",
+								"!node_modules/**",
+								"!dist/**",
+								"!release/**",
+								"!*.zip",
+								"!.babelrc",
+								"!.eslintrc.js",
+								"!.prettierrc",
+								"!*.config.js",
+								"!*.config.ts",
+								"!changelog.txt",
+								"!phpcs.xml",
+								"!README.md",
+								"!CHANGELOG.md",
+								"!deploy.sh",
+								"!test-deploy.sh"
+							],
+							dest: "brutefort/"
 					},
 					],
 				},
@@ -167,18 +167,18 @@ module.exports = function (grunt) {
 	grunt.registerTask(
 		"release",
 		[
-		"clean:build",
-		"clean:release",
-		"shell:phpcsFix",
-		"shell:phpcs",
-		"shell:build",
-		"uglify",
-		"sass",
-		"cssmin",
-		"shell:makepot",
-		"shell:composerProd",
-		"compress",
-		"shell:composerDev",
+			"clean:build",
+			"clean:release",
+			"shell:phpcsFix",
+			"shell:phpcs",
+			"shell:build",
+			"uglify",
+			"sass",
+			"cssmin",
+			"shell:makepot",
+			"shell:composerProd",
+			"compress",
+			"shell:composerDev",
 		]
 	);
 
@@ -186,7 +186,7 @@ module.exports = function (grunt) {
 	grunt.registerTask(
 		"precommit",
 		[
-		"shell:phpcs",
+			"shell:phpcs",
 		]
 	);
 
@@ -194,7 +194,7 @@ module.exports = function (grunt) {
 	grunt.registerTask(
 		"quality",
 		[
-		"shell:phpcs",
+			"shell:phpcs",
 		]
 	);
 };
