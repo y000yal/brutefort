@@ -121,7 +121,7 @@ Yes! The Geo Blocking feature lets you select specific countries to block or all
 
 == Changelog ==
 
-= 0.0.7 - 19/11/2025 =
+= 0.0.7 - 20/11/2025 =
 * Fix   - Removed extra tags and shortened extra long short descriptions.
 
 
